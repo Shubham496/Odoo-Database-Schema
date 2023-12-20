@@ -1,0 +1,437 @@
+Table base_document_layout {
+  id integer [primary key]
+  company_id integer 
+  report_layout_id integer
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_document_layout.company_id > res_company.id
+Ref: base_document_layout.report_layout_id > report_layout.id
+Ref: base_document_layout.create_uid > res_users.id
+Ref: base_document_layout.write_uid > res_users.id
+
+Table base_enable_profiling_wizard {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  duration character 
+  expiration timestamp 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_enable_profiling_wizard.create_uid > res_users.id
+Ref: base_enable_profiling_wizard.write_uid > res_users.id
+
+Table base_import_import {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  res_model character  
+  file_name character  
+  file_type character  
+  create_date timestamp 
+  write_date timestamp 
+  file bytea
+}
+
+Ref: base_import_import.create_uid > res_users.id
+Ref: base_import_import.write_uid > res_users.id
+
+Table base_import_mapping {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  res_model character  
+  column_name character  
+  field_name character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_mapping.create_uid > res_users.id
+Ref: base_import_mapping.write_uid > res_users.id
+
+Table base_import_tests_models_char {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  value character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_char.create_uid > res_users.id
+Ref: base_import_tests_models_char.write_uid > res_users.id
+
+Table base_import_tests_models_char_noreadonly {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  value character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_char_noreadonly.create_uid > res_users.id
+Ref: base_import_tests_models_char_noreadonly.write_uid > res_users.id
+
+Table base_import_tests_models_char_readonly {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  value character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_char_readonly.create_uid > res_users.id
+Ref: base_import_tests_models_char_readonly.write_uid > res_users.id
+
+Table base_import_tests_models_char_required {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  value character  [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_char_required.create_uid > res_users.id
+Ref: base_import_tests_models_char_required.write_uid > res_users.id
+
+Table base_import_tests_models_char_states {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  value character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_char_states.create_uid > res_users.id
+Ref: base_import_tests_models_char_states.write_uid > res_users.id
+
+Table base_import_tests_models_char_stillreadonly {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  value character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_char_stillreadonly.create_uid > res_users.id
+Ref: base_import_tests_models_char_stillreadonly.write_uid > res_users.id
+
+Table base_import_tests_models_complex {
+  id integer [primary key]
+  currency_id integer 
+  create_uid integer
+  write_uid integer
+  c character  
+  d date 
+  m numeric 
+  dt timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  f double  
+}
+
+Ref: base_import_tests_models_complex.create_uid > res_users.id
+Ref: base_import_tests_models_complex.currency_id > res_currency.id
+Ref: base_import_tests_models_complex.write_uid > res_users.id
+
+Table base_import_tests_models_float {
+  id integer [primary key]
+  currency_id integer 
+  create_uid integer
+  write_uid integer
+  value2 numeric 
+  create_date timestamp 
+  write_date timestamp 
+  value double  
+}
+
+Ref: base_import_tests_models_float.create_uid > res_users.id
+Ref: base_import_tests_models_float.currency_id > res_currency.id
+Ref: base_import_tests_models_float.write_uid > res_users.id
+
+Table base_import_tests_models_m2o {
+  id integer [primary key]
+  value integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_m2o.create_uid > res_users.id
+Ref: base_import_tests_models_m2o.value > base_import_tests_models_m2o_related.id
+Ref: base_import_tests_models_m2o.write_uid > res_users.id
+
+Table base_import_tests_models_m2o_related {
+  id integer [primary key]
+  value integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_m2o_related.create_uid > res_users.id
+Ref: base_import_tests_models_m2o_related.write_uid > res_users.id
+
+Table base_import_tests_models_m2o_required {
+  id integer [primary key]
+  value integer [not null]
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_m2o_required.create_uid > res_users.id
+Ref: base_import_tests_models_m2o_required.value > base_import_tests_models_m2o_required_related.id
+Ref: base_import_tests_models_m2o_required.write_uid > res_users.id
+
+Table base_import_tests_models_m2o_required_related {
+  id integer [primary key]
+  value integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_m2o_required_related.create_uid > res_users.id
+Ref: base_import_tests_models_m2o_required_related.write_uid > res_users.id
+
+Table base_import_tests_models_o2m {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  name varchar
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_o2m.create_uid > res_users.id
+Ref: base_import_tests_models_o2m.write_uid > res_users.id
+
+Table base_import_tests_models_o2m_child {
+  id integer [primary key]
+  parent_id integer
+  value integer
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_import_tests_models_o2m_child.create_uid > res_users.id
+Ref: base_import_tests_models_o2m_child.write_uid > res_users.id
+Ref: base_import_tests_models_o2m_child.parent_id > base_import_tests_models_o2m.id
+
+Table base_import_tests_models_preview {
+  id integer [primary key]
+  somevalue integer [not null]
+  othervalue integer
+  create_uid integer
+  write_uid integer
+  name varchar 
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: base_import_tests_models_preview.create_uid > res_users.id
+Ref: base_import_tests_models_preview.write_uid > res_users.id
+
+Table base_language_export {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  name character  
+  lang character  [not null]
+  format character  [not null]
+  state character  
+  create_date timestamp 
+  write_date timestamp 
+  data bytea
+}
+
+Ref: base_language_export.create_uid > res_users.id
+Ref: base_language_export.write_uid > res_users.id
+
+Table base_language_import {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  code character (6) [not null]
+  filename character  [not null]
+  overwrite boolean 
+  create_date timestamp 
+  write_date timestamp 
+  data bytea [not null]
+}
+
+Ref: base_language_import.create_uid > res_users.id
+Ref: base_language_import.write_uid > res_users.id
+
+Table base_language_install {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  overwrite boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_language_install.create_uid > res_users.id
+Ref: base_language_install.write_uid > res_users.id
+
+Table base_module_install_request {
+  id integer [primary key]
+  module_id integer [not null]
+  user_id integer [not null]
+  create_uid integer
+  write_uid integer
+  body_html text 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_module_install_request.create_uid > res_users.id
+Ref: base_module_install_request.module_id > ir_module_module.id
+Ref: base_module_install_request.user_id > res_users.id
+Ref: base_module_install_request.write_uid > res_users.id
+
+Table base_module_install_review {
+  id integer [primary key]
+  module_id integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_module_install_review.create_uid > res_users.id
+Ref: base_module_install_review.module_id > ir_module_module.id
+Ref: base_module_install_review.write_uid > res_users.id
+
+Table base_module_uninstall {
+  id integer [primary key]
+  module_id integer 
+  create_uid integer
+  write_uid integer
+  show_all boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_module_uninstall.create_uid > res_users.id
+Ref: base_module_uninstall.module_id > ir_module_module.id
+Ref: base_module_uninstall.write_uid > res_users.id
+
+Table base_module_update {
+  id integer [primary key]
+  updated integer
+  added integer
+  create_uid integer
+  write_uid integer
+  state character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_module_update.create_uid > res_users.id
+Ref: base_module_update.write_uid > res_users.id
+
+Table base_module_upgrade {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  module_info text 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_module_upgrade.create_uid > res_users.id
+Ref: base_module_upgrade.write_uid > res_users.id
+
+Table base_partner_merge_automatic_wizard {
+  id integer [primary key]
+  number_group integer 
+  current_line_id integer 
+  dst_partner_id integer 
+  maximum_group integer 
+  create_uid integer
+  write_uid integer
+  state character   [not null]
+  group_by_email boolean 
+  group_by_name boolean 
+  group_by_is_company boolean 
+  group_by_vat boolean 
+  group_by_parent_id boolean 
+  exclude_contact boolean 
+  exclude_journal_item boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_partner_merge_automatic_wizard.create_uid > res_users.id
+Ref: base_partner_merge_automatic_wizard.current_line_id > base_partner_merge_line.id
+Ref: base_partner_merge_automatic_wizard.dst_partner_id > res_partner.id
+Ref: base_partner_merge_automatic_wizard.write_uid > res_users.id
+
+Table base_partner_merge_automatic_wizard_res_partner_rel {
+  base_partner_merge_automatic_wizard_id integer [not null]
+  res_partner_id integer [not null]
+}
+
+Ref: base_partner_merge_automatic_wizard_res_partner_rel.base_partner_merge_automatic_wizard_id > base_partner_merge_automatic_wizard.id
+Ref: base_partner_merge_automatic_wizard_res_partner_rel.res_partner_id > res_partner.id
+
+Table base_partner_merge_line {
+  id integer [primary key]
+  wizard_id integer 
+  min_id integer 
+  create_uid integer
+  write_uid integer
+  aggr_ids character   [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: base_partner_merge_line.create_uid > res_users.id
+Ref: base_partner_merge_line.wizard_id > base_partner_merge_automatic_wizard.id
+Ref: base_partner_merge_line.write_uid > res_users.id
+
+
+Table res_company {
+  id integer [primary key]
+}
+
+Table report_layout {
+  id integer [primary key]
+}
+
+Table res_currency {
+  id integer [primary key]
+}
+
+Table res_users {
+  id integer [primary key]
+}
+
+Table res_partner {
+  id integer [primary key]
+}
+
+Table ir_module_module {
+  id integer [primary key]
+}

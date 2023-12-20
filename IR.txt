@@ -1,0 +1,952 @@
+Table ir_act_client {
+  id integer [primary key]
+  binding_model_id integer
+  create_uid integer
+  write_uid integer
+  type character [not null]
+  binding_type character [not null]
+  binding_view_types character
+  name jsonb [not null]
+  help jsonb
+  create_date timestamp
+  write_date timestamp
+  tag character [not null]
+  target character
+  res_model character
+  context character [not null]
+  params_store bytea
+}
+
+Ref: ir_act_client.binding_model_id > ir_model.id
+Ref: ir_act_client.create_uid > res_users.id
+Ref: ir_act_client.write_uid > res_users.id
+
+Table ir_act_report_xml {
+  id integer [primary key]
+  binding_model_id integer
+  create_uid integer
+  write_uid integer
+  type character [not null]
+  binding_type character [not null]
+  binding_view_types character
+  name jsonb [not null]
+  help jsonb
+  create_date timestamp 
+  write_date timestamp 
+  paperformat_id integer
+  model character [not null]
+  report_type character [not null]
+  report_name character [not null]
+  report_file character
+  attachment character
+  print_report_name jsonb
+  multi boolean
+  attachment_use boolean
+}
+
+Ref: ir_act_report_xml.binding_model_id > ir_model.id
+Ref: ir_act_report_xml.create_uid > res_users.id
+Ref: ir_act_report_xml.paperformat_id > report_paperformat.id
+Ref: ir_act_report_xml.write_uid > res_users.id
+
+Table ir_act_server {
+  id integer [primary key]
+  binding_model_id integer
+  create_uid integer
+  write_uid integer
+  type character  [not null]
+  binding_type character  [not null]
+  binding_view_types character 
+  name jsonb [not null]
+  help jsonb
+  create_date timestamp 
+  write_date timestamp 
+  sequence integer
+  model_id integer [not null]
+  crud_model_id integer
+  link_field_id integer
+  usage character  [not null]
+  state character  [not null]
+  model_name character 
+  code text
+  template_id integer
+  activity_type_id integer
+  activity_date_deadline_range integer
+  activity_user_id integer
+  mail_post_method character 
+  activity_summary character 
+  activity_date_deadline_range_type character 
+  activity_user_type character 
+  activity_user_field_name character 
+  activity_note text
+  mail_post_autofollow boolean
+  sms_template_id integer
+  sms_method character 
+}
+
+Ref: ir_act_server.binding_model_id > ir_model.id
+Ref: ir_act_server.create_uid > res_users.id
+Ref: ir_act_server.crud_model_id > ir_model.id
+Ref: ir_act_server.link_field_id > ir_model_fields.id
+Ref: ir_act_server.model_id > ir_model.id
+Ref: ir_act_server.activity_type_id > mail_activity_type.id
+Ref: ir_act_server.activity_user_id > res_users.id
+Ref: ir_act_server.template_id > mail_template.id
+Ref: ir_act_server.sms_template_id > sms_template.id
+Ref: ir_act_server.write_uid > res_users.id
+
+Table ir_act_server_group_rel {
+  act_id integer [primary key, not null]
+  gid integer [primary key, not null]
+}
+
+Ref: ir_act_server_group_rel.act_id > ir_act_server.id
+Ref: ir_act_server_group_rel.gid > res_groups.id
+
+Table ir_act_server_res_partner_rel {
+  ir_act_server_id integer [primary key, not null]
+  res_partner_id integer [primary key, not null]
+}
+
+Ref: ir_act_server_res_partner_rel.ir_act_server_id > ir_act_server.id
+Ref: ir_act_server_res_partner_rel.res_partner_id > res_partner.id
+
+Table ir_act_url {
+  id integer [primary key]
+  binding_model_id integer
+  create_uid integer
+  write_uid integer
+  type character [not null]
+  binding_type character [not null]
+  binding_view_types character 
+  name jsonb [not null]
+  help jsonb
+  create_date timestamp 
+  write_date timestamp 
+  target character [not null]
+  url text [not null]
+}
+
+
+
+Ref: ir_act_url.binding_model_id > ir_model.id
+Ref: ir_act_url.create_uid > res_users.id
+Ref: ir_act_url.write_uid > res_users.id
+
+Table ir_act_window {
+  id integer [primary key]
+  binding_model_id integer
+  create_uid integer
+  write_uid integer
+  type character [not null]
+  binding_type character [not null]
+  binding_view_types character 
+  name jsonb [not null]
+  help jsonb
+  create_date timestamp 
+  write_date timestamp 
+  view_id integer
+  res_id integer
+  "limit" integer
+  search_view_id integer
+  domain character [not null]
+  context character [not null]
+  res_model character [not null]
+  target character 
+  view_mode character [not null]
+  usage character [not null]
+  filter boolean
+}
+
+Ref: ir_act_window.binding_model_id > ir_model.id
+Ref: ir_act_window.create_uid > res_users.id
+Ref: ir_act_window.search_view_id > ir_ui_view.id
+Ref: ir_act_window.view_id > ir_ui_view.id
+Ref: ir_act_window.write_uid > res_users.id
+
+Table ir_act_window_group_rel {
+  act_id integer [primary key, not null]
+  gid integer [primary key, not null]
+}
+
+Ref: ir_act_window_group_rel.act_id > ir_act_window.id
+Ref: ir_act_window_group_rel.gid > res_groups.id
+
+Table ir_act_window_view {
+  id integer [primary key, not null]
+  sequence integer
+  view_id integer
+  act_window_id integer
+  create_uid integer
+  write_uid integer
+  view_mode character [not null]
+  multi boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_act_window_view.act_window_id > ir_act_window.id
+Ref: ir_act_window_view.view_id > ir_ui_view.id
+Ref: ir_act_window_view.create_uid > res_users.id
+Ref: ir_act_window_view.write_uid > res_users.id
+
+Table ir_actions {
+  id integer [primary key, not null]
+  binding_model_id integer
+  create_uid integer
+  write_uid integer
+  type character [not null]
+  binding_type character [not null]
+  binding_view_types character
+  name jsonb [not null]
+  help jsonb
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_actions.binding_model_id > ir_model.id
+Ref: ir_actions.create_uid > res_users.id
+Ref: ir_actions.write_uid > res_users.id
+
+Table ir_actions_todo {
+  id integer [primary key, not null]
+  action_id integer [not null]
+  sequence integer
+  create_uid integer
+  write_uid integer
+  state character [not null]
+  name character
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_actions_todo.create_uid > res_users.id
+Ref: ir_actions_todo.write_uid > res_users.id
+
+Table ir_asset {
+  id integer [primary key, not null]
+  sequence integer [not null]
+  create_uid integer
+  write_uid integer
+  name character [ not null]
+  bundle character [ not null]
+  directive character
+  path character [ not null]
+  target character
+  active boolean
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: ir_asset.create_uid > res_users.id
+Ref: ir_asset.write_uid > res_users.id
+
+Table ir_attachment {
+  id integer [primary key, not null]
+  res_id integer
+  company_id integer
+  file_size integer
+  create_uid integer
+  write_uid integer
+  name character [ not null]
+  res_model character
+  res_field character 
+  type character [ not null]
+  url character  
+  access_token character 
+  store_fname character 
+  checksum character  
+  mimetype character 
+  description text 
+  index_content text 
+  public boolean
+  create_date timestamp
+  write_date timestamp
+  db_datas bytea
+  original_id integer
+}
+
+Ref: ir_attachment.company_id > res_company.id
+Ref: ir_attachment.create_uid > res_users.id
+Ref: ir_attachment.write_uid > res_users.id
+Ref: ir_attachment.original_id > ir_attachment.id
+
+Table ir_config_parameter {
+  id integer [primary key, not null]
+  create_uid integer
+  write_uid integer
+  key character [ not null]
+  value text [ not null]
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: ir_config_parameter.create_uid > res_users.id
+Ref: ir_config_parameter.write_uid > res_users.id
+
+
+Table ir_cron {
+  id integer [primary key, not null]
+  ir_actions_server_id integer [not null]
+  user_id integer [not null]
+  interval_number integer
+  numbercall integer
+  priority integer
+  create_uid integer
+  write_uid integer
+  interval_type character 
+  cron_name jsonb
+  active boolean
+  doall boolean
+  nextcall timestamp [not null]
+  lastcall timestamp
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: ir_cron.create_uid > res_users.id
+Ref: ir_cron.write_uid > res_users.id
+
+Ref: ir_cron.ir_actions_server_id > ir_act_server.id
+Ref: ir_cron.user_id > res_users.id
+
+Table ir_cron_trigger {
+  id integer [primary key, not null]
+  cron_id integer
+  create_uid integer
+  write_uid integer
+  call_at timestamp
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: ir_cron_trigger.create_uid > res_users.id
+Ref: ir_cron_trigger.write_uid > res_users.id
+
+Ref: ir_cron_trigger.cron_id > ir_cron.id
+
+Table ir_default {
+  id integer [primary key, not null]
+  field_id integer [not null]
+  user_id integer
+  company_id integer
+  create_uid integer
+  write_uid integer
+  condition character   
+  json_value character [not null]
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: ir_default.field_id > ir_model_fields.id
+Ref: ir_default.user_id > res_users.id
+Ref: ir_default.company_id > res_company.id
+
+Ref: ir_default.create_uid > res_users.id
+Ref: ir_default.write_uid > res_users.id
+
+Table ir_demo {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_demo.create_uid > res_users.id
+Ref: ir_demo.write_uid > res_users.id
+
+Table ir_demo_failure {
+  id integer [primary key]
+  module_id integer 
+  wizard_id integer 
+  create_uid integer 
+  write_uid integer 
+  error varchar 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_demo_failure.create_uid > res_users.id
+Ref: ir_demo_failure.module_id > ir_module_module.id
+Ref: ir_demo_failure.wizard_id > ir_demo_failure_wizard.id
+Ref: ir_demo_failure.write_uid > res_users.id
+
+Table ir_demo_failure_wizard {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_demo_failure_wizard.create_uid > res_users.id
+Ref: ir_demo_failure_wizard.write_uid > res_users.id
+
+Table ir_exports {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  name varchar 
+  resource varchar 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_exports.create_uid > res_users.id
+Ref: ir_exports.write_uid > res_users.id
+
+Table ir_exports_line {
+  id integer [primary key]
+  export_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_exports_line.export_id > ir_exports.id
+Ref: ir_exports_line.create_uid > res_users.id
+Ref: ir_exports_line.write_uid > res_users.id
+
+Table ir_filters {
+  id integer [primary key]
+  user_id integer 
+  action_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [unique, not null] 
+  model_id varchar [not null] 
+  domain text [not null] 
+  context text [not null] 
+  sort text [not null] 
+  is_default boolean 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_filters.create_uid > res_users.id
+Ref: ir_filters.user_id > res_users.id
+Ref: ir_filters.action_id > ir_actions.id
+Ref: ir_filters.write_uid > res_users.id
+
+Table ir_logging {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  type varchar [not null]
+  dbname varchar 
+  level varchar 
+  path varchar [not null]
+  func varchar [not null]
+  line varchar [not null]
+  message text [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_logging.create_uid > res_users.id
+Ref: ir_logging.write_uid > res_users.id
+
+Table ir_mail_server {
+  id integer [primary key]
+  smtp_port integer [not null]
+  sequence integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  from_filter varchar 
+  smtp_host varchar [not null]
+  smtp_authentication varchar [not null]
+  smtp_user varchar 
+  smtp_pass varchar 
+  smtp_encryption varchar [not null]
+  smtp_debug boolean 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+  smtp_ssl_certificate bytea 
+  smtp_ssl_private_key bytea 
+  google_gmail_access_token_expiration integer 
+  google_gmail_authorization_code varchar 
+  google_gmail_refresh_token varchar 
+  google_gmail_access_token varchar 
+}
+
+Ref: ir_mail_server.create_uid > res_users.id
+Ref: ir_mail_server.write_uid > res_users.id
+
+Table ir_model {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  model varchar [unique, not null]
+  order varchar [not null]
+  state varchar 
+  name jsonb [not null]
+  info text 
+  transient boolean 
+  create_date timestamp 
+  write_date timestamp 
+  is_mail_thread boolean 
+  is_mail_activity boolean 
+  is_mail_blacklist boolean 
+}
+
+Ref: ir_model.create_uid > res_users.id
+Ref: ir_model.write_uid > res_users.id
+
+Table ir_model_access {
+  id integer [primary key]
+  model_id integer [not null]
+  group_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  active boolean 
+  perm_read boolean 
+  perm_write boolean 
+  perm_create boolean 
+  perm_unlink boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_model_access.create_uid > res_users.id
+Ref: ir_model_access.write_uid > res_users.id
+Ref: ir_model_access.group_id > res_groups.id
+Ref: ir_model_access.model_id > ir_model.id
+
+Table ir_model_constraint {
+  id integer [primary key]
+  model integer [not null]
+  module integer [not null]
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  definition varchar 
+  type varchar(1) [not null]
+  message jsonb 
+  write_date timestamp 
+  create_date timestamp 
+}
+
+Ref: ir_model_constraint.create_uid > res_users.id
+Ref: ir_model_constraint.write_uid > res_users.id
+Ref: ir_model_constraint.model > ir_model.id
+Ref: ir_model_constraint.module > ir_module_module.id
+
+Table ir_model_data {
+  id integer [primary key]
+  create_uid integer 
+  create_date timestamp [default: `timezone('UTC'::text, now())`]
+  write_date timestamp [default: `timezone('UTC'::text, now())`]
+  write_uid integer 
+  res_id integer 
+  noupdate boolean [default: false]
+  name varchar [not null]
+  module varchar [not null]
+  model varchar [not null]
+}
+
+Ref: ir_model_data.create_uid > res_users.id
+Ref: ir_model_data.write_uid > res_users.id
+
+Table ir_model_fields {
+  id integer [primary key]
+  relation_field_id integer
+  model_id integer [not null]
+  related_field_id integer
+  size integer
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  complete_name varchar 
+  model varchar [not null]
+  relation varchar 
+  relation_field varchar 
+  ttype varchar [not null]
+  related varchar 
+  state varchar [not null]
+  on_delete varchar 
+  domain varchar 
+  relation_table varchar 
+  column1 varchar 
+  column2 varchar 
+  depends varchar 
+  field_description jsonb [not null]
+  help jsonb 
+  compute text 
+  copied boolean 
+  required boolean 
+  readonly boolean 
+  index boolean 
+  translate boolean 
+  group_expand boolean 
+  selectable boolean 
+  store boolean 
+  create_date timestamp 
+  write_date timestamp 
+  tracking integer 
+}
+
+Ref: ir_model_fields.create_uid > res_users.id
+Ref: ir_model_fields.write_uid > res_users.id
+Ref: ir_model_fields.model_id > ir_model.id
+Ref: ir_model_fields.related_field_id > ir_model_fields.id
+Ref: ir_model_fields.relation_field_id > ir_model_fields.id
+
+Table ir_model_fields_group_rel {
+  field_id integer [not null]
+  group_id integer [not null]
+  primary key (field_id, group_id)
+}
+
+Ref: ir_model_fields_group_rel.field_id > ir_model_fields.id
+Ref: ir_model_fields_group_rel.group_id > res_groups.id
+
+Table ir_model_fields_selection {
+  id integer [primary key]
+  field_id integer 
+  sequence integer 
+  create_uid integer 
+  write_uid integer 
+  value varchar [unique, not null] 
+  name jsonb [not null] 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_model_fields_selection.create_uid > res_users.id
+Ref: ir_model_fields_selection.field_id > ir_model_fields.id
+Ref: ir_model_fields_selection.write_uid > res_users.id
+
+Table ir_model_relation {
+  id integer [primary key]
+  model integer [not null] 
+  module integer [not null] 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null] 
+  write_date timestamp 
+  create_date timestamp 
+}
+
+Ref: ir_model_relation.create_uid > res_users.id
+Ref: ir_model_relation.model > ir_model.id
+Ref: ir_model_relation.module > ir_module_module.id
+Ref: ir_model_relation.write_uid > res_users.id
+
+Table ir_module_category {
+  id integer [primary key]
+  create_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+  write_uid integer 
+  parent_id integer 
+  name jsonb [not null] 
+  sequence integer 
+  description jsonb 
+  visible boolean 
+  exclusive boolean 
+}
+
+Ref: ir_module_category.create_uid > res_users.id
+Ref: ir_module_category.parent_id > ir_module_category.id
+Ref: ir_module_category.write_uid > res_users.id
+
+Table ir_module_module {
+  id integer [primary key]
+  create_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+  write_uid integer 
+  website varchar 
+  summary jsonb 
+  name varchar [unique, not null] 
+  author varchar 
+  icon varchar 
+  state varchar(16) 
+  latest_version varchar 
+  shortdesc jsonb 
+  category_id integer 
+  description jsonb 
+  application boolean [default: false] 
+  demo boolean [default: false] 
+  web boolean [default: false] 
+  license varchar(32) 
+  sequence integer [default: 100] 
+  auto_install boolean [default: false] 
+  to_buy boolean [default: false] 
+  maintainer varchar 
+  published_version varchar 
+  url varchar 
+  contributors text 
+  menus_by_module text 
+  reports_by_module text 
+  views_by_module text 
+}
+
+Ref: ir_module_module.category_id > ir_module_category.id
+Ref: ir_module_module.create_uid > res_users.id
+Ref: ir_module_module.write_uid > res_users.id
+
+Table ir_module_module_dependency {
+  id integer [primary key]
+  name varchar 
+  module_id integer 
+  auto_install_required boolean [default: true] 
+}
+
+Ref: ir_module_module_dependency.module_id > ir_module_module.id
+
+Table ir_module_module_exclusion {
+  id integer [primary key]
+  module_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_module_module_exclusion.module_id > ir_module_module.id
+Ref: ir_module_module_exclusion.create_uid > res_users.id
+Ref: ir_module_module_exclusion.write_uid > res_users.id
+
+Table ir_profile {
+  id integer [primary key]
+  sql_count integer 
+  entry_count integer 
+  session varchar 
+  name varchar 
+  init_stack_trace text 
+  sql text 
+  traces_async text 
+  traces_sync text 
+  qweb text 
+  create_date timestamp 
+  duration double
+}
+
+Table ir_property {
+  id integer [primary key]
+  company_id integer 
+  fields_id integer [primary key]
+  value_integer integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar 
+  res_id varchar 
+  value_reference varchar 
+  type varchar [not null]
+  value_text text 
+  value_datetime timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  value_float double 
+  value_binary bytea 
+}
+
+Ref: ir_property.company_id > res_company.id
+Ref: ir_property.create_uid > res_users.id
+Ref: ir_property.write_uid > res_users.id
+Ref: ir_property.fields_id > ir_model_fields.id
+
+Table ir_rule {
+  id integer [primary key]
+  model_id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  name varchar 
+  domain_force text 
+  active boolean 
+  perm_read boolean 
+  perm_write boolean 
+  perm_create boolean 
+  perm_unlink boolean 
+  global boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_rule.create_uid > res_users.id
+Ref: ir_rule.model_id > ir_model.id
+Ref: ir_rule.write_uid > res_users.id
+
+Table ir_sequence {
+  id integer [primary key]
+  number_next integer [not null]
+  number_increment integer [not null]
+  padding integer [not null]
+  company_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  code varchar 
+  implementation varchar [not null]
+  prefix varchar 
+  suffix varchar 
+  active boolean 
+  use_date_range boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_sequence.company_id > res_company.id
+Ref: ir_sequence.create_uid > res_users.id
+Ref: ir_sequence.write_uid > res_users.id
+
+Table ir_sequence_date_range {
+  id integer [primary key]
+  sequence_id integer [primary key]
+  number_next integer [not null]
+  create_uid integer 
+  write_uid integer 
+  date_from date [not null]
+  date_to date [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_sequence_date_range.create_uid > res_users.id
+Ref: ir_sequence_date_range.sequence_id > ir_sequence.id
+Ref: ir_sequence_date_range.write_uid > res_users.id
+
+Table ir_server_object_lines {
+  id integer [primary key]
+  server_id integer 
+  col1 integer [not null]
+  create_uid integer 
+  write_uid integer 
+  evaluation_type varchar [not null]
+  value text [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_server_object_lines.col1 > ir_model_fields.id
+Ref: ir_server_object_lines.create_uid > res_users.id
+Ref: ir_server_object_lines.server_id > ir_act_server.id
+Ref: ir_server_object_lines.write_uid > res_users.id
+
+Table ir_ui_menu {
+  id integer [primary key]
+  sequence integer 
+  parent_id integer 
+  create_uid integer 
+  write_uid integer 
+  parent_path varchar 
+  web_icon varchar 
+  action varchar 
+  name jsonb [not null]
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_ui_menu.create_uid > res_users.id
+Ref: ir_ui_menu.parent_id > ir_ui_menu.id
+Ref: ir_ui_menu.write_uid > res_users.id
+
+Table ir_ui_menu_group_rel {
+  menu_id integer [primary key]
+  gid integer [primary key]
+}
+
+Ref: ir_ui_menu_group_rel.gid > res_groups.id
+Ref: ir_ui_menu_group_rel.menu_id > ir_ui_menu.id
+
+Table ir_ui_view {
+  id integer [primary key]
+  priority integer [not null]
+  inherit_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  model varchar 
+  key varchar 
+  type varchar 
+  arch_fs varchar 
+  field_parent varchar 
+  mode varchar [not null]
+  arch_db jsonb 
+  arch_prev text 
+  arch_updated boolean 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+  customize_show boolean 
+}
+
+Ref: ir_ui_view.create_uid > res_users.id
+Ref: ir_ui_view.inherit_id > ir_ui_view.id
+Ref: ir_ui_view.write_uid > res_users.id
+
+Table ir_ui_view_custom {
+  id integer [primary key]
+  ref_id integer [not null]
+  user_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  arch text [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: ir_ui_view_custom.create_uid > res_users.id
+Ref: ir_ui_view_custom.ref_id > ir_ui_view.id
+Ref: ir_ui_view_custom.user_id > res_users.id
+Ref: ir_ui_view_custom.write_uid > res_users.id
+
+Table ir_ui_view_group_rel {
+  view_id integer [not null]
+  group_id integer [not null]
+}
+
+Ref: ir_ui_view_group_rel.group_id > res_groups.id
+Ref: ir_ui_view_group_rel.view_id > ir_ui_view.id
+
+
+
+
+
+
+
+
+
+
+Table res_users {
+  id integer [primary key]
+}
+
+Table report_paperformat {
+  id integer [primary key]
+}
+
+Table mail_activity_type {
+  id integer [primary key]
+}
+
+Table mail_template {
+  id integer [primary key]
+}
+
+Table sms_template {
+  id integer [primary key]
+}
+
+Table res_groups {
+  id integer [primary key]
+}
+
+Table res_partner {
+  id integer [primary key]
+}
+
+Table res_company {
+  id integer [primary key]
+}

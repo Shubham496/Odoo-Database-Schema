@@ -1,0 +1,2114 @@
+Table account_account {
+  id integer [primary key]
+  message_main_attachment_id integer
+  currency_id integer
+  company_id integer
+  group_id integer
+  root_id integer
+  create_uid integer
+  write_uid integer
+  name character
+  code character
+  account_type character 
+  internal_group character 
+  note text
+  deprecated boolean
+  include_initial_balance boolean
+  reconcile boolean
+  is_off_balance boolean
+  non_trade boolean
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_account.company_id > res_company.id
+Ref: account_account.create_uid > res_users.id
+Ref: account_account.currency_id > res_currency.id
+Ref: account_account.group_id > account_group.id
+Ref: account_account.message_main_attachment_id > ir_attachment.id
+Ref: account_account.write_uid > res_users.id
+
+
+
+Table account_account_account_journal_rel {
+  account_account_id integer [primary key]
+  account_journal_id integer [primary key]
+}
+
+Ref: account_account_account_journal_rel.account_account_id > account_account.id
+Ref: account_account_account_journal_rel.account_journal_id > account_journal.id
+
+
+Table account_account_account_tag {
+    account_account_id integer [PRIMARY KEY]
+    account_account_tag_id integer [PRIMARY KEY]
+}
+
+
+Ref: account_account_account_tag.account_account_id > account_account.id
+Ref: account_account_account_tag.account_account_tag_id > account_account_tag.id
+
+
+ 
+Table account_account_tag {
+  id integer [PRIMARY key]
+  color integer
+  country_id integer
+  create_uid integer
+  write_uid integer
+  name character 
+  applicability character 
+  active boolean
+  tax_negate boolean
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_account_tag.country_id > res_country.id
+Ref: account_account_tag.create_uid > res_users.id
+Ref: account_account_tag.write_uid > res_users.id
+
+
+Table account_account_tag_account_move_line_rel {
+    account_move_line_id integer [PRIMARY KEY]
+    account_account_tag_id integer [PRIMARY KEY]
+}
+
+Ref: account_account_tag_account_move_line_rel.account_account_tag_id > account_account_tag.id
+Ref: account_account_tag_account_move_line_rel.account_move_line_id > account_move_line.id
+
+
+Table account_account_tag_account_tax_repartition_line_rel {
+    account_tax_repartition_line_id integer [PRIMARY KEY]
+    account_account_tag_id integer [PRIMARY KEY]
+}
+Ref: account_account_tag_account_tax_repartition_line_rel.account_tax_repartition_line_id > account_tax_repartition_line.id
+Ref: account_account_tag_account_tax_repartition_line_rel.account_account_tag_id > account_account_tag.id
+
+
+Table account_account_tag_product_template_rel {
+    product_template_id integer [PRIMARY KEY]
+    account_account_tag_id integer [PRIMARY KEY]
+}
+
+Ref: account_account_tag_product_template_rel.account_account_tag_id > account_account_tag.id
+Ref: account_account_tag_product_template_rel.product_template_id > product_template.id
+
+
+Table account_account_tax_default_rel {
+  account_id integer [primary key] 
+  tax_id integer [primary key]
+}
+
+Ref: account_account_tax_default_rel.account_id > account_account.id
+Ref: account_account_tax_default_rel.tax_id > account_tax.id
+
+Table account_account_template {
+    id integer [PRIMARY key]
+    message_main_attachment_id integer
+    currency_id integer
+    chart_template_id integer
+    create_uid integer
+    write_uid integer
+    name character 
+    code character 
+    account_type character 
+    note text 
+    reconcile boolean
+    nocreate boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+Ref: account_account_template.chart_template_id > account_chart_template.id
+Ref: account_account_template.create_uid > res_users.id
+Ref: account_account_template.currency_id > res_currency.id
+Ref: account_account_template.message_main_attachment_id > ir_attachment.id
+Ref: account_account_template.write_uid > res_users.id
+
+
+Table account_account_template_account_tag {
+    account_account_template_id integer [PRIMARY key]
+    account_account_tag_id integer [primary key]
+}
+
+Ref: account_account_template_account_tag.account_account_template_id > account_account_template.id
+Ref: account_account_template_account_tag.account_account_tag_id > account_account_tag.id
+
+
+Table account_account_template_tax_rel {
+  account_id integer [primary key]
+  tax_id integer [primary key]
+}
+
+Ref: account_account_template_tax_rel.account_id > account_account_template.id
+Ref: account_account_template_tax_rel.tax_id > account_tax_template.id
+
+
+Table account_accrued_orders_wizard {
+    id integer [primary KEY]
+    company_id integer
+    currency_id integer
+    account_id integer 
+    create_uid integer
+    write_uid integer
+    date date 
+    reversal_date date 
+    amount numeric
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: account_accrued_orders_wizard.account_id > account_account.id
+Ref: account_accrued_orders_wizard.company_id > res_company.id
+Ref: account_accrued_orders_wizard.create_uid > res_users.id
+Ref: account_accrued_orders_wizard.write_uid > res_users.id
+
+Table account_analytic_account {
+    id integer [PRIMARY KEY]
+    message_main_attachment_id integer
+    plan_id integer 
+    root_plan_id integer
+    company_id integer
+    partner_id integer
+    create_uid integer
+    write_uid integer
+    name character 
+    code character 
+    active boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: account_analytic_account.company_id > res_company.id
+Ref: account_analytic_account.create_uid > res_users.id
+Ref: account_analytic_account.message_main_attachment_id > ir_attachment.id
+Ref: account_analytic_account.partner_id > res_partner.id 
+Ref: account_analytic_account.plan_id > account_analytic_plan.id
+Ref: account_analytic_account.root_plan_id > account_analytic_plan.id
+Ref: account_analytic_account.write_uid > res_users.id
+
+table account_analytic_applicability {
+    id integer [PRIMARY KEY]
+    analytic_plan_id integer
+    create_uid integer
+    write_uid integer
+    business_domain character 
+    applicability character 
+    create_date timestamp 
+    write_date timestamp 
+    product_categ_id integer
+    account_prefix character 
+}
+
+Ref: account_analytic_applicability.analytic_plan_id > account_analytic_plan.id
+Ref: account_analytic_applicability.create_uid > res_users.id
+Ref: account_analytic_applicability.product_categ_id > product_category.id
+Ref: account_analytic_applicability.write_uid > res_users.id
+
+Table account_analytic_distribution_model {
+    id integer [PRIMARY KEY]
+    partner_id integer
+    partner_category_id integer
+    company_id integer
+    create_uid integer
+    write_uid integer
+    analytic_distribution jsonb
+    create_date timestamp 
+    write_date timestamp 
+    product_id integer
+    product_categ_id integer
+    account_prefix character
+}
+
+Ref: account_analytic_distribution_model.company_id > res_company.id
+Ref: account_analytic_distribution_model.create_uid > res_users.id
+Ref: account_analytic_distribution_model.partner_category_id > res_partner_category.id
+Ref: account_analytic_distribution_model.partner_id > res_partner.id
+Ref: account_analytic_distribution_model.product_categ_id > product_category.id
+Ref: account_analytic_distribution_model.product_id > product_product.id
+Ref: account_analytic_distribution_model.write_uid > res_users.id
+
+
+Table account_analytic_line {
+    id integer [PRIMARY KEY]
+    product_uom_id integer
+    account_id integer
+    partner_id integer
+    user_id integer
+    company_id integer
+    currency_id integer
+    plan_id integer
+    create_uid integer
+    write_uid integer
+    name character 
+    category character 
+    date date
+    amount numeric
+    create_date timestamp 
+    write_date timestamp 
+    unit_amount double 
+    product_id integer
+    general_account_id integer
+    journal_id integer
+    move_line_id integer
+    code character 
+    ref character 
+    so_line integer
+}
+
+Ref: account_analytic_line.account_id > account_analytic_account.id
+Ref: account_analytic_line.user_id > res_users.id
+Ref: account_analytic_line.company_id > res_company.id
+Ref: account_analytic_line.currency_id > res_currency.id
+Ref: account_analytic_line.plan_id > account_analytic_plan.id
+Ref: account_analytic_line.create_uid > res_users.id
+Ref: account_analytic_line.write_uid > res_users.id
+Ref: account_analytic_line.product_id > product_product.id
+Ref: account_analytic_line.general_account_id > account_account.id
+Ref: account_analytic_line.journal_id > account_journal.id
+Ref: account_analytic_line.move_line_id > account_move_line.id
+Ref: account_analytic_line.so_line > sale_order_line.id
+
+
+Table account_analytic_plan {
+    id integer [PRIMARY KEY]
+    parent_id integer 
+    company_id integer 
+    color integer
+    create_uid integer 
+    write_uid integer 
+    name character 
+    parent_path character 
+    complete_name character 
+    default_applicability character 
+    description text
+    create_date timestamp   
+    write_date timestamp 
+}
+
+Ref: account_analytic_plan.parent_id > account_analytic_plan.id
+Ref: account_analytic_plan.company_id > res_company.id
+Ref: account_analytic_plan.create_uid > res_users.id
+Ref: account_analytic_plan.write_uid > res_users.id
+
+
+Table account_automatic_entry_wizard {
+    id integer [PRIMARY KEY]
+    company_id integer 
+    destination_account_id integer
+    create_uid integer 
+    write_uid integer 
+    action character
+    account_type character 
+    date date
+    total_amount numeric
+    create_date timestamp
+    write_date timestamp 
+    percentage double 
+}
+
+Ref: account_automatic_entry_wizard.company_id > res_company.id
+Ref: account_automatic_entry_wizard.destination_account_id > account_account.id
+Ref: account_automatic_entry_wizard.create_uid > res_users.id
+Ref: account_automatic_entry_wizard.write_uid > res_users.id
+
+
+Table account_automatic_entry_wizard_account_move_line_rel {
+    account_automatic_entry_wizard_id integer 
+    account_move_line_id integer 
+}
+
+Ref: account_automatic_entry_wizard_account_move_line_rel.account_automatic_entry_wizard_id > account_automatic_entry_wizard.id
+Ref: account_automatic_entry_wizard_account_move_line_rel.account_move_line_id > account_move_line.id
+
+
+Table account_bank_statement {
+    id integer [PRIMARY KEY]
+    company_id integer 
+    journal_id integer 
+    create_uid integer 
+    write_uid integer 
+    name character 
+    reference character 
+    first_line_index character 
+    date date
+    balance_start numeric
+    balance_end numeric
+    balance_end_real numeric
+    is_complete boolean
+    create_date timestamp   
+    write_date timestamp   
+}
+
+Ref: account_bank_statement.company_id > res_company.id
+Ref: account_bank_statement.journal_id > account_journal.id
+Ref: account_bank_statement.create_uid > res_users.id
+Ref: account_bank_statement.write_uid > res_users.id
+
+
+Table account_bank_statement_ir_attachment_rel {
+    account_bank_statement_id integer
+    ir_attachment_id integer
+}
+
+Ref: account_bank_statement_ir_attachment_rel.account_bank_statement_id > account_bank_statement.id
+Ref: account_bank_statement_ir_attachment_rel.ir_attachment_id > ir_attachment.id
+
+
+Table account_bank_statement_line {
+    id integer [PRIMARY KEY]
+    move_id integer
+    statement_id integer 
+    sequence integer
+    partner_id integer
+    currency_id integer 
+    foreign_currency_id integer 
+    create_uid integer
+    write_uid integer
+    account_number character
+    partner_name character 
+    transaction_type character 
+    payment_ref character 
+    internal_index character 
+    amount numeric
+    amount_currency numeric
+    is_reconciled boolean
+    create_date timestamp 
+    write_date timestamp 
+    amount_residual double 
+}
+
+Ref: account_bank_statement_line.move_id > account_move.id
+Ref: account_bank_statement_line.statement_id > account_bank_statement.id
+Ref: account_bank_statement_line.partner_id > res_partner.id
+Ref: account_bank_statement_line.currency_id > res_currency.id
+Ref: account_bank_statement_line.foreign_currency_id > res_currency.id
+Ref: account_bank_statement_line.create_uid > res_users.id
+Ref: account_bank_statement_line.write_uid > res_users.id
+
+Table account_cash_rounding {
+    id integer [PRIMARY KEY]
+    create_uid integer
+    write_uid integer
+    strategy character 
+    rounding_method character 
+    name jsonb
+    create_date timestamp   
+    write_date timestamp   
+    rounding double 
+}
+
+Ref: account_cash_rounding.create_uid > res_users.id
+Ref: account_cash_rounding.write_uid > res_users.id
+
+
+
+Table account_chart_template {
+    id integer [PRIMARY KEY]
+    parent_id integer
+    code_digits integer
+    currency_id integer
+    income_currency_exchange_account_id integer
+    expense_currency_exchange_account_id integer
+    country_id integer
+    account_journal_suspense_account_id integer
+    account_journal_payment_debit_account_id integer
+    account_journal_payment_credit_account_id integer
+    default_cash_difference_income_account_id integer
+    default_cash_difference_expense_account_id integer
+    default_pos_receivable_account_id integer
+    account_journal_early_pay_discount_loss_account_id integer
+    account_journal_early_pay_discount_gain_account_id integer
+    property_account_receivable_id integer
+    property_account_payable_id integer
+    property_account_expense_categ_id integer
+    property_account_income_categ_id integer
+    property_account_expense_id integer
+    property_account_income_id integer
+    property_stock_account_input_categ_id integer
+    property_stock_account_output_categ_id integer
+    property_stock_valuation_account_id integer
+    property_tax_payable_account_id integer
+    property_tax_receivable_account_id integer
+    property_advance_tax_payment_account_id integer
+    property_cash_basis_base_account_id integer
+    create_uid integer
+    write_uid integer
+    name character 
+    bank_account_code_prefix character 
+    cash_account_code_prefix character 
+    transfer_account_code_prefix character 
+    visible boolean
+    use_anglo_saxon boolean
+    use_storno_accounting boolean
+    create_date timestamp   
+    write_date timestamp  
+}
+
+Ref: account_chart_template.account_journal_early_pay_discount_loss_account_id > account_account_template.id
+Ref: account_chart_template.account_journal_early_pay_discount_gain_account_id > account_account_template.id
+Ref: account_chart_template.account_journal_payment_credit_account_id > account_account_template.id
+Ref: account_chart_template.account_journal_payment_debit_account_id > account_account_template.id
+Ref: account_chart_template.account_journal_suspense_account_id > account_account_template.id
+Ref: account_chart_template.country_id > res_country.id
+Ref: account_chart_template.create_uid > res_users.id
+Ref: account_chart_template.currency_id > res_currency.id
+Ref: account_chart_template.default_cash_difference_expense_account_id > account_account_template.id
+Ref: account_chart_template.default_cash_difference_income_account_id > account_account_template.id
+Ref: account_chart_template.default_pos_receivable_account_id > account_account_template.id
+Ref: account_chart_template.expense_currency_exchange_account_id > account_account_template.id
+Ref: account_chart_template.income_currency_exchange_account_id > account_account_template.id
+Ref: account_chart_template.parent_id > account_chart_template.id
+Ref: account_chart_template.property_account_expense_categ_id > account_account_template.id
+Ref: account_chart_template.property_account_expense_id > account_account_template.id
+Ref: account_chart_template.property_account_income_categ_id > account_account_template.id
+Ref: account_chart_template.property_account_income_id > account_account_template.id
+Ref: account_chart_template.property_account_payable_id > account_account_template.id
+Ref: account_chart_template.property_account_receivable_id > account_account_template.id
+Ref: account_chart_template.property_advance_tax_payment_account_id > account_account_template.id
+Ref: account_chart_template.property_cash_basis_base_account_id > account_account_template.id
+Ref: account_chart_template.property_stock_account_input_categ_id > account_account_template.id
+Ref: account_chart_template.property_stock_account_output_categ_id > account_account_template.id
+Ref: account_chart_template.property_stock_valuation_account_id > account_account_template.id
+Ref: account_chart_template.property_tax_payable_account_id > account_account_template.id
+Ref: account_chart_template.property_tax_receivable_account_id > account_account_template.id
+Ref: account_chart_template.write_uid > res_users.id
+
+
+Table account_edi_document {
+    id integer [PRIMARY KEY]
+    move_id integer [NOT NULL]
+    edi_format_id integer [NOT NULL]
+    attachment_id integer
+    create_uid integer
+    write_uid integer
+    state character  
+    blocking_level character 
+    error text
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: account_edi_document.attachment_id > ir_attachment.id
+Ref: account_edi_document.create_uid > res_users.id
+Ref: account_edi_document.edi_format_id > account_edi_format.id
+Ref: account_edi_document.move_id > account_move.id
+Ref: account_edi_document.write_uid > res_users.id
+
+
+Table account_edi_format {
+    id integer [PRIMARY KEY]
+    create_uid integer
+    write_uid integer
+    name character 
+    code character  
+    create_date timestamp   
+    write_date timestamp 
+}
+
+Ref: account_edi_format.create_uid > res_users.id
+Ref: account_edi_format.write_uid > res_users.id
+
+
+
+
+Table account_edi_format_account_journal_rel {
+    account_journal_id integer [Primary Key]
+    account_edi_format_id integer  [Primary Key]
+}
+
+Ref: account_edi_format_account_journal_rel.account_journal_id > account_journal.id
+Ref: account_edi_format_account_journal_rel.account_edi_format_id > account_edi_format.id
+
+
+Table account_financial_year_op {
+    id integer [Primary Key]
+    company_id integer [Not Null]
+    create_uid integer
+    write_uid integer
+    create_date timestamp   
+    write_date timestamp   
+}
+
+Ref: account_financial_year_op.company_id > res_company.id
+Ref: account_financial_year_op.create_uid > res_users.id
+Ref: account_financial_year_op.write_uid > res_users.id
+
+
+Table account_fiscal_position {
+    id integer [Primary Key]
+    sequence integer
+    company_id integer [Not Null]
+    country_id integer
+    country_group_id integer
+    create_uid integer
+    write_uid integer
+    name character  [Not Null]
+    zip_from character 
+    zip_to character 
+    foreign_vat character 
+    note jsonb
+    active boolean
+    auto_apply boolean
+    vat_required boolean
+    create_date timestamp   
+    write_date timestamp   
+}
+
+Ref: account_fiscal_position.company_id > res_company.id
+Ref: account_fiscal_position.country_group_id > res_country_group.id
+Ref: account_fiscal_position.country_id > res_country.id
+Ref: account_fiscal_position.create_uid > res_users.id
+Ref: account_fiscal_position.write_uid > res_users.id
+
+
+
+Table account_fiscal_position_account {
+    id integer [Primary Key]
+    position_id integer [Not Null]
+    company_id integer
+    account_src_id integer [Not Null]
+    account_dest_id integer [Not Null]
+    create_uid integer
+    write_uid integer
+    create_date timestamp   
+    write_date timestamp   
+}
+
+Ref: account_fiscal_position_account.position_id > account_fiscal_position.id
+Ref: account_fiscal_position_account.account_dest_id > account_account.id
+Ref: account_fiscal_position_account.account_src_id > account_account.id
+Ref: account_fiscal_position_account.company_id > res_company.id
+Ref: account_fiscal_position_account.create_uid > res_users.id
+Ref: account_fiscal_position_account.write_uid > res_users.id
+
+
+
+
+Table account_fiscal_position_account_template {
+    id integer [Primary Key]
+    position_id integer [Not Null]
+    account_src_id integer [Not Null]
+    account_dest_id integer [Not Null]
+    create_uid integer
+    write_uid integer
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: account_fiscal_position_account_template.position_id > account_fiscal_position_template.id
+Ref: account_fiscal_position_account_template.account_dest_id > account_account_template.id
+Ref: account_fiscal_position_account_template.account_src_id > account_account_template.id
+Ref: account_fiscal_position_account_template.create_uid > res_users.id
+Ref: account_fiscal_position_account_template.write_uid > res_users.id
+
+
+Table account_fiscal_position_res_country_state_rel {
+    account_fiscal_position_id integer [Primary Key]
+    res_country_state_id integer [Primary Key]
+}
+
+Ref: account_fiscal_position_res_country_state_rel.account_fiscal_position_id > account_fiscal_position.id
+Ref: account_fiscal_position_res_country_state_rel.res_country_state_id > res_country_state.id
+
+
+Table account_fiscal_position_tax {
+    id integer [Primary Key]
+    position_id integer [Not Null]
+    company_id integer
+    tax_src_id integer [Not Null]
+    tax_dest_id integer
+    create_uid integer
+    write_uid integer
+    create_date timestamp   
+    write_date timestamp   
+}
+
+Ref: account_fiscal_position_tax.position_id > account_fiscal_position.id
+Ref: account_fiscal_position_tax.company_id > res_company.id
+Ref: account_fiscal_position_tax.tax_src_id > account_tax.id
+Ref: account_fiscal_position_tax.tax_dest_id > account_tax.id
+
+
+Table account_fiscal_position_tax_template {
+    id integer [Primary Key]
+    position_id integer [Not Null]
+    tax_src_id integer [Not Null]
+    tax_dest_id integer
+    create_uid integer
+    write_uid integer
+    create_date timestamp   
+    write_date timestamp   
+}
+
+Ref: account_fiscal_position_tax_template.position_id > account_fiscal_position_template.id
+Ref: account_fiscal_position_tax_template.tax_src_id > account_tax_template.id
+Ref: account_fiscal_position_tax_template.tax_dest_id > account_tax_template.id
+
+
+Table account_fiscal_position_template {
+    id integer [Primary Key]
+    sequence integer
+    chart_template_id integer [Not Null]
+    country_id integer
+    country_group_id integer
+    create_uid integer
+    write_uid integer
+    name varchar [Not Null]
+    zip_from varchar
+    zip_to varchar
+    note text
+    auto_apply boolean
+    vat_required boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: account_fiscal_position_template.chart_template_id > account_chart_template.id
+Ref: account_fiscal_position_template.country_group_id > res_country_group.id
+Ref: account_fiscal_position_template.country_id > res_country.id
+Ref: account_fiscal_position_template.create_uid > res_users.id
+Ref: account_fiscal_position_template.write_uid > res_users.id
+
+
+
+Table account_fiscal_position_template_res_country_state_rel {
+    account_fiscal_position_template_id integer [Primary Key]
+    res_country_state_id integer [Primary Key]
+}
+
+Ref: account_fiscal_position_template_res_country_state_rel.account_fiscal_position_template_id > account_fiscal_position_template.id
+Ref: account_fiscal_position_template_res_country_state_rel.res_country_state_id > res_country_state.id
+
+
+
+Table account_full_reconcile {
+    id integer [Primary Key]
+    exchange_move_id integer
+    create_uid integer
+    write_uid integer
+    name varchar [Not Null]
+    create_date timestamp
+    write_date timestamp
+}
+
+Ref: account_full_reconcile.create_uid > res_users.id
+Ref: account_full_reconcile.exchange_move_id > account_move.id
+Ref: account_full_reconcile.write_uid > res_users.id
+
+Table account_group {
+    id integer [Primary Key]
+    parent_id integer
+    company_id integer [Not Null]
+    create_uid integer
+    write_uid integer
+    parent_path varchar
+    name varchar [Not Null]
+    code_prefix_start varchar
+    code_prefix_end varchar
+    create_date timestamp
+    write_date timestamp
+}
+
+Ref: account_group.company_id > res_company.id
+Ref: account_group.create_uid > res_users.id
+Ref: account_group.parent_id > account_group.id
+Ref: account_group.write_uid > res_users.id
+
+
+Table account_group_template {
+    id integer [Primary Key]
+    parent_id integer
+    chart_template_id integer [Not Null]
+    create_uid integer
+    write_uid integer
+    name varchar [Not Null]
+    code_prefix_start varchar
+    code_prefix_end varchar
+    create_date timestamp
+    write_date timestamp
+}
+
+Ref: account_group_template.chart_template_id > account_chart_template.id
+Ref: account_group_template.create_uid > res_users.id
+Ref: account_group_template.parent_id > account_group_template.id
+Ref: account_group_template.write_uid > res_users.id
+
+
+
+Table account_incoterms {
+    id integer [Primary Key]
+    create_uid integer
+    write_uid integer
+    code varchar(3) [Not Null]
+    name jsonb [Not Null]
+    active boolean
+    create_date timestamp
+    write_date timestamp
+}
+
+Ref: account_incoterms.create_uid > res_users.id
+Ref: account_incoterms.write_uid > res_users.id
+
+Table account_invoice_send {
+    id integer [Primary Key]
+    composer_id integer [Not Null]
+    template_id integer
+    create_uid integer
+    write_uid integer
+    is_email boolean
+    is_print boolean
+    printed boolean
+    create_date timestamp
+    write_date timestamp
+    snailmail_is_letter boolean
+}
+
+Ref: account_invoice_send.composer_id > mail_compose_message.id
+Ref: account_invoice_send.create_uid > res_users.id
+Ref: account_invoice_send.template_id > mail_template.id
+Ref: account_invoice_send.write_uid > res_users.id
+
+Table account_invoice_transaction_rel {
+    invoice_id integer  [Primary Key]
+    transaction_id integer [Primary Key]
+}
+
+Ref: account_invoice_transaction_rel.invoice_id > account_move.id
+Ref: account_invoice_transaction_rel.transaction_id > payment_transaction.id
+
+
+
+Table account_journal {
+    id integer  [Primary Key]
+    message_main_attachment_id integer
+    default_account_id integer
+    suspense_account_id integer
+    sequence integer
+    currency_id integer
+    company_id integer [Not Null]
+    profit_account_id integer
+    loss_account_id integer
+    bank_account_id integer
+    sale_activity_type_id integer
+    sale_activity_user_id integer
+    alias_id integer
+    secure_sequence_id integer
+    create_uid integer
+    write_uid integer
+    color integer
+    name varchar [Not Null]
+    code varchar(5) [Not Null]
+    type varchar [Not Null]
+    invoice_reference_type varchar [Not Null]
+    invoice_reference_model varchar [Not Null]
+    bank_statements_source varchar
+    sequence_override_regex text
+    sale_activity_note text
+    active boolean
+    restrict_mode_hash_table boolean
+    refund_sequence boolean
+    payment_sequence boolean
+    show_on_dashboard boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: account_journal.alias_id > mail_alias.id
+Ref: account_journal.bank_account_id > res_partner_bank.id
+Ref: account_journal.company_id > res_company.id
+Ref: account_journal.currency_id > res_currency.id
+Ref: account_journal.default_account_id > account_account.id
+Ref: account_journal.loss_account_id > account_account.id
+Ref: account_journal.message_main_attachment_id > ir_attachment.id
+Ref: account_journal.profit_account_id > account_account.id
+Ref: account_journal.sale_activity_type_id > mail_activity_type.id
+Ref: account_journal.sale_activity_user_id > res_users.id
+Ref: account_journal.secure_sequence_id > ir_sequence.id
+Ref: account_journal.suspense_account_id > account_account.id
+Ref: account_journal.create_uid > res_users.id
+Ref: account_journal.write_uid > res_users.id
+
+
+Table account_journal_account_journal_group_rel {
+  account_jouranl_group_id integer [primary key]
+  account_journal_id integer [primary key]
+
+}
+
+Ref: account_journal_account_journal_group_rel.account_jouranl_group_id > account_journal_group.id
+Ref: account_journal_account_journal_group_rel.account_journal_id > account_journal.id
+
+
+
+Table account_journal_account_reconcile_model_rel {
+  account_reconcile_model_id integer [primary key]
+  account_journal_id integer [primary key]
+}
+
+Ref: account_journal_account_reconcile_model_rel.account_reconcile_model_id > account_reconcile_model.id
+Ref: account_journal_account_reconcile_model_rel.account_journal_id > account_journal.id
+
+Table account_journal_account_reconcile_model_template_rel {
+  account_reconcile_model_template_id integer [primary key]
+  account_journal_id integer [primary key]
+}
+
+Ref: account_journal_account_reconcile_model_template_rel.account_reconcile_model_template_id > account_reconcile_model_template.id
+Ref: account_journal_account_reconcile_model_template_rel.account_journal_id > account_journal.id
+
+
+Table account_journal_group {
+id integer [primary key]
+  company_id integer 
+  sequence integer
+  create_uid integer
+  write_uid integer
+  name jsonb 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: account_journal_group.company_id > res_company.id
+Ref: account_journal_group.create_uid > res_users.id
+Ref: account_journal_group.write_uid > res_users.id
+
+
+
+Table account_move {
+    id integer [Primary Key]
+    sequence_number integer
+    message_main_attachment_id integer
+    journal_id integer [Not Null]
+    company_id integer
+    payment_id integer
+    statement_line_id integer
+    tax_cash_basis_rec_id integer
+    tax_cash_basis_origin_move_id integer
+    auto_post_origin_id integer
+    secure_sequence_number integer
+    invoice_payment_term_id integer
+    partner_id integer
+    commercial_partner_id integer
+    partner_shipping_id integer
+    partner_bank_id integer
+    fiscal_position_id integer
+    currency_id integer [Not Null]
+    reversed_entry_id integer
+    invoice_user_id integer
+    invoice_incoterm_id integer
+    invoice_cash_rounding_id integer
+    create_uid integer
+    write_uid integer
+    sequence_prefix varchar 
+    access_token varchar 
+    name varchar 
+    ref varchar 
+    state varchar  [Not Null]
+    move_type varchar  [Not Null]
+    auto_post varchar  [Not Null]
+    inalterable_hash varchar 
+    payment_reference varchar 
+    qr_code_method varchar 
+    payment_state varchar 
+    invoice_source_email varchar 
+    invoice_partner_display_name varchar 
+    invoice_origin varchar 
+    date date [Not Null]
+    auto_post_until date
+    invoice_date date
+    invoice_date_due date
+    narration text 
+    amount_untaxed numeric
+    amount_tax numeric
+    amount_total numeric
+    amount_residual numeric
+    amount_untaxed_signed numeric
+    amount_tax_signed numeric
+    amount_total_signed numeric
+    amount_total_in_currency_signed numeric
+    amount_residual_signed numeric
+    quick_edit_total_amount numeric
+    is_storno boolean
+    always_tax_exigible boolean
+    to_check boolean
+    posted_before boolean
+    is_move_sent boolean
+    create_date timestamp 
+    write_date timestamp 
+    edi_state varchar 
+    stock_move_id integer
+    campaign_id integer
+    source_id integer
+    medium_id integer
+    team_id integer
+}
+
+Ref: account_move.auto_post_origin_id > account_move.id
+Ref: account_move.campaign_id > utm_campaign.id
+Ref: account_move.commercial_partner_id > res_partner.id
+Ref: account_move.company_id > res_company.id
+Ref: account_move.create_uid > res_users.id
+Ref: account_move.currency_id > res_currency.id
+Ref: account_move.fiscal_position_id > account_fiscal_position.id
+Ref: account_move.invoice_cash_rounding_id > account_cash_rounding.id
+Ref: account_move.invoice_incoterm_id > account_incoterms.id
+Ref: account_move.invoice_payment_term_id > account_payment_term.id
+Ref: account_move.invoice_user_id > res_users.id
+Ref: account_move.journal_id > account_journal.id
+Ref: account_move.medium_id > utm_medium.id
+Ref: account_move.message_main_attachment_id > ir_attachment.id
+Ref: account_move.partner_bank_id > res_partner_bank.id
+Ref: account_move.partner_id > res_partner.id
+Ref: account_move.partner_shipping_id > res_partner.id
+Ref: account_move.payment_id > account_payment.id
+Ref: account_move.reversed_entry_id > account_move.id
+Ref: account_move.source_id > utm_source.id
+Ref: account_move.statement_line_id > account_bank_statement_line.id
+Ref: account_move.stock_move_id > stock_move.id
+Ref: account_move.tax_cash_basis_origin_move_id > account_move.id
+Ref: account_move.tax_cash_basis_rec_id > account_partial_reconcile.id
+Ref: account_move.team_id > crm_team.id
+Ref: account_move.write_uid > res_users.id
+
+
+
+Table account_move_account_invoice_send_rel {
+  account_invoice_send_id integer 
+  account_move_id integer 
+}
+
+Ref: account_move_account_invoice_send_rel.account_invoice_send_id > account_invoice_send.id
+Ref: account_move_account_invoice_send_rel.account_move_id > account_move.id
+
+
+Table account_move_account_resequence_wizard_rel {
+  account_resequence_wizard_id integer 
+  account_move_id integer 
+}
+
+Ref: account_move_account_resequence_wizard_rel.account_resequence_wizard_id > account_resequence_wizard.id
+Ref: account_move_account_resequence_wizard_rel.account_move_id > account_move.id
+
+
+
+Table account_move_line {
+  id integer [primary key]
+  move_id integer 
+  journal_id integer 
+  company_id integer 
+  company_currency_id integer 
+  sequence integer 
+  account_id integer 
+  currency_id integer 
+  partner_id integer 
+  reconcile_model_id integer 
+  payment_id integer 
+  statement_line_id integer 
+  statement_id integer 
+  group_tax_id integer 
+  tax_line_id integer 
+  tax_group_id integer 
+  tax_repartition_line_id integer 
+  full_reconcile_id integer 
+  account_root_id integer 
+  product_id integer 
+  product_uom_id integer 
+  create_uid integer 
+  write_uid integer 
+  move_name character  
+  parent_state character  
+  ref character  
+  name character  
+  tax_audit character  
+  matching_number character  
+  display_type character  [not null]
+  date date 
+  date_maturity date 
+  discount_date date 
+  analytic_distribution jsonb 
+  debit numeric 
+  credit numeric 
+  balance numeric 
+  amount_currency numeric 
+  tax_base_amount numeric 
+  amount_residual numeric 
+  amount_residual_currency numeric 
+  quantity numeric 
+  price_unit numeric 
+  price_subtotal numeric 
+  price_total numeric 
+  discount numeric 
+  discount_amount_currency numeric 
+  discount_balance numeric 
+  tax_tag_invert boolean 
+  reconciled boolean 
+  blocked boolean 
+  create_date timestamp  
+  write_date timestamp  
+  discount_percentage double  
+  is_downpayment boolean 
+  purchase_line_id integer 
+}
+
+Ref: account_move_line.account_id > account_account.id
+Ref: account_move_line.company_currency_id > res_currency.id
+Ref: account_move_line.company_id > res_company.id
+Ref: account_move_line.create_uid > res_users.id
+Ref: account_move_line.currency_id > res_currency.id
+Ref: account_move_line.full_reconcile_id > account_full_reconcile.id
+Ref: account_move_line.group_tax_id > account_tax.id
+Ref: account_move_line.journal_id > account_journal.id
+Ref: account_move_line.move_id > account_move.id
+Ref: account_move_line.partner_id > res_partner.id
+Ref: account_move_line.payment_id > account_payment.id
+Ref: account_move_line.product_id > product_product.id
+Ref: account_move_line.product_uom_id > uom_uom.id
+Ref: account_move_line.purchase_line_id > purchase_order_line.id
+Ref: account_move_line.reconcile_model_id > account_reconcile_model.id
+Ref: account_move_line.statement_id > account_bank_statement.id
+Ref: account_move_line.statement_line_id > account_bank_statement_line.id
+Ref: account_move_line.tax_group_id > account_tax_group.id
+Ref: account_move_line.tax_line_id > account_tax.id
+Ref: account_move_line.tax_repartition_line_id > account_tax_repartition_line.id
+Ref: account_move_line.write_uid > res_users.id
+
+
+Table account_move_line_account_tax_rel {
+  account_move_line_id integer 
+  account_tax_id integer 
+}
+
+Ref: account_move_line_account_tax_rel.account_move_line_id > account_move_line.id
+Ref: account_move_line_account_tax_rel.account_tax_id > account_tax.id
+
+
+Table account_move_purchase_order_rel {
+  purchase_order_id integer 
+  account_move_id integer 
+}
+
+Ref: account_move_purchase_order_rel.account_move_id > account_move.id
+Ref: account_move_purchase_order_rel.purchase_order_id > purchase_order.id
+
+
+
+Table account_move_reversal {
+  id integer [primary key]
+  journal_id integer 
+  company_id integer 
+  create_uid integer 
+  write_uid integer 
+  date_mode character [not null] 
+  reason character 
+  refund_method character [not null] 
+  date date 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: account_move_reversal.company_id > res_company.id
+Ref: account_move_reversal.create_uid > res_users.id
+Ref: account_move_reversal.journal_id > account_journal.id
+Ref: account_move_reversal.write_uid > res_users.id
+
+
+Table account_move_reversal_move {
+  reversal_id integer 
+  move_id integer 
+}
+
+Ref: account_move_reversal_move.move_id > account_move.id
+Ref: account_move_reversal_move.reversal_id > account_move_reversal.id
+
+Table account_move_reversal_new_move {
+  reversal_id integer 
+  new_move_id integer 
+}
+
+Ref: account_move_reversal_new_move.new_move_id > account_move.id
+Ref: account_move_reversal_new_move.reversal_id > account_move_reversal.id
+
+
+Table account_partial_reconcile {
+  id integer [primary key]
+  debit_move_id integer 
+  credit_move_id integer 
+  full_reconcile_id integer
+  exchange_move_id integer
+  debit_currency_id integer 
+  credit_currency_id integer 
+  company_id integer 
+  create_uid integer 
+  write_uid integer 
+  max_date date 
+  amount numeric 
+  debit_amount_currency numeric 
+  credit_amount_currency numeric 
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: account_partial_reconcile.company_id > res_company.id
+Ref: account_partial_reconcile.create_uid > res_users.id
+Ref: account_partial_reconcile.credit_currency_id > res_currency.id
+Ref: account_partial_reconcile.credit_move_id > account_move_line.id
+Ref: account_partial_reconcile.debit_currency_id > res_currency.id
+Ref: account_partial_reconcile.debit_move_id > account_move_line.id
+Ref: account_partial_reconcile.exchange_move_id > account_move.id
+Ref: account_partial_reconcile.full_reconcile_id > account_full_reconcile.id
+Ref: account_partial_reconcile.write_uid > res_users.id
+
+
+
+Table account_payment {
+  id integer [primary key]
+  message_main_attachment_id integer 
+  move_id integer [not null]
+  partner_bank_id integer 
+  paired_internal_transfer_payment_id integer 
+  payment_method_line_id integer 
+  payment_method_id integer 
+  currency_id integer 
+  partner_id integer 
+  outstanding_account_id integer 
+  destination_account_id integer 
+  destination_journal_id integer 
+  create_uid integer 
+  write_uid integer 
+  payment_type varchar [not null] 
+  partner_type varchar [not null] 
+  payment_reference varchar 
+  amount numeric 
+  amount_company_currency_signed numeric 
+  is_reconciled boolean 
+  is_matched boolean 
+  is_internal_transfer boolean 
+  create_date timestamp  
+  write_date timestamp 
+  payment_transaction_id integer
+  payment_token_id integer
+  source_payment_id integer
+}
+
+Ref: account_payment.create_uid > res_users.id
+Ref: account_payment.currency_id > res_currency.id
+Ref: account_payment.destination_account_id > account_account.id
+Ref: account_payment.destination_journal_id > account_journal.id
+Ref: account_payment.message_main_attachment_id > ir_attachment.id
+Ref: account_payment.move_id > account_move.id
+Ref: account_payment.outstanding_account_id > account_account.id
+Ref: account_payment.paired_internal_transfer_payment_id > account_payment.id
+Ref: account_payment.partner_bank_id > res_partner_bank.id
+Ref: account_payment.partner_id > res_partner.id
+Ref: account_payment.payment_method_id > account_payment_method.id
+Ref: account_payment.payment_method_line_id > account_payment_method_line.id
+Ref: account_payment.payment_token_id > payment_token.id
+Ref: account_payment.payment_transaction_id > payment_transaction.id
+Ref: account_payment.source_payment_id > account_payment.id
+Ref: account_payment.write_uid > res_users.id
+
+
+Table account_payment_account_bank_statement_line_rel {
+  account_bank_statement_line_id integer [primary key]
+  account_payment_id integer [primary key]
+}
+
+Ref: account_payment_account_bank_statement_line_rel.account_bank_statement_line_id > account_bank_statement_line.id
+Ref: account_payment_account_bank_statement_line_rel.account_payment_id > account_payment.id
+
+
+Table account_payment_method {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  code character 
+  payment_type character 
+  name jsonb [not null]
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_payment_method.create_uid > res_users.id
+Ref: account_payment_method.write_uid > res_users.id
+
+
+Table account_payment_method_line {
+  id integer [primary key]
+  sequence integer
+  payment_method_id integer [not null]
+  payment_account_id integer
+  journal_id integer
+  create_uid integer
+  write_uid integer
+  name character 
+  create_date timestamp 
+  write_date timestamp 
+  payment_provider_id integer
+}
+
+Ref: account_payment_method_line.create_uid > res_users.id
+Ref: account_payment_method_line.write_uid > res_users.id
+Ref: account_payment_method_line.payment_method_id > account_payment_method.id
+Ref: account_payment_method_line.journal_id > account_journal.id
+Ref: account_payment_method_line.payment_account_id > account_account.id
+Ref: account_payment_method_line.payment_provider_id > payment_provider.id
+
+Table account_payment_register {
+  id integer [primary key]
+  currency_id integer
+  journal_id integer
+  partner_bank_id integer
+  source_currency_id integer
+  company_id integer
+  partner_id integer
+  payment_method_line_id integer
+  writeoff_account_id integer
+  create_uid integer
+  write_uid integer
+  communication character 
+  payment_type character 
+  partner_type character 
+  payment_difference_handling character 
+  writeoff_label character 
+  payment_date date [not null]
+  amount numeric
+  source_amount numeric
+  source_amount_currency numeric
+  group_payment boolean
+  can_edit_wizard boolean
+  can_group_payments boolean
+  create_date timestamp 
+  write_date timestamp 
+  payment_token_id integer
+}
+
+Ref: account_payment_register.company_id > res_company.id
+Ref: account_payment_register.create_uid > res_users.id
+Ref: account_payment_register.write_uid > res_users.id
+Ref: account_payment_register.currency_id > res_currency.id
+Ref: account_payment_register.journal_id > account_journal.id
+Ref: account_payment_register.partner_bank_id > res_partner_bank.id
+Ref: account_payment_register.partner_id > res_partner.id
+Ref: account_payment_register.payment_method_line_id > account_payment_method_line.id
+Ref: account_payment_register.writeoff_account_id > account_account.id
+Ref: account_payment_register.payment_token_id > payment_token.id
+Ref: account_payment_register.source_currency_id > res_currency.id
+
+
+
+Table account_payment_register_move_line_rel {
+  wizard_id integer [not null]
+  line_id integer [not null]
+}
+
+Ref: account_payment_register_move_line_rel.line_id > account_move_line.id
+Ref: account_payment_register_move_line_rel.wizard_id > account_payment_register.id
+
+
+Table account_payment_term {
+  id integer [primary key]
+  company_id integer
+  sequence integer [not null]
+  create_uid integer
+  write_uid integer
+  name jsonb [not null]
+  note jsonb
+  active boolean
+  display_on_invoice boolean
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_payment_term.company_id > res_company.id
+Ref: account_payment_term.create_uid > res_users.id
+Ref: account_payment_term.write_uid > res_users.id
+
+
+
+Table account_payment_term_line {
+  id integer [primary key]
+  months integer [not null]
+  days integer [not null]
+  days_after integer
+  discount_days integer
+  payment_id integer [not null]
+  create_uid integer
+  write_uid integer
+  value character 
+  value_amount numeric
+  end_month boolean
+  create_date timestamp
+  write_date timestamp
+  discount_percentage double 
+}
+
+Ref: account_payment_term_line.create_uid > res_users.id
+Ref: account_payment_term_line.payment_id > account_payment_term.id
+Ref: account_payment_term_line.write_uid > res_users.id
+
+Table account_reconcile_model {
+  id integer [primary key]
+  message_main_attachment_id integer
+  sequence integer [not null]
+  company_id integer [not null]
+  past_months_limit integer
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  rule_type character  [not null]
+  matching_order character  [not null]
+  match_nature character  [not null]
+  match_amount character 
+  match_label character 
+  match_label_param character 
+  match_note character 
+  match_note_param character 
+  match_transaction_type character 
+  match_transaction_type_param character 
+  payment_tolerance_type character  [not null]
+  decimal_separator character 
+  active boolean
+  auto_reconcile boolean
+  to_check boolean
+  match_text_location_label boolean
+  match_text_location_note boolean
+  match_text_location_reference boolean
+  match_same_currency boolean
+  allow_payment_tolerance boolean
+  match_partner boolean
+  create_date timestamp
+  write_date timestamp
+  match_amount_min double 
+  match_amount_max double 
+  payment_tolerance_param double 
+}
+
+Ref: account_reconcile_model.create_uid > res_users.id
+Ref: account_reconcile_model.write_uid > res_users.id
+Ref: account_reconcile_model.company_id > res_company.id
+Ref: account_reconcile_model.message_main_attachment_id > ir_attachment.id
+
+
+Table account_reconcile_model_line {
+  id integer [primary key]
+  model_id integer
+  company_id integer
+  sequence integer [not null]
+  account_id integer [not null]
+  journal_id integer
+  create_uid integer
+  write_uid integer
+  label character 
+  amount_type character  [not null]
+  amount_string character  [not null]
+  analytic_distribution jsonb
+  force_tax_included boolean
+  create_date timestamp
+  write_date timestamp
+  amount double 
+}
+
+Ref: account_reconcile_model_line.model_id > account_reconcile_model.id
+Ref: account_reconcile_model_line.account_id > account_account.id
+Ref: account_reconcile_model_line.company_id > res_company.id
+Ref: account_reconcile_model_line.journal_id > account_journal.id
+Ref: account_reconcile_model_line.create_uid > res_users.id
+Ref: account_reconcile_model_line.write_uid > res_users.id
+
+Table account_reconcile_model_line_account_tax_rel {
+   account_reconcile_model_line_id integer 
+   account_tax_id integer 
+}
+
+Ref: account_reconcile_model_line_account_tax_rel.account_reconcile_model_line_id > account_reconcile_model_line.id
+Ref: account_reconcile_model_line_account_tax_rel.account_tax_id > account_tax.id
+
+
+Table account_reconcile_model_line_template {
+   id integer [primary key]
+   model_id integer 
+   sequence integer 
+   account_id integer 
+   create_uid integer 
+   write_uid integer 
+   label character  
+   amount_type character  
+   amount_string character  
+   force_tax_included boolean 
+   create_date timestamp 
+   write_date timestamp
+}
+
+Ref: account_reconcile_model_line_template.account_id > account_account_template.id
+Ref: account_reconcile_model_line_template.create_uid > res_users.id
+Ref: account_reconcile_model_line_template.model_id > account_reconcile_model_template.id
+Ref: account_reconcile_model_line_template.write_uid > res_users.id
+
+Table account_reconcile_model_line_template_account_tax_template_rel {
+   account_reconcile_model_line_template_id integer 
+   account_tax_template_id integer 
+}
+
+Ref: account_reconcile_model_line_template_account_tax_template_rel.account_reconcile_model_line_template_id > account_reconcile_model_line_template.id
+Ref: account_reconcile_model_line_template_account_tax_template_rel.account_tax_template_id > account_tax_template.id
+
+
+Table account_reconcile_model_partner_mapping {
+   id integer [primary key]
+   model_id integer 
+   partner_id integer 
+   create_uid integer 
+   write_uid integer 
+   payment_ref_regex character  
+   narration_regex character  
+   create_date timestamp 
+   write_date timestamp
+}
+
+Ref: account_reconcile_model_partner_mapping.create_uid > res_users.id
+Ref: account_reconcile_model_partner_mapping.model_id > account_reconcile_model.id
+Ref: account_reconcile_model_partner_mapping.partner_id > res_partner.id
+Ref: account_reconcile_model_partner_mapping.write_uid > res_users.id
+
+Table account_reconcile_model_res_partner_category_rel {
+   account_reconcile_model_id integer 
+   res_partner_category_id integer 
+}
+
+Ref: account_reconcile_model_res_partner_category_rel.account_reconcile_model_id > account_reconcile_model.id
+Ref: account_reconcile_model_res_partner_category_rel.res_partner_category_id > res_partner_category.id
+
+Table account_reconcile_model_res_partner_rel {
+   account_reconcile_model_id integer 
+   res_partner_id integer 
+}
+
+Ref: account_reconcile_model_res_partner_rel.account_reconcile_model_id > account_reconcile_model.id
+Ref: account_reconcile_model_res_partner_rel.res_partner_id > res_partner.id
+
+Table account_reconcile_model_template {
+   id integer [primary key]
+   chart_template_id integer 
+   sequence integer 
+   create_uid integer 
+   write_uid integer 
+   name character  
+   rule_type character  
+   matching_order character  
+   match_nature character  
+   match_amount character  
+   match_label character  
+   match_label_param character  
+   match_note character  
+   match_note_param character  
+   match_transaction_type character  
+   match_transaction_type_param character  
+   payment_tolerance_type character  
+   decimal_separator character  
+   auto_reconcile boolean 
+   to_check boolean 
+   match_text_location_label boolean 
+   match_text_location_note boolean 
+   match_text_location_reference boolean 
+   match_same_currency boolean 
+   allow_payment_tolerance boolean 
+   match_partner boolean 
+   create_date timestamp 
+   write_date timestamp 
+   match_amount_min double  
+   match_amount_max double  
+   payment_tolerance_param double  
+}
+
+Ref: account_reconcile_model_template.chart_template_id > account_chart_template.id
+Ref: account_reconcile_model_template.create_uid > res_users.id
+Ref: account_reconcile_model_template.write_uid > res_users.id
+
+
+
+Table account_reconcile_model_template_res_partner_category_rel {
+   account_reconcile_model_template_id integer 
+   res_partner_category_id integer 
+}
+
+Ref: account_reconcile_model_template_res_partner_category_rel.account_reconcile_model_template_id > account_reconcile_model_template.id
+Ref: account_reconcile_model_template_res_partner_category_rel.res_partner_category_id > res_partner_category.id
+
+Table account_reconcile_model_template_res_partner_rel {
+   account_reconcile_model_template_id integer 
+   res_partner_id integer 
+}
+
+Ref: account_reconcile_model_template_res_partner_rel.account_reconcile_model_template_id > account_reconcile_model_template.id
+Ref: account_reconcile_model_template_res_partner_rel.res_partner_id > res_partner.id
+
+Table account_report {
+   id integer [primary key]
+   root_report_id integer 
+   chart_template_id integer 
+   country_id integer 
+   load_more_limit integer 
+   create_uid integer 
+   write_uid integer 
+   availability_condition character  
+   default_opening_date_filter character  
+   filter_multi_company character  
+   filter_hierarchy character  
+   name jsonb [not null]
+   only_tax_exigible boolean 
+   search_bar boolean 
+   filter_date_range boolean 
+   filter_show_draft boolean 
+   filter_unreconciled boolean 
+   filter_unfold_all boolean 
+   filter_period_comparison boolean 
+   filter_growth_comparison boolean 
+   filter_journals boolean 
+   filter_analytic boolean 
+   filter_account_type boolean 
+   filter_partner boolean 
+   filter_fiscal_position boolean 
+   create_date timestamp 
+   write_date timestamp 
+}
+
+Ref: account_report.chart_template_id > account_chart_template.id
+Ref: account_report.country_id > res_country.id
+Ref: account_report.create_uid > res_users.id
+Ref: account_report.root_report_id > account_report.id
+Ref: account_report.write_uid > res_users.id
+
+
+Table account_report_column {
+   id integer [primary key]
+   sequence integer 
+   report_id integer 
+   custom_audit_action_id integer 
+   create_uid integer 
+   write_uid integer 
+   expression_label character  [not null] 
+   figure_type character  [not null] 
+   name jsonb [not null] 
+   sortable boolean 
+   blank_if_zero boolean 
+   create_date timestamp 
+   write_date timestamp 
+}
+
+Ref: account_report_column.create_uid > res_users.id
+Ref: account_report_column.custom_audit_action_id > ir_act_window.id
+Ref: account_report_column.report_id > account_report.id
+Ref: account_report_column.write_uid > res_users.id
+
+
+
+
+
+Table account_report_expression {
+  id integer [primary key]
+  report_line_id integer [not null]
+  create_uid integer
+  write_uid integer
+  label character  [not null]
+  engine character  [not null]
+  formula character  [not null]
+  subformula character 
+  date_scope character  [not null]
+  figure_type character 
+  carryover_target character 
+  green_on_positive boolean
+  blank_if_zero boolean
+  auditable boolean
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_report_expression.create_uid > res_users.id
+Ref: account_report_expression.report_line_id > account_report_line.id
+Ref: account_report_expression.write_uid > res_users.id
+
+
+Table account_report_external_value {
+  id integer [primary key]
+  target_report_expression_id integer [not null]
+  company_id integer [not null]
+  foreign_vat_fiscal_position_id integer
+  carryover_origin_report_line_id integer
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  carryover_origin_expression_label character 
+  date date [not null]
+  create_date timestamp
+  write_date timestamp
+  value double  [not null]
+}
+
+Ref: account_report_external_value.carryover_origin_report_line_id > account_report_line.id
+Ref: account_report_external_value.company_id > res_company.id
+Ref: account_report_external_value.create_uid > res_users.id
+Ref: account_report_external_value.foreign_vat_fiscal_position_id > account_fiscal_position.id
+Ref: account_report_external_value.target_report_expression_id > account_report_expression.id
+Ref: account_report_external_value.write_uid > res_users.id
+
+
+Table account_report_line {
+  id integer [primary key]
+  report_id integer [not null]
+  hierarchy_level integer [not null]
+  parent_id integer
+  sequence integer
+  action_id integer
+  create_uid integer
+  write_uid integer
+  groupby character 
+  code character  [unique, not null]
+  name jsonb [not null]
+  foldable boolean
+  print_on_new_page boolean
+  hide_if_zero boolean
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_report_line.create_uid > res_users.id
+Ref: account_report_line.parent_id > account_report_line.id
+Ref: account_report_line.report_id > account_report.id
+Ref: account_report_line.write_uid > res_users.id
+
+
+
+Table account_resequence_wizard {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  first_name character  [not null]
+  ordering character  [not null]
+  first_date date
+  end_date date
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_resequence_wizard.create_uid > res_users.id
+Ref: account_resequence_wizard.write_uid > res_users.id
+
+
+Table account_setup_bank_manual_config {
+  id integer [primary key]
+  res_partner_bank_id integer [not null]
+  num_journals_without_account integer
+  create_uid integer
+  write_uid integer
+  new_journal_name character [not null]
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: account_setup_bank_manual_config.create_uid > res_users.id
+Ref: account_setup_bank_manual_config.write_uid > res_users.id
+Ref: account_setup_bank_manual_config.res_partner_bank_id > res_partner_bank.id
+
+Table account_tax {
+   id integer [primary key]
+   company_id integer 
+   sequence integer 
+   tax_group_id integer 
+   cash_basis_transition_account_id integer 
+   country_id integer 
+   create_uid integer 
+   write_uid integer 
+   name character  
+   type_tax_use character  
+   tax_scope character  
+   amount_type character  
+   description character  
+   tax_exigibility character  
+   amount numeric 
+   active boolean 
+   price_include boolean 
+   include_base_amount boolean 
+   is_base_affected boolean 
+   analytic boolean 
+   create_date timestamp 
+   write_date timestamp 
+   real_amount double 
+}
+
+Ref: account_tax.company_id > res_company.id
+Ref: account_tax.cash_basis_transition_account_id > account_account.id
+Ref: account_tax.country_id > res_country.id
+Ref: account_tax.create_uid > res_users.id
+Ref: account_tax.tax_group_id > account_tax_group.id
+Ref: account_tax.write_uid > res_users.id
+
+Table account_tax_filiation_rel {
+  parent_tax integer [primary key]
+  child_tax integer [primary key]
+}
+
+Ref: account_tax_filiation_rel.child_tax > account_tax.id
+Ref: account_tax_filiation_rel.parent_tax > account_tax.id
+
+Table account_tax_group {
+  id integer [primary key]
+  sequence integer
+  country_id integer
+  create_uid integer
+  write_uid integer
+  preceding_subtotal varchar 
+  name jsonb [not null]
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: account_tax_group.country_id > res_country.id
+Ref: account_tax_group.create_uid > res_users.id
+Ref: account_tax_group.write_uid > res_users.id
+
+Table account_tax_purchase_order_line_rel {
+  purchase_order_line_id integer [primary key]
+  account_tax_id integer [primary key]
+}
+
+Ref: account_tax_purchase_order_line_rel.account_tax_id > account_tax.id
+Ref: account_tax_purchase_order_line_rel.purchase_order_line_id > purchase_order_line.id
+
+
+Table account_tax_rep_template_minus {
+  account_tax_repartition_line_template_id integer [primary key]
+  account_report_expression_id integer [primary key]
+}
+
+Ref: account_tax_rep_template_minus.account_report_expression_id > account_report_expression.id
+Ref: account_tax_rep_template_minus.account_tax_repartition_line_template_id > account_tax_repartition_line_template.id
+
+
+Table account_tax_rep_template_plus {
+  account_tax_repartition_line_template_id integer [primary key]
+  account_report_expression_id integer [primary key]
+}
+
+Ref: account_tax_rep_template_plus.account_report_expression_id > account_report_expression.id
+Ref: account_tax_rep_template_plus.account_tax_repartition_line_template_id > account_tax_repartition_line_template.id
+
+Table account_tax_repartition_financial_tags {
+  account_tax_repartition_line_template_id integer [primary key]
+  account_account_tag_id integer [primary key]
+}
+
+Ref: account_tax_repartition_financial_tags.account_tax_repartition_line_template_id > account_tax_repartition_line_template.id
+Ref: account_tax_repartition_financial_tags.account_account_tag_id > account_account_tag.id
+
+Table account_tax_repartition_line {
+  id integer [primary key]
+  account_id integer 
+  invoice_tax_id integer 
+  refund_tax_id integer 
+  company_id integer 
+  sequence integer 
+  create_uid integer 
+  write_uid integer 
+  repartition_type varchar [not null] 
+  use_in_tax_closing boolean 
+  create_date timestamp 
+  write_date timestamp 
+  factor_percent double [not null]
+}
+
+Ref: account_tax_repartition_line.account_id > account_account.id
+Ref: account_tax_repartition_line.company_id > res_company.id
+Ref: account_tax_repartition_line.create_uid > res_users.id
+Ref: account_tax_repartition_line.invoice_tax_id > account_tax.id
+Ref: account_tax_repartition_line.refund_tax_id > account_tax.id
+Ref: account_tax_repartition_line.write_uid > res_users.id
+
+Table account_tax_repartition_line_template {
+  id integer [primary key]
+  account_id integer 
+  invoice_tax_id integer 
+  refund_tax_id integer 
+  create_uid integer 
+  write_uid integer 
+  repartition_type varchar [not null] 
+  use_in_tax_closing boolean 
+  create_date timestamp 
+  write_date timestamp 
+  factor_percent double [not null]
+}
+
+Ref: account_tax_repartition_line_template.account_id > account_account_template.id
+Ref: account_tax_repartition_line_template.create_uid > res_users.id
+Ref: account_tax_repartition_line_template.invoice_tax_id > account_tax_template.id
+Ref: account_tax_repartition_line_template.refund_tax_id > account_tax_template.id
+Ref: account_tax_repartition_line_template.write_uid > res_users.id
+
+
+Table account_tax_sale_advance_payment_inv_rel {
+  sale_advance_payment_inv_id integer [primary key]
+  account_tax_id integer [primary key]
+}
+
+Ref: account_tax_sale_advance_payment_inv_rel.sale_advance_payment_inv_id > sale_advance_payment_inv.id
+Ref: account_tax_sale_advance_payment_inv_rel.account_tax_id > account_tax.id
+
+
+Table account_tax_sale_order_line_rel {
+  sale_order_line_id integer [primary key]
+  account_tax_id integer [primary key]
+}
+
+Ref: account_tax_sale_order_line_rel.account_tax_id > account_tax.id
+Ref: account_tax_sale_order_line_rel.sale_order_line_id > sale_order_line.id
+
+
+Table account_tax_template {
+  id integer [primary key]
+  chart_template_id integer [not null]
+  sequence integer [not null]
+  tax_group_id integer 
+  cash_basis_transition_account_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null] 
+  type_tax_use varchar [not null] 
+  tax_scope varchar 
+  amount_type varchar [not null] 
+  description varchar 
+  tax_exigibility varchar 
+  amount numeric [not null] 
+  active boolean 
+  price_include boolean 
+  include_base_amount boolean 
+  is_base_affected boolean 
+  analytic boolean 
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: account_tax_template.cash_basis_transition_account_id > account_account_template.id
+Ref: account_tax_template.chart_template_id > account_chart_template.id
+Ref: account_tax_template.create_uid > res_users.id
+Ref: account_tax_template.tax_group_id > account_tax_group.id
+Ref: account_tax_template.write_uid > res_users.id
+
+Table account_tax_template_filiation_rel {
+  parent_tax integer [primary key]
+  child_tax integer [primary key]
+}
+
+Ref: account_tax_template_filiation_rel.child_tax > account_tax_template.id
+Ref: account_tax_template_filiation_rel.parent_tax > account_tax_template.id
+
+Table account_tour_upload_bill {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  selection varchar 
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: account_tour_upload_bill.create_uid > res_users.id
+Ref: account_tour_upload_bill.write_uid > res_users.id
+
+Table account_tour_upload_bill_email_confirm {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  email_alias varchar 
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: account_tour_upload_bill_email_confirm.create_uid > res_users.id
+Ref: account_tour_upload_bill_email_confirm.write_uid > res_users.id
+
+Table account_tour_upload_bill_ir_attachments_rel {
+  account_tour_upload_bill_id integer [primary key]
+  ir_attachment_id integer [primary key]
+}
+
+Ref: account_tour_upload_bill_ir_attachments_rel.account_tour_upload_bill_id > account_tour_upload_bill.id
+Ref: account_tour_upload_bill_ir_attachments_rel.ir_attachment_id > ir_attachment.id
+
+Table account_unreconcile {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: account_unreconcile.create_uid > res_users.id
+Ref: account_unreconcile.write_uid > res_users.id
+
+
+Table auth_totp_device {
+  id integer [primary key]
+  name varchar [not null]
+  user_id integer [not null]
+  scope varchar 
+  index varchar(8)
+  key varchar 
+  create_date timestamp
+}
+
+Ref: auth_totp_device.user_id > res_users.id
+
+
+Table auth_totp_wizard {
+  id integer [primary key]
+  user_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  secret varchar [not null] 
+  url varchar 
+  code varchar(7) 
+  create_date timestamp 
+  write_date timestamp 
+  qrcode bytea
+}
+
+Ref: auth_totp_wizard.create_uid > res_users.id
+Ref: auth_totp_wizard.user_id > res_users.id
+Ref: auth_totp_wizard.write_uid > res_users.id
+
+
+
+
+
+table crm_team {
+  id integer
+}
+
+Table ir_act_window {
+  id integer
+}
+
+Table ir_attachment {
+  id integer
+}
+
+
+table ir_sequence {
+  id integer
+
+}
+
+
+
+table mail_activity_type {
+  id integer
+}
+table mail_alias{
+  id integer
+}
+table mail_compose_message{
+  id integer
+}
+
+table mail_template{
+  id integer
+}
+
+Table payment_provider {
+  id integer
+}
+
+
+Table payment_token {
+  id integer
+}
+
+
+table payment_transaction{
+  id integer
+}
+
+table product_category{
+  id integer
+}
+
+table product_product {
+  id integer
+}
+
+Table product_template {
+  id integer
+}
+
+Table purchase_order {
+  id integer
+}
+
+Table purchase_order_line {
+  id integer
+}
+
+Table res_company {
+  id integer
+}
+
+
+Table res_country {
+  id integer
+}
+
+
+table res_country_group {
+  id integer
+}
+
+table res_country_state {
+  id integer
+}
+
+Table res_currency {
+  id integer
+}
+
+Table res_partner {
+  id integer
+}
+table res_partner_bank{
+  id integer
+}
+table res_partner_category{
+  id integer
+}
+
+Table res_users {
+  id integer
+}
+
+Table sale_advance_payment_inv {
+  id integer
+}
+
+Table sale_order_line {
+  id integer
+}
+
+table stock_move {
+  id integer
+}
+
+Table uom_uom {
+  id integer
+}
+
+
+Table utm_campaign {
+  id integer
+}
+
+Table utm_medium {
+  id integer
+}
+
+Table utm_source {
+  id integer
+}

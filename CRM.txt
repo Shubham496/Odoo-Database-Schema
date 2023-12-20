@@ -1,0 +1,560 @@
+Table crm_convert_lead_mass_lead_rel {
+  crm_lead2opportunity_partner_mass_id integer [primary key]
+  crm_lead_id integer [primary key]
+}
+
+Ref: crm_convert_lead_mass_lead_rel.crm_lead2opportunity_partner_mass_id > crm_lead2opportunity_partner_mass.id
+Ref: crm_convert_lead_mass_lead_rel.crm_lead_id > crm_lead.id
+
+Table crm_iap_lead_helpers {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_iap_lead_helpers.create_uid > res_users.id
+Ref: crm_iap_lead_helpers.write_uid > res_users.id
+
+Table crm_iap_lead_industry {
+  id integer [primary key]
+  color integer
+  sequence integer
+  create_uid integer
+  write_uid integer
+  reveal_ids varchar [not null]
+  name jsonb [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_iap_lead_industry.create_uid > res_users.id
+Ref: crm_iap_lead_industry.write_uid > res_users.id
+
+Table crm_iap_lead_industry_crm_iap_lead_mining_request_rel {
+  crm_iap_lead_mining_request_id integer [not null]
+  crm_iap_lead_industry_id integer [not null]
+}
+
+Ref: crm_iap_lead_industry_crm_iap_lead_mining_request_rel.crm_iap_lead_mining_request_id > crm_iap_lead_mining_request.id
+Ref: crm_iap_lead_industry_crm_iap_lead_mining_request_rel.crm_iap_lead_industry_id > crm_iap_lead_industry.id
+
+Table crm_iap_lead_mining_request {
+  id integer [primary key]
+  lead_number integer 
+  team_id integer
+  user_id integer
+  company_size_min integer
+  company_size_max integer
+  contact_number integer
+  preferred_role_id integer
+  seniority_id integer
+  create_uid integer
+  write_uid integer
+  name character  
+  state character  
+  search_type character  
+  error_type character  
+  lead_type character  
+  contact_filter_type character  
+  filter_on_size boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_iap_lead_mining_request.create_uid > res_users.id
+Ref: crm_iap_lead_mining_request.preferred_role_id > crm_iap_lead_role.id
+Ref: crm_iap_lead_mining_request.seniority_id > crm_iap_lead_seniority.id
+Ref: crm_iap_lead_mining_request.team_id > crm_team.id
+Ref: crm_iap_lead_mining_request.user_id > res_users.id
+Ref: crm_iap_lead_mining_request.write_uid > res_users.id
+
+Table crm_iap_lead_mining_request_crm_iap_lead_role_rel {
+  crm_iap_lead_mining_request_id integer
+  crm_iap_lead_role_id integer
+}
+
+Ref: crm_iap_lead_mining_request_crm_iap_lead_role_rel.crm_iap_lead_mining_request_id > crm_iap_lead_mining_request.id
+Ref: crm_iap_lead_mining_request_crm_iap_lead_role_rel.crm_iap_lead_role_id > crm_iap_lead_role.id
+
+Table crm_iap_lead_mining_request_crm_tag_rel {
+  crm_iap_lead_mining_request_id integer
+  crm_tag_id integer
+}
+
+Ref: crm_iap_lead_mining_request_crm_tag_rel.crm_iap_lead_mining_request_id > crm_iap_lead_mining_request.id
+Ref: crm_iap_lead_mining_request_crm_tag_rel.crm_tag_id > crm_tag.id
+
+Table crm_iap_lead_mining_request_res_country_rel {
+  crm_iap_lead_mining_request_id integer
+  res_country_id integer
+}
+
+Ref: crm_iap_lead_mining_request_res_country_rel.crm_iap_lead_mining_request_id > crm_iap_lead_mining_request.id
+Ref: crm_iap_lead_mining_request_res_country_rel.res_country_id > res_country.id
+
+Table crm_iap_lead_mining_request_res_country_state_rel {
+  crm_iap_lead_mining_request_id integer
+  res_country_state_id integer
+}
+
+Ref: crm_iap_lead_mining_request_res_country_state_rel.crm_iap_lead_mining_request_id > crm_iap_lead_mining_request.id
+Ref: crm_iap_lead_mining_request_res_country_state_rel.res_country_state_id > res_country_state.id
+
+Table crm_iap_lead_role {
+  id integer [primary key]
+  color integer
+  create_uid integer
+  write_uid integer
+  reveal_id varchar [not null]
+  name jsonb [not null, unique]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_iap_lead_role.create_uid > res_users.id
+Ref: crm_iap_lead_role.write_uid > res_users.id
+
+Table crm_iap_lead_seniority {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  reveal_id varchar [not null]
+  name jsonb [not null, unique]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_iap_lead_seniority.create_uid > res_users.id
+Ref: crm_iap_lead_seniority.write_uid > res_users.id
+
+Table crm_lead {
+  id integer [primary key]
+  campaign_id integer
+  source_id integer
+  medium_id integer
+  message_main_attachment_id integer
+  message_bounce integer
+  user_id integer
+  team_id integer
+  company_id integer
+  stage_id integer
+  color integer
+  recurring_plan integer
+  partner_id integer
+  title integer
+  lang_id integer
+  state_id integer
+  country_id integer
+  lost_reason_id integer
+  create_uid integer
+  write_uid integer
+  phone_sanitized varchar
+  email_normalized varchar
+  email_cc varchar
+  name varchar [not null]
+  referred varchar
+  type varchar [not null]
+  priority varchar
+  contact_name varchar
+  partner_name varchar
+  function varchar
+  email_from varchar
+  phone varchar
+  mobile varchar
+  phone_state varchar
+  email_state varchar
+  website varchar
+  street varchar
+  street2 varchar
+  zip varchar
+  city varchar
+  date_deadline date
+  lead_properties jsonb
+  description text
+  expected_revenue numeric
+  prorated_revenue numeric
+  recurring_revenue numeric
+  recurring_revenue_monthly numeric
+  recurring_revenue_monthly_prorated numeric
+  active boolean
+  date_closed timestamp
+  date_action_last timestamp
+  date_open timestamp
+  date_last_stage_update timestamp
+  date_conversion timestamp
+  create_date timestamp
+  write_date timestamp
+  day_open double 
+  day_close double 
+  probability double 
+  automated_probability double 
+  reveal_id varchar
+  iap_enrich_done boolean
+  lead_mining_request_id integer
+}
+
+Ref: crm_lead.campaign_id > utm_campaign.id
+Ref: crm_lead.company_id > res_company.id
+Ref: crm_lead.country_id > res_country.id
+Ref: crm_lead.create_uid > res_users.id
+Ref: crm_lead.lang_id > res_lang.id
+Ref: crm_lead.lead_mining_request_id > crm_iap_lead_mining_request.id
+Ref: crm_lead.lost_reason_id > crm_lost_reason.id
+Ref: crm_lead.medium_id > utm_medium.id
+Ref: crm_lead.message_main_attachment_id > ir_attachment.id
+Ref: crm_lead.partner_id > res_partner.id
+Ref: crm_lead.recurring_plan > crm_recurring_plan.id
+Ref: crm_lead.source_id > utm_source.id
+Ref: crm_lead.stage_id > crm_stage.id
+Ref: crm_lead.state_id > res_country_state.id
+Ref: crm_lead.team_id > crm_team.id
+Ref: crm_lead.title > res_partner_title.id
+Ref: crm_lead.user_id > res_users.id
+Ref: crm_lead.write_uid > res_users.id
+
+Table crm_lead2opportunity_partner {
+  id integer [primary key]
+  lead_id integer [not null]
+  partner_id integer
+  user_id integer
+  team_id integer
+  create_uid integer
+  write_uid integer
+  name varchar 
+  action varchar 
+  force_assignment boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lead2opportunity_partner.create_uid > res_users.id
+Ref: crm_lead2opportunity_partner.lead_id > crm_lead.id
+Ref: crm_lead2opportunity_partner.partner_id > res_partner.id
+Ref: crm_lead2opportunity_partner.team_id > crm_team.id
+Ref: crm_lead2opportunity_partner.user_id > res_users.id
+Ref: crm_lead2opportunity_partner.write_uid > res_users.id
+
+Table crm_lead2opportunity_partner_mass {
+  id integer [primary key]
+  lead_id integer
+  partner_id integer
+  user_id integer
+  team_id integer
+  create_uid integer
+  write_uid integer
+  name varchar 
+  action varchar 
+  force_assignment boolean
+  deduplicate boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lead2opportunity_partner_mass.create_uid > res_users.id
+Ref: crm_lead2opportunity_partner_mass.lead_id > crm_lead.id
+Ref: crm_lead2opportunity_partner_mass.partner_id > res_partner.id
+Ref: crm_lead2opportunity_partner_mass.team_id > crm_team.id
+Ref: crm_lead2opportunity_partner_mass.user_id > res_users.id
+Ref: crm_lead2opportunity_partner_mass.write_uid > res_users.id
+
+Table crm_lead2opportunity_partner_mass_res_users_rel {
+  crm_lead2opportunity_partner_mass_id integer
+  res_users_id integer
+}
+
+Ref: crm_lead2opportunity_partner_mass_res_users_rel.crm_lead2opportunity_partner_mass_id > crm_lead2opportunity_partner_mass.id
+Ref: crm_lead2opportunity_partner_mass_res_users_rel.res_users_id > res_users.id
+
+Table crm_lead_crm_lead2opportunity_partner_mass_rel {
+  crm_lead2opportunity_partner_mass_id integer
+  crm_lead_id integer
+}
+
+Ref: crm_lead_crm_lead2opportunity_partner_mass_rel.crm_lead2opportunity_partner_mass_id > crm_lead2opportunity_partner_mass.id
+Ref: crm_lead_crm_lead2opportunity_partner_mass_rel.crm_lead_id > crm_lead.id
+
+Table crm_lead_crm_lead2opportunity_partner_rel {
+  crm_lead2opportunity_partner_id integer
+  crm_lead_id integer
+}
+
+Ref: crm_lead_crm_lead2opportunity_partner_rel.crm_lead2opportunity_partner_id > crm_lead2opportunity_partner.id
+Ref: crm_lead_crm_lead2opportunity_partner_rel.crm_lead_id > crm_lead.id
+
+Table crm_lead_lost {
+  id integer [primary key]
+  lost_reason_id integer
+  create_uid integer
+  write_uid integer
+  lost_feedback text 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lead_lost.create_uid > res_users.id
+Ref: crm_lead_lost.lost_reason_id > crm_lost_reason.id
+Ref: crm_lead_lost.write_uid > res_users.id
+
+Table crm_lead_pls_update {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  pls_start_date date [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lead_pls_update.create_uid > res_users.id
+Ref: crm_lead_pls_update.write_uid > res_users.id
+
+Table crm_lead_pls_update_crm_lead_scoring_frequency_field_rel {
+  crm_lead_pls_update_id integer
+  crm_lead_scoring_frequency_field_id integer
+}
+
+Ref: crm_lead_pls_update_crm_lead_scoring_frequency_field_rel.crm_lead_pls_update_id > crm_lead_pls_update.id
+Ref: crm_lead_pls_update_crm_lead_scoring_frequency_field_rel.crm_lead_scoring_frequency_field_id > crm_lead_scoring_frequency_field.id
+
+Table crm_lead_scoring_frequency {
+  id integer [primary key]
+  team_id integer
+  create_uid integer
+  write_uid integer
+  variable varchar
+  value varchar
+  won_count numeric
+  lost_count numeric
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lead_scoring_frequency.create_uid > res_users.id
+Ref: crm_lead_scoring_frequency.write_uid > res_users.id
+Ref: crm_lead_scoring_frequency.team_id > crm_team.id
+
+Table crm_lead_scoring_frequency_field {
+  id integer [primary key]
+  field_id integer
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lead_scoring_frequency_field.create_uid > res_users.id
+Ref: crm_lead_scoring_frequency_field.write_uid > res_users.id
+Ref: crm_lead_scoring_frequency_field.field_id > ir_model_fields.id
+
+Table crm_lost_reason {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  name jsonb [not null]
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_lost_reason.create_uid > res_users.id
+Ref: crm_lost_reason.write_uid > res_users.id
+
+Table crm_merge_opportunity {
+  id integer [primary key]
+  user_id integer
+  team_id integer
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_merge_opportunity.create_uid > res_users.id
+Ref: crm_merge_opportunity.team_id > crm_team.id
+Ref: crm_merge_opportunity.user_id > res_users.id
+Ref: crm_merge_opportunity.write_uid > res_users.id
+
+Table crm_quotation_partner {
+  id integer [primary key]
+  lead_id integer [not null]
+  partner_id integer
+  create_uid integer
+  write_uid integer
+  action varchar [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_quotation_partner.create_uid > res_users.id
+Ref: crm_quotation_partner.lead_id > crm_lead.id
+Ref: crm_quotation_partner.partner_id > res_partner.id
+Ref: crm_quotation_partner.write_uid > res_users.id
+
+Table crm_recurring_plan {
+  id integer [primary key]
+  number_of_months integer [not null]
+  sequence integer
+  create_uid integer
+  write_uid integer
+  name jsonb [not null]
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_recurring_plan.create_uid > res_users.id
+Ref: crm_recurring_plan.write_uid > res_users.id
+
+Table crm_stage {
+  id integer [primary key]
+  sequence integer
+  team_id integer
+  create_uid integer
+  write_uid integer
+  name jsonb [not null]
+  requirements text
+  is_won boolean
+  fold boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_stage.create_uid > res_users.id
+Ref: crm_stage.team_id > crm_team.id
+Ref: crm_stage.write_uid > res_users.id
+
+Table crm_tag {
+  id integer [primary key]
+  color integer
+  create_uid integer
+  write_uid integer
+  name jsonb [not null, unique]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: crm_tag.create_uid > res_users.id
+Ref: crm_tag.write_uid > res_users.id
+
+Table crm_tag_rel {
+  lead_id integer [primary key]
+  tag_id integer [primary key]
+}
+
+Ref: crm_tag_rel.lead_id > crm_lead.id
+Ref: crm_tag_rel.tag_id > crm_tag.id
+
+Table crm_team {
+  id integer [primary key]
+  message_main_attachment_id integer
+  sequence integer
+  company_id integer
+  user_id integer
+  color integer
+  create_uid integer
+  write_uid integer
+  name jsonb [not null]
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+  alias_id integer [not null]
+  assignment_domain varchar
+  lead_properties_definition jsonb
+  use_leads boolean
+  use_opportunities boolean
+  assignment_optout boolean
+  use_quotations boolean
+  invoiced_target double 
+}
+
+Ref: crm_team.alias_id > mail_alias.id
+Ref: crm_team.company_id > res_company.id
+Ref: crm_team.create_uid > res_users.id
+Ref: crm_team.message_main_attachment_id > ir_attachment.id
+Ref: crm_team.user_id > res_users.id
+Ref: crm_team.write_uid > res_users.id
+
+
+Table crm_team_member {
+  id integer [primary key]
+  message_main_attachment_id integer
+  crm_team_id integer [not null]
+  user_id integer [not null]
+  create_uid integer
+  write_uid integer
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+  assignment_max integer
+  assignment_domain varcha
+  assignment_optout boolean
+}
+
+Ref: crm_team_member.create_uid > res_users.id
+Ref: crm_team_member.crm_team_id > crm_team.id
+Ref: crm_team_member.message_main_attachment_id > ir_attachment.id
+Ref: crm_team_member.user_id > res_users.id
+Ref: crm_team_member.write_uid > res_users.id
+
+
+
+
+
+
+
+
+
+
+
+Table res_users {
+  id integer [primary key]
+}
+
+Table res_country {
+  id integer [primary key]
+}
+
+Table res_country_state {
+  id integer [primary key]
+}
+
+Table res_company {
+  id integer [primary key]
+}
+
+Table res_lang {
+  id integer [primary key]
+}
+
+Table res_partner {
+  id integer [primary key]
+}
+
+Table res_partner_title {
+  id integer [primary key]
+}
+
+Table utm_campaign {
+  id integer [primary key]
+}
+
+Table utm_medium {
+  id integer [primary key]
+}
+
+Table utm_source {
+  id integer [primary key]
+}
+
+Table ir_attachment {
+  id integer [primary key]
+}
+
+Table ir_model_fields {
+  id integer [primary key]
+}
+
+Table mail_alias {
+  id integer [primary key]
+}

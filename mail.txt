@@ -1,0 +1,834 @@
+Table mail_activity {
+  id integer [primary key]
+  res_model_id integer 
+  res_id integer 
+  activity_type_id integer 
+  user_id integer 
+  request_partner_id integer 
+  recommended_activity_type_id integer 
+  previous_activity_type_id integer 
+  create_uid integer 
+  write_uid integer 
+  res_model character  
+  res_name character  
+  summary character  
+  date_deadline date 
+  note text 
+  automated boolean 
+  create_date timestamp 
+  write_date timestamp 
+  calendar_event_id integer 
+}
+
+Ref: mail_activity.activity_type_id > mail_activity_type.id
+Ref: mail_activity.calendar_event_id > calendar_event.id
+Ref: mail_activity.create_uid > res_users.id
+Ref: mail_activity.previous_activity_type_id > mail_activity_type.id
+Ref: mail_activity.recommended_activity_type_id > mail_activity_type.id
+Ref: mail_activity.request_partner_id > res_partner.id
+Ref: mail_activity.res_model_id > ir_model.id
+Ref: mail_activity.user_id > res_users.id
+Ref: mail_activity.write_uid > res_users.id
+
+
+Table mail_activity_rel {
+  activity_id integer [primary key]
+  recommended_id integer [primary key]
+}
+
+Ref: mail_activity_rel.activity_id > mail_activity_type.id
+Ref: mail_activity_rel.recommended_id > mail_activity_type.id
+
+
+
+
+
+Table mail_activity_type {
+  id integer [primary key]
+  sequence integer 
+  create_uid integer 
+  delay_count integer 
+  triggered_next_type_id integer 
+  default_user_id integer 
+  write_uid integer 
+  delay_unit character  
+  delay_from character  
+  icon character  
+  decoration_type character  
+  res_model character  
+  chaining_type character  
+  category character  
+  name jsonb 
+  summary jsonb 
+  default_note jsonb 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mail_activity_type.create_uid > res_users.id
+Ref: mail_activity_type.default_user_id > res_users.id
+Ref: mail_activity_type.triggered_next_type_id > mail_activity_type.id
+Ref: mail_activity_type.write_uid > res_users.id
+
+
+Table mail_activity_type_mail_template_rel {
+  mail_activity_type_id integer [primary key]
+  mail_template_id integer [primary key]
+}
+
+Ref: mail_activity_type_mail_template_rel.mail_activity_type_id > mail_activity_type.id
+Ref: mail_activity_type_mail_template_rel.mail_template_id > mail_template.id
+
+
+
+Table mail_alias {
+  id integer [primary key]
+  alias_model_id integer 
+  alias_user_id integer 
+  alias_force_thread_id integer 
+  alias_parent_model_id integer 
+  alias_parent_thread_id integer 
+  create_uid integer 
+  write_uid integer 
+  alias_name character  
+  alias_contact character  
+  alias_bounced_content jsonb 
+  alias_defaults text 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mail_alias.alias_model_id > ir_model.id
+Ref: mail_alias.alias_parent_model_id > ir_model.id
+Ref: mail_alias.alias_user_id > res_users.id
+Ref: mail_alias.create_uid > res_users.id
+Ref: mail_alias.write_uid > res_users.id
+
+
+
+Table mail_blacklist {
+  id integer [primary key]
+  message_main_attachment_id integer 
+  create_uid integer 
+  write_uid integer 
+  email character  
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mail_blacklist.create_uid > res_users.id
+Ref: mail_blacklist.message_main_attachment_id > ir_attachment.id
+Ref: mail_blacklist.write_uid > res_users.id
+
+
+
+
+Table mail_blacklist_remove {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  email character  
+  reason character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mail_blacklist_remove.create_uid > res_users.id
+Ref: mail_blacklist_remove.write_uid > res_users.id
+
+
+
+
+Table mail_channel {
+  id integer [primary key]
+  message_main_attachment_id integer 
+  group_public_id integer 
+  create_uid integer 
+  write_uid integer 
+  name character  
+  channel_type character  
+  default_display_mode character  
+  uuid character (50) 
+  description text 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mail_channel.create_uid > res_users.id
+Ref: mail_channel.group_public_id > res_groups.id
+Ref: mail_channel.message_main_attachment_id > ir_attachment.id
+Ref: mail_channel.write_uid > res_users.id
+
+
+
+
+Table mail_channel_member {
+  id integer [primary key]
+  partner_id integer 
+  guest_id integer 
+  channel_id integer [not null]
+  fetched_message_id integer 
+  seen_message_id integer 
+  rtc_inviting_session_id integer 
+  create_uid integer 
+  write_uid integer 
+  custom_channel_name character  
+  fold_state character  
+  is_minimized boolean 
+  is_pinned boolean 
+  last_interest_dt timestamp 
+  last_seen_dt timestamp 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mail_channel_member.channel_id > mail_channel.id
+Ref: mail_channel_member.create_uid > res_users.id
+Ref: mail_channel_member.fetched_message_id > mail_message.id
+Ref: mail_channel_member.guest_id > mail_guest.id
+Ref: mail_channel_member.partner_id > res_partner.id
+Ref: mail_channel_member.rtc_inviting_session_id > mail_channel_rtc_session.id
+Ref: mail_channel_member.seen_message_id > mail_message.id
+Ref: mail_channel_member.write_uid > res_users.id
+
+
+Table mail_channel_res_groups_rel {
+  mail_channel_id integer [primary key]
+  res_groups_id integer [primary key]
+}
+
+Ref: mail_channel_res_groups_rel.mail_channel_id > mail_channel.id
+Ref: mail_channel_res_groups_rel.res_groups_id > res_groups.id
+
+
+Table mail_channel_rtc_session {
+  id integer [primary key]
+  channel_member_id integer [unique, not null]
+  channel_id integer
+  create_uid integer
+  write_uid integer
+  is_screen_sharing_on boolean
+  is_camera_on boolean
+  is_muted boolean
+  is_deaf boolean
+  write_date timestamp
+  create_date timestamp
+}
+
+Ref: mail_channel_rtc_session.channel_id > mail_channel.id
+Ref: mail_channel_rtc_session.channel_member_id > mail_channel_member.id
+Ref: mail_channel_rtc_session.create_uid > res_users.id
+Ref: mail_channel_rtc_session.write_uid > res_users.id
+
+
+
+Table mail_compose_message {
+    id integer [primary key]
+    template_id integer
+    parent_id integer
+    author_id integer
+    res_id integer
+    subtype_id integer
+    mail_activity_type_id integer
+    mail_server_id integer
+    create_uid integer
+    write_uid integer
+    lang character 
+    subject character 
+    email_layout_xmlid character 
+    email_from character 
+    composition_mode character 
+    model character 
+    record_name character 
+    message_type character  [not null]
+    reply_to character 
+    body text
+    active_domain text
+    email_add_signature boolean
+    use_active_domain boolean
+    is_log boolean
+    notify boolean
+    reply_to_force_new boolean
+    auto_delete boolean
+    auto_delete_message boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_compose_message.author_id > res_partner.id
+Ref: mail_compose_message.create_uid > res_users.id
+Ref: mail_compose_message.mail_activity_type_id > mail_activity_type.id
+Ref: mail_compose_message.mail_server_id > ir_mail_server.id
+Ref: mail_compose_message.parent_id > mail_message.id
+Ref: mail_compose_message.subtype_id > mail_message_subtype.id
+Ref: mail_compose_message.template_id > mail_template.id
+Ref: mail_compose_message.write_uid > res_users.id
+
+
+
+
+Table mail_compose_message_ir_attachments_rel {
+    wizard_id integer [primary key]
+    attachment_id integer [primary key]
+}
+
+Ref: mail_compose_message_ir_attachments_rel.attachment_id > ir_attachment.id
+Ref: mail_compose_message_ir_attachments_rel.wizard_id > mail_compose_message.id
+
+
+
+Table mail_compose_message_res_partner_rel {
+    wizard_id integer [primary key]
+    partner_id integer [primary key]
+}
+
+Ref: mail_compose_message_res_partner_rel.partner_id > res_partner.id
+Ref: mail_compose_message_res_partner_rel.wizard_id > mail_compose_message.id
+
+
+
+Table mail_followers {
+    id integer [primary key]
+    res_id integer
+    partner_id integer [not null]
+    res_model character  [not null]
+}
+
+Ref: mail_followers.partner_id > res_partner.id
+
+
+
+Table mail_followers_mail_message_subtype_rel {
+    mail_followers_id integer [primary key]
+    mail_message_subtype_id integer [primary key]
+}
+
+Ref: mail_followers_mail_message_subtype_rel.mail_message_subtype_id > mail_message_subtype.id
+Ref: mail_followers_mail_message_subtype_rel.mail_followers_id > mail_followers.id
+
+Table mail_gateway_allowed {
+    id integer [primary key]
+    create_uid integer
+    write_uid integer
+    email character 
+    email_normalized character 
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_gateway_allowed.create_uid > res_users.id
+Ref: mail_gateway_allowed.write_uid > res_users.id
+
+
+Table mail_guest {
+    id integer [primary key]
+    country_id integer
+    create_uid integer
+    write_uid integer
+    name character  [not null]
+    access_token character  [not null]
+    lang character 
+    timezone character 
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_guest.country_id > res_country.id
+Ref: mail_guest.create_uid > res_users.id
+Ref: mail_guest.write_uid > res_users.id
+
+
+Table mail_ice_server {
+    id integer [primary key]
+    create_uid integer
+    write_uid integer
+    server_type character  [not null]
+    uri character  [not null]
+    username character 
+    credential character 
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_ice_server.create_uid > res_users.id
+Ref: mail_ice_server.write_uid > res_users.id
+
+
+
+Table mail_link_preview {
+    id integer [primary key]
+    message_id integer [not null]
+    create_uid integer
+    write_uid integer
+    source_url character  [not null]
+    og_type character 
+    og_title character 
+    og_image character 
+    og_mimetype character 
+    image_mimetype character 
+    og_description text
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_link_preview.create_uid > res_users.id
+Ref: mail_link_preview.message_id > mail_message.id
+Ref: mail_link_preview.write_uid > res_users.id
+
+
+
+Table mail_mail {
+    id integer [primary key]
+    mail_message_id integer [not null]
+    fetchmail_server_id integer
+    create_uid integer
+    write_uid integer
+    email_cc character 
+    state character 
+    failure_type character 
+    body_html text
+    references text
+    headers text
+    email_to text
+    failure_reason text
+    is_notification boolean
+    auto_delete boolean
+    to_delete boolean
+    scheduled_date timestamp 
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_mail.create_uid > res_users.id
+Ref: mail_mail.fetchmail_server_id > fetchmail_server.id
+Ref: mail_mail.mail_message_id > mail_message.id
+Ref: mail_mail.write_uid > res_users.id
+
+
+
+Table mail_mail_res_partner_rel {
+    mail_mail_id integer [primary key]
+    res_partner_id integer [primary key]
+}
+
+Ref: mail_mail_res_partner_rel.mail_mail_id > mail_mail.id
+Ref: mail_mail_res_partner_rel.res_partner_id > res_partner.id
+
+
+
+
+Table mail_message {
+    id integer [primary key]
+    parent_id integer
+    res_id integer
+    subtype_id integer
+    mail_activity_type_id integer
+    author_id integer
+    author_guest_id integer
+    mail_server_id integer
+    create_uid integer
+    write_uid integer
+    subject character 
+    model character 
+    record_name character 
+    message_type character  [not null]
+    email_from character 
+    message_id character 
+    reply_to character 
+    email_layout_xmlid character 
+    body text
+    is_internal boolean
+    reply_to_force_new boolean
+    email_add_signature boolean
+    date timestamp 
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_message.author_guest_id > mail_guest.id
+Ref: mail_message.author_id > res_partner.id
+Ref: mail_message.create_uid > res_users.id
+Ref: mail_message.mail_activity_type_id > mail_activity_type.id
+Ref: mail_message.mail_server_id > ir_mail_server.id
+Ref: mail_message.parent_id > mail_message.id
+Ref: mail_message.subtype_id > mail_message_subtype.id
+Ref: mail_message.write_uid > res_users.id
+
+
+Table mail_message_reaction {
+    id integer [primary key]
+    message_id integer [not null]
+    partner_id integer
+    guest_id integer
+    content character  [not null]
+}
+
+Ref: mail_message_reaction.guest_id > mail_guest.id
+Ref: mail_message_reaction.message_id > mail_message.id
+Ref: mail_message_reaction.partner_id > res_partner.id
+
+
+
+Table mail_message_res_partner_rel {
+    mail_message_id integer [primary key]
+    res_partner_id integer [primary key]
+}
+
+Ref: mail_message_res_partner_rel.mail_message_id > mail_message.id
+Ref: mail_message_res_partner_rel.res_partner_id > res_partner.id
+
+
+
+Table mail_message_res_partner_starred_rel {
+    mail_message_id integer [primary key]
+    res_partner_id integer [primary key]
+}
+
+Ref: mail_message_res_partner_starred_rel.mail_message_id > mail_message.id
+Ref: mail_message_res_partner_starred_rel.res_partner_id > res_partner.id
+
+
+
+
+
+
+Table mail_message_subtype {
+    id integer [primary key]
+    parent_id integer
+    sequence integer
+    create_uid integer
+    write_uid integer
+    relation_field character 
+    res_model character 
+    name jsonb [not null]
+    description jsonb
+    internal boolean
+    default boolean
+    hidden boolean
+    track_recipients boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_message_subtype.create_uid > res_users.id
+Ref: mail_message_subtype.parent_id > mail_message_subtype.id
+Ref: mail_message_subtype.write_uid > res_users.id
+
+
+Table mail_notification {
+    id integer [primary key]
+    author_id integer
+    mail_message_id integer [not null]
+    mail_mail_id integer
+    res_partner_id integer
+    notification_type character  [not null]
+    notification_status character 
+    failure_type character 
+    failure_reason text
+    is_read boolean
+    read_date timestamp 
+    sms_id integer
+    sms_number character 
+    letter_id integer
+}
+
+Ref: mail_notification.author_id > res_partner.id
+Ref: mail_notification.letter_id > snailmail_letter.id
+Ref: mail_notification.mail_mail_id > mail_mail.id
+Ref: mail_notification.mail_message_id > mail_message.id
+Ref: mail_notification.res_partner_id > res_partner.id
+Ref: mail_notification.sms_id > sms_sms.id
+
+
+
+Table mail_notification_mail_resend_message_rel {
+    mail_resend_message_id integer [primary key]
+    mail_notification_id integer [primary key]
+}
+
+Ref: mail_notification_mail_resend_message_rel.mail_resend_message_id > mail_resend_message.id
+Ref: mail_notification_mail_resend_message_rel.mail_notification_id > mail_notification.id
+
+
+Table mail_resend_message {
+    id integer [primary key]
+    mail_message_id integer
+    create_uid integer
+    write_uid integer
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_resend_message.create_uid > res_users.id
+Ref: mail_resend_message.mail_message_id > mail_message.id
+Ref: mail_resend_message.write_uid > res_users.id
+
+
+
+
+Table mail_resend_partner {
+    id integer [primary key]
+    partner_id integer [not null]
+    resend_wizard_id integer
+    create_uid integer
+    write_uid integer
+    message character 
+    resend boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_resend_partner.create_uid > res_users.id
+Ref: mail_resend_partner.partner_id > res_partner.id
+Ref: mail_resend_partner.resend_wizard_id > mail_resend_message.id
+Ref: mail_resend_partner.write_uid > res_users.id
+
+
+Table mail_shortcode {
+    id integer [primary key]
+    create_uid integer
+    write_uid integer
+    source character  [not null]
+    description character 
+    substitution text [not null]
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_shortcode.create_uid > res_users.id
+Ref: mail_shortcode.write_uid > res_users.id
+
+
+
+Table mail_template {
+    id integer [primary key]
+    model_id integer
+    report_template integer
+    mail_server_id integer
+    ref_ir_act_window integer
+    create_uid integer
+    write_uid integer
+    template_fs character 
+    lang character 
+    model character 
+    email_from character 
+    email_to character 
+    partner_to character 
+    email_cc character 
+    reply_to character 
+    scheduled_date character 
+    name jsonb
+    description jsonb
+    subject jsonb
+    body_html jsonb
+    report_name jsonb
+    active boolean
+    use_default_to boolean
+    auto_delete boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_template.create_uid > res_users.id
+Ref: mail_template.mail_server_id > ir_mail_server.id
+Ref: mail_template.model_id > ir_model.id
+Ref: mail_template.ref_ir_act_window > ir_act_window.id
+Ref: mail_template.report_template > ir_act_report_xml.id
+Ref: mail_template.write_uid > res_users.id
+
+Table mail_template_mail_template_reset_rel {
+    mail_template_reset_id integer [primary key]
+    mail_template_id integer [primary key]
+}
+
+Ref: mail_template_mail_template_reset_rel.mail_template_reset_id > mail_template_reset.id
+Ref: mail_template_mail_template_reset_rel.mail_template_id > mail_template.id
+
+
+Table mail_template_preview {
+    id integer [primary key]
+    mail_template_id integer 
+    create_uid integer 
+    write_uid integer 
+    resource_ref character  
+    lang character  
+    error_msg character  
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_template_preview.create_uid > res_users.id
+Ref: mail_template_preview.mail_template_id > mail_template.id
+Ref: mail_template_preview.write_uid > res_users.id
+
+
+Table mail_template_reset {
+    id integer [primary key]
+    create_uid integer 
+    write_uid integer 
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_template_reset.create_uid > res_users.id
+Ref: mail_template_reset.write_uid > res_users.id
+
+
+Table mail_tracking_value {
+    id integer [primary key]
+    field integer [not null]
+    old_value_integer integer
+    new_value_integer integer
+    currency_id integer
+    mail_message_id integer [not null]
+    tracking_sequence integer 
+    create_uid integer 
+    write_uid integer 
+    field_desc character  [not null] 
+    field_type character  
+    old_value_char character  
+    new_value_char character  
+    old_value_text text 
+    new_value_text text 
+    old_value_datetime timestamp 
+    new_value_datetime timestamp 
+    create_date timestamp 
+    write_date timestamp 
+    old_value_float double  
+    old_value_monetary double  
+    new_value_float double  
+    new_value_monetary double  
+}
+
+Ref: mail_tracking_value.create_uid > res_users.id
+Ref: mail_tracking_value.currency_id > res_currency.id
+Ref: mail_tracking_value.field > ir_model_fields.id
+Ref: mail_tracking_value.mail_message_id > mail_message.id
+Ref: mail_tracking_value.write_uid > res_users.id
+
+
+Table mail_wizard_invite {
+    id integer [primary key]
+    res_id integer
+    create_uid integer
+    write_uid integer
+    res_model character  [not null]
+    message text
+    send_mail boolean
+    create_date timestamp 
+    write_date timestamp 
+}
+
+Ref: mail_wizard_invite.create_uid > res_users.id
+Ref: mail_wizard_invite.write_uid > res_users.id
+
+
+Table mail_wizard_invite_res_partner_rel {
+    mail_wizard_invite_id integer [not null]
+    res_partner_id integer [not null]
+    primary key (mail_wizard_invite_id, res_partner_id)
+}
+
+Ref: mail_wizard_invite_res_partner_rel.mail_wizard_invite_id > mail_wizard_invite.id
+Ref: mail_wizard_invite_res_partner_rel.res_partner_id > res_partner.id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table calendar_event {
+  id integer
+}
+
+Table fetchmail_server{
+  id integer
+}
+
+Table ir_act_report_xml{
+  id integer
+}
+
+Table ir_act_window{
+  id integer
+}
+
+
+Table ir_attachment{
+  id integer
+}
+
+Table ir_mail_server{
+  id integer
+}
+
+
+Table ir_model{
+  id integer
+}
+
+Table ir_model_fields{
+  id integer
+}
+
+
+Table res_country{
+  id integer
+}
+Table res_currency{
+  id integer
+}
+
+
+Table res_groups{
+  id integer
+}
+
+Table res_partner {
+  id integer
+}
+
+Table res_users{
+  id integer
+}
+
+Table sms_sms{
+  id integer
+}
+
+
+
+Table snailmail_letter{
+  id integer
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

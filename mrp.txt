@@ -1,0 +1,779 @@
+Table mrp_bom {
+id integer [primary key]
+  message_main_attachment_id integer 
+  product_tmpl_id integer 
+  product_id integer 
+  product_uom_id integer 
+  sequence integer 
+  picking_type_id integer 
+  company_id integer 
+  create_uid integer 
+  write_uid integer 
+  code character  
+  type character  [not null]
+  ready_to_produce character  [not null]
+  consumption character  [not null]
+  product_qty numeric [not null]
+  active boolean 
+  allow_operation_dependencies boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_bom.company_id > res_company.id
+Ref: mrp_bom.create_uid > res_users.id
+Ref: mrp_bom.message_main_attachment_id > ir_attachment.id
+Ref: mrp_bom.picking_type_id > stock_picking_type.id
+Ref: mrp_bom.product_id > product_product.id
+Ref: mrp_bom.product_tmpl_id > product_template.id
+Ref: mrp_bom.product_uom_id > uom_uom.id
+Ref: mrp_bom.write_uid > res_users.id
+
+
+Table mrp_bom_byproduct {
+id integer [primary key]
+  product_id integer [not null]
+  company_id integer 
+  product_uom_id integer [not null]
+  bom_id integer 
+  operation_id integer 
+  sequence integer 
+  create_uid integer 
+  write_uid integer 
+  product_qty numeric [not null]
+  cost_share numeric 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_bom_byproduct.bom_id > mrp_bom.id
+Ref: mrp_bom_byproduct.company_id > res_company.id
+Ref: mrp_bom_byproduct.create_uid > res_users.id
+Ref: mrp_bom_byproduct.operation_id > mrp_routing_workcenter.id
+Ref: mrp_bom_byproduct.product_id > product_product.id
+Ref: mrp_bom_byproduct.product_uom_id > uom_uom.id
+Ref: mrp_bom_byproduct.write_uid > res_users.id
+
+Table mrp_bom_byproduct_product_template_attribute_value_rel {
+mrp_bom_byproduct_id integer [not null]
+  product_template_attribute_value_id integer [not null]
+  
+  primary key(mrp_bom_byproduct_id, product_template_attribute_value_id)
+}
+
+Ref: mrp_bom_byproduct_product_template_attribute_value_rel.product_template_attribute_value_id > product_template_attribute_value.id
+Ref: mrp_bom_byproduct_product_template_attribute_value_rel.mrp_bom_byproduct_id > mrp_bom_byproduct.id
+
+
+Table mrp_bom_line {
+id integer [primary key]
+  product_id integer [not null]
+  product_tmpl_id integer 
+  company_id integer 
+  product_uom_id integer [not null]
+  sequence integer 
+  bom_id integer [not null]
+  operation_id integer 
+  create_uid integer 
+  write_uid integer 
+  product_qty numeric [not null]
+  manual_consumption boolean 
+  create_date timestamp 
+  write_date timestamp 
+  cost_share numeric 
+}
+
+Ref: mrp_bom_line.bom_id > mrp_bom.id
+Ref: mrp_bom_line.company_id > res_company.id
+Ref: mrp_bom_line.create_uid > res_users.id
+Ref: mrp_bom_line.operation_id > mrp_routing_workcenter.id
+Ref: mrp_bom_line.product_id > product_product.id
+Ref: mrp_bom_line.product_tmpl_id > product_template.id
+Ref: mrp_bom_line.product_uom_id > uom_uom.id
+Ref: mrp_bom_line.write_uid > res_users.id
+
+
+Table mrp_bom_line_product_template_attribute_value_rel {
+mrp_bom_line_id integer [not null]
+  product_template_attribute_value_id integer [not null]
+  
+  primary key(mrp_bom_line_id, product_template_attribute_value_id)
+}
+
+Ref: mrp_bom_line_product_template_attribute_value_rel.mrp_bom_line_id > mrp_bom_line.id
+Ref: mrp_bom_line_product_template_attribute_value_rel.product_template_attribute_value_id > product_template_attribute_value.id
+
+
+Table mrp_consumption_warning {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_consumption_warning.create_uid > res_users.id
+Ref: mrp_consumption_warning.write_uid > res_users.id
+
+Table mrp_consumption_warning_line {
+id integer [primary key]
+  mrp_consumption_warning_id integer [not null]
+  mrp_production_id integer [not null]
+  product_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+  product_consumed_qty_uom double  
+  product_expected_qty_uom double  
+}
+
+Ref: mrp_consumption_warning_line.create_uid > res_users.id
+Ref: mrp_consumption_warning_line.mrp_consumption_warning_id > mrp_consumption_warning.id
+Ref: mrp_consumption_warning_line.mrp_production_id > mrp_production.id
+Ref: mrp_consumption_warning_line.product_id > product_product.id
+Ref: mrp_consumption_warning_line.write_uid > res_users.id
+
+Table mrp_consumption_warning_mrp_production_rel {
+mrp_consumption_warning_id integer [not null]
+  mrp_production_id integer [not null]
+  
+  primary key(mrp_consumption_warning_id, mrp_production_id)
+}
+
+Ref: mrp_consumption_warning_mrp_production_rel.mrp_consumption_warning_id > mrp_consumption_warning.id
+Ref: mrp_consumption_warning_mrp_production_rel.mrp_production_id > mrp_production.id
+
+
+Table mrp_document {
+id integer [primary key]
+  ir_attachment_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  priority character  
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_document.create_uid > res_users.id
+Ref: mrp_document.ir_attachment_id > ir_attachment.id
+Ref: mrp_document.write_uid > res_users.id
+
+
+Table mrp_immediate_production {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_immediate_production.create_uid > res_users.id
+Ref: mrp_immediate_production.write_uid > res_users.id
+
+
+
+Table mrp_immediate_production_line {
+id integer [primary key]
+  immediate_production_id integer [not null]
+  production_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  to_immediate boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_immediate_production_line.create_uid > res_users.id
+Ref: mrp_immediate_production_line.immediate_production_id > mrp_immediate_production.id
+Ref: mrp_immediate_production_line.production_id > mrp_production.id
+Ref: mrp_immediate_production_line.write_uid > res_users.id
+
+Table mrp_production {
+id integer [primary key]
+  message_main_attachment_id integer 
+  backorder_sequence integer 
+  product_id integer [not null]
+  product_uom_id integer [not null]
+  lot_producing_id integer 
+  picking_type_id integer [not null]
+  location_src_id integer [not null]
+  location_dest_id integer [not null]
+  bom_id integer 
+  user_id integer 
+  company_id integer [not null]
+  procurement_group_id integer 
+  orderpoint_id integer 
+  production_location_id integer 
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  priority character  
+  origin character  
+  state character  
+  reservation_state character  
+  product_description_variants character  
+  consumption character  [not null]
+  product_qty numeric [not null]
+  qty_producing numeric 
+  propagate_cancel boolean 
+  is_locked boolean 
+  is_planned boolean 
+  allow_workorder_dependencies boolean 
+  date_planned_start timestamp [not null]
+  date_planned_finished timestamp 
+  date_deadline timestamp 
+  date_start timestamp 
+  date_finished timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  product_uom_qty double  
+  analytic_account_id integer 
+  extra_cost double 
+}
+
+Ref: mrp_production.analytic_account_id > account_analytic_account.id
+Ref: mrp_production.bom_id > mrp_bom.id
+Ref: mrp_production.company_id > res_company.id
+Ref: mrp_production.create_uid > res_users.id
+Ref: mrp_production.location_dest_id > stock_location.id
+Ref: mrp_production.location_src_id > stock_location.id
+Ref: mrp_production.lot_producing_id > stock_lot.id
+Ref: mrp_production.message_main_attachment_id > ir_attachment.id
+Ref: mrp_production.orderpoint_id > stock_warehouse_orderpoint.id
+Ref: mrp_production.picking_type_id > stock_picking_type.id
+Ref: mrp_production.procurement_group_id > procurement_group.id
+Ref: mrp_production.product_id > product_product.id
+Ref: mrp_production.product_uom_id > uom_uom.id
+Ref: mrp_production.production_location_id > stock_location.id
+Ref: mrp_production.user_id > res_users.id
+Ref: mrp_production.write_uid > res_users.id
+
+
+
+Table mrp_production_backorder {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_production_backorder.create_uid > res_users.id
+Ref: mrp_production_backorder.write_uid > res_users.id
+
+
+Table mrp_production_backorder_line {
+id integer [primary key]
+  mrp_production_backorder_id integer [not null]
+  mrp_production_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  to_backorder boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_production_backorder_line.create_uid > res_users.id
+Ref: mrp_production_backorder_line.mrp_production_backorder_id > mrp_production_backorder.id
+Ref: mrp_production_backorder_line.mrp_production_id > mrp_production.id
+Ref: mrp_production_backorder_line.write_uid > res_users.id
+
+
+Table mrp_production_mrp_production_backorder_rel {
+mrp_production_backorder_id integer [not null]
+  mrp_production_id integer [not null]
+  
+  primary key(mrp_production_backorder_id, mrp_production_id)
+}
+
+Ref: mrp_production_mrp_production_backorder_rel.mrp_production_backorder_id > mrp_production_backorder.id
+Ref: mrp_production_mrp_production_backorder_rel.mrp_production_id > mrp_production.id
+
+
+Table mrp_production_production_rel {
+mrp_immediate_production_id integer [not null]
+  mrp_production_id integer [not null]
+  
+  primary key(mrp_immediate_production_id, mrp_production_id)
+}
+
+Ref: mrp_production_production_rel.mrp_immediate_production_id > mrp_immediate_production.id
+Ref: mrp_production_production_rel.mrp_production_id > mrp_production.id
+
+
+Table mrp_production_split {
+id integer [primary key]
+  production_split_multi_id integer 
+  production_id integer 
+  counter integer 
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_production_split.create_uid > res_users.id
+Ref: mrp_production_split.production_id > mrp_production.id
+Ref: mrp_production_split.production_split_multi_id > mrp_production_split_multi.id
+Ref: mrp_production_split.write_uid > res_users.id
+
+Table mrp_production_split_line {
+id integer [primary key]
+  mrp_production_split_id integer [not null]
+  user_id integer 
+  create_uid integer 
+  write_uid integer 
+  quantity numeric [not null]
+  date timestamp 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_production_split_line.create_uid > res_users.id
+Ref: mrp_production_split_line.mrp_production_split_id > mrp_production_split.id
+Ref: mrp_production_split_line.user_id > res_users.id
+Ref: mrp_production_split_line.write_uid > res_users.id
+
+
+Table mrp_production_split_multi {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_production_split_multi.create_uid > res_users.id
+Ref: mrp_production_split_multi.write_uid > res_users.id
+
+
+Table mrp_routing_workcenter {
+id integer [primary key]
+  workcenter_id integer [not null]
+  sequence integer 
+  bom_id integer [not null]
+  time_mode_batch integer 
+  create_uid integer 
+  write_uid integer 
+  name character  [not null] 
+  worksheet_type character  
+  worksheet_google_slide character  
+  time_mode character  
+  note text 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+  time_cycle_manual double  
+}
+
+Ref: mrp_routing_workcenter.bom_id > mrp_bom.id
+Ref: mrp_routing_workcenter.create_uid > res_users.id
+Ref: mrp_routing_workcenter.workcenter_id > mrp_workcenter.id
+Ref: mrp_routing_workcenter.write_uid > res_users.id
+
+
+Table mrp_routing_workcenter_dependencies_rel {
+operation_id integer [not null]
+  blocked_by_id integer [not null]
+  
+  primary key(operation_id, blocked_by_id)
+}
+
+Ref: mrp_routing_workcenter_dependencies_rel.blocked_by_id > mrp_routing_workcenter.id
+Ref: mrp_routing_workcenter_dependencies_rel.operation_id > mrp_routing_workcenter.id
+
+
+
+
+
+Table mrp_routing_workcenter_product_template_attribute_value_rel {
+mrp_routing_workcenter_id integer [not null]
+  product_template_attribute_value_id integer [not null]
+  
+  primary key(mrp_routing_workcenter_id, product_template_attribute_value_id)
+}
+
+Ref: mrp_routing_workcenter_product_template_attribute_value_rel.product_template_attribute_value_id > product_template_attribute_value.id
+Ref: mrp_routing_workcenter_product_template_attribute_value_rel.mrp_routing_workcenter_id > mrp_routing_workcenter.id
+
+Table mrp_unbuild {
+id integer [primary key]
+  message_main_attachment_id integer 
+  product_id integer [not null]
+  company_id integer [not null]
+  product_uom_id integer [not null]
+  bom_id integer 
+  mo_id integer 
+  lot_id integer 
+  location_id integer [not null]
+  location_dest_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  name character  
+  state character  
+  create_date timestamp 
+  write_date timestamp 
+  product_qty double  [not null]
+}
+
+Ref: mrp_unbuild.bom_id > mrp_bom.id
+Ref: mrp_unbuild.company_id > res_company.id
+Ref: mrp_unbuild.create_uid > res_users.id
+Ref: mrp_unbuild.location_dest_id > stock_location.id
+Ref: mrp_unbuild.location_id > stock_location.id
+Ref: mrp_unbuild.lot_id > stock_lot.id
+Ref: mrp_unbuild.message_main_attachment_id > ir_attachment.id
+Ref: mrp_unbuild.mo_id > mrp_production.id
+Ref: mrp_unbuild.product_id > product_product.id
+Ref: mrp_unbuild.product_uom_id > uom_uom.id
+Ref: mrp_unbuild.write_uid > res_users.id
+
+
+Table mrp_workcenter {
+id integer [primary key]
+  resource_id integer 
+  company_id integer
+  resource_calendar_id integer
+  sequence integer 
+  color integer
+  create_uid integer
+  write_uid integer
+  name character  
+  code character  
+  working_state character  
+  note text 
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+  time_efficiency double 
+  default_capacity double 
+  costs_hour double 
+  time_start double 
+  time_stop double 
+  oee_target double 
+  costs_hour_account_id integer
+}
+
+Ref: mrp_workcenter.company_id > res_company.id
+Ref: mrp_workcenter.costs_hour_account_id > account_analytic_account.id
+Ref: mrp_workcenter.create_uid > res_users.id
+Ref: mrp_workcenter.resource_calendar_id > resource_calendar.id
+Ref: mrp_workcenter.resource_id > resource_resource.id
+Ref: mrp_workcenter.write_uid > res_users.id
+
+
+Table mrp_workcenter_alternative_rel {
+workcenter_id integer [primary key]
+  alternative_workcenter_id integer [primary key]
+}
+
+Ref: mrp_workcenter_alternative_rel.alternative_workcenter_id > mrp_workcenter.id
+Ref: mrp_workcenter_alternative_rel.workcenter_id > mrp_workcenter.id
+
+
+Table mrp_workcenter_capacity {
+id integer [primary key]
+  workcenter_id integer 
+  product_id integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+  capacity double  
+  time_start double 
+  time_stop double 
+}
+
+Ref: mrp_workcenter_capacity.create_uid > res_users.id
+Ref: mrp_workcenter_capacity.product_id > product_product.id
+Ref: mrp_workcenter_capacity.workcenter_id > mrp_workcenter.id
+Ref: mrp_workcenter_capacity.write_uid > res_users.id
+
+
+Table mrp_workcenter_mrp_workcenter_tag_rel {
+mrp_workcenter_id integer [primary key]
+  mrp_workcenter_tag_id integer [primary key]
+}
+
+Ref: mrp_workcenter_mrp_workcenter_tag_rel.mrp_workcenter_tag_id > mrp_workcenter_tag.id
+Ref: mrp_workcenter_mrp_workcenter_tag_rel.mrp_workcenter_id > mrp_workcenter.id
+
+Table mrp_workcenter_productivity {
+id integer [primary key]
+  workcenter_id integer 
+  company_id integer 
+  workorder_id integer 
+  user_id integer 
+  loss_id integer 
+  create_uid integer
+  write_uid integer
+  loss_type character  
+  description text 
+  date_start timestamp [not null]
+  date_end timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  duration double  
+  cost_already_recorded boolean
+}
+
+Ref: mrp_workcenter_productivity.company_id > res_company.id
+Ref: mrp_workcenter_productivity.create_uid > res_users.id
+Ref: mrp_workcenter_productivity.loss_id > mrp_workcenter_productivity_loss.id
+Ref: mrp_workcenter_productivity.user_id > res_users.id
+Ref: mrp_workcenter_productivity.workcenter_id > mrp_workcenter.id
+Ref: mrp_workcenter_productivity.workorder_id > mrp_workorder.id
+Ref: mrp_workcenter_productivity.write_uid > res_users.id
+
+Table mrp_workcenter_productivity_loss {
+id integer [primary key]
+  sequence integer 
+  loss_id integer 
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  loss_type character  
+  manual boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_workcenter_productivity_loss.create_uid > res_users.id
+Ref: mrp_workcenter_productivity_loss.loss_id > mrp_workcenter_productivity_loss_type.id
+Ref: mrp_workcenter_productivity_loss.write_uid > res_users.id
+
+Table mrp_workcenter_productivity_loss_type {
+id integer [primary key]
+  create_uid integer
+  write_uid integer
+  loss_type character  [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_workcenter_productivity_loss_type.create_uid > res_users.id
+Ref: mrp_workcenter_productivity_loss_type.write_uid > res_users.id
+
+Table mrp_workcenter_tag {
+id integer [primary key]
+  color integer
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: mrp_workcenter_tag.create_uid > res_users.id
+Ref: mrp_workcenter_tag.write_uid > res_users.id
+
+Table mrp_workorder {
+id integer [primary key]
+  workcenter_id integer [not null]
+  product_id integer 
+  product_uom_id integer [not null]
+  production_id integer [not null]
+  leave_id integer 
+  duration_percent integer 
+  operation_id integer 
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  production_availability character  
+  state character  
+  qty_produced numeric 
+  duration_expected numeric 
+  qty_reported_from_previous_wo numeric 
+  date_planned_start timestamp 
+  date_planned_finished timestamp 
+  date_start timestamp 
+  date_finished timestamp 
+  production_date timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  duration double  
+  duration_unit double  
+  costs_hour double  
+  mo_analytic_account_line_id integer 
+  wc_analytic_account_line_id integer 
+}
+
+Ref: mrp_workorder.create_uid > res_users.id
+Ref: mrp_workorder.leave_id > resource_calendar_leaves.id
+Ref: mrp_workorder.mo_analytic_account_line_id > account_analytic_line.id
+Ref: mrp_workorder.operation_id > mrp_routing_workcenter.id
+Ref: mrp_workorder.product_id > product_product.id
+Ref: mrp_workorder.product_uom_id > uom_uom.id
+Ref: mrp_workorder.production_id > mrp_production.id
+Ref: mrp_workorder.wc_analytic_account_line_id > account_analytic_line.id
+Ref: mrp_workorder.workcenter_id > mrp_workcenter.id
+Ref: mrp_workorder.write_uid > res_users.id
+
+
+Table mrp_workorder_dependencies_rel {
+workorder_id integer [primary key]
+  blocked_by_id integer [primary key]
+}
+
+Ref: mrp_workorder_dependencies_rel.blocked_by_id > mrp_workorder.id
+Ref: mrp_workorder_dependencies_rel.workorder_id > mrp_workorder.id
+
+
+
+
+
+
+
+
+
+Table account_analytic_account{
+  id integer
+}
+
+
+
+Table account_analytic_line{
+  id integer
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table ir_attachment{
+  id integer
+}
+
+
+
+
+
+
+
+Table procurement_group{
+  id integer
+}
+
+
+
+Table product_product{
+  id integer
+}
+
+
+
+Table product_template{
+  id integer
+}
+
+Table product_template_attribute_value{
+  id integer
+}
+
+
+
+Table res_company{
+  id integer
+}
+
+
+
+Table res_users{
+  id integer
+}
+
+
+Table resource_calendar{
+  id integer
+}
+
+Table resource_calendar_leaves{
+  id integer
+}
+
+
+
+Table resource_resource{
+  id integer
+}
+
+Table stock_location{
+  id integer
+}
+
+Table stock_lot{
+  id integer
+}
+
+
+Table stock_picking_type{
+  id integer
+}
+
+Table stock_warehouse_orderpoint{
+  id integer
+}
+
+
+Table uom_uom{
+  id integer
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

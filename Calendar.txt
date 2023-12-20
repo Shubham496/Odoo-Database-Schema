@@ -1,0 +1,213 @@
+Table calendar_alarm {
+  id integer [primary key]
+  duration integer [not null]
+  duration_minutes integer 
+  mail_template_id integer 
+  create_uid integer
+  write_uid integer
+  alarm_type character [not null]
+  "interval" character [not null]
+  name jsonb [not null]
+  body text
+  create_date timestamp 
+  write_date timestamp 
+  sms_template_id integer 
+}
+
+Ref: calendar_alarm.create_uid > res_users.id
+Ref: calendar_alarm.mail_template_id > mail_template.id
+Ref: calendar_alarm.sms_template_id > sms_template.id
+Ref: calendar_alarm.write_uid > res_users.id
+
+Table calendar_alarm_calendar_event_rel {
+  calendar_event_id integer [primary key]
+  calendar_alarm_id integer [primary key]
+}
+
+Ref: calendar_alarm_calendar_event_rel.calendar_alarm_id > calendar_alarm.id
+Ref: calendar_alarm_calendar_event_rel.calendar_event_id > calendar_event.id
+
+Table calendar_attendee {
+  id integer [primary key]
+  event_id integer 
+  partner_id integer 
+  create_uid integer 
+  write_uid integer 
+  common_name character  
+  access_token character  
+  state character  
+  availability character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: calendar_attendee.create_uid > res_users.id
+Ref: calendar_attendee.event_id > calendar_event.id
+Ref: calendar_attendee.partner_id > res_partner.id
+Ref: calendar_attendee.write_uid > res_users.id
+
+Table calendar_event {
+  id integer [primary key]
+  message_main_attachment_id integer 
+  user_id integer 
+  videocall_channel_id integer 
+  res_id integer 
+  res_model_id integer 
+  recurrence_id integer 
+  create_uid integer 
+  write_uid integer 
+  name character  [not null]
+  location character  
+  videocall_location character  
+  access_token character  
+  privacy character  [not null]
+  show_as character  [not null]
+  res_model character  
+  start_date date 
+  stop_date date 
+  description text 
+  active boolean 
+  allday boolean 
+  recurrency boolean 
+  follow_recurrence boolean 
+  start timestamp [not null]
+  stop timestamp [not null]
+  create_date timestamp 
+  write_date timestamp 
+  duration double  
+  opportunity_id integer 
+}
+
+Ref: calendar_event.create_uid > res_users.id
+Ref: calendar_event.message_main_attachment_id > ir_attachment.id
+Ref: calendar_event.opportunity_id > crm_lead.id
+Ref: calendar_event.recurrence_id > calendar_recurrence.id
+Ref: calendar_event.res_model_id > ir_model.id
+Ref: calendar_event.user_id > res_users.id
+Ref: calendar_event.videocall_channel_id > mail_channel.id
+Ref: calendar_event.write_uid > res_users.id
+
+Table calendar_event_res_partner_rel {
+  res_partner_id integer [primary key]
+  calendar_event_id integer [primary key]
+}
+
+Ref: calendar_event_res_partner_rel.calendar_event_id > calendar_event.id
+Ref: calendar_event_res_partner_rel.res_partner_id > res_partner.id
+
+Table calendar_event_type {
+  id integer [primary key]
+  color integer 
+  create_uid integer 
+  write_uid integer 
+  name character [not null]
+  create_date timestamp  
+  write_date timestamp  
+}
+
+Ref: calendar_event_type.create_uid > res_users.id
+Ref: calendar_event_type.write_uid > res_users.id
+
+Table calendar_filters {
+  id integer [primary key]
+  user_id integer [unique]
+  partner_id integer 
+  create_uid integer 
+  write_uid integer 
+  active boolean 
+  partner_checked boolean 
+  create_date timestamp  
+  write_date timestamp  
+}
+
+Ref: calendar_filters.create_uid > res_users.id
+Ref: calendar_filters.partner_id > res_partner.id
+Ref: calendar_filters.user_id > res_users.id
+Ref: calendar_filters.write_uid > res_users.id
+
+Table calendar_provider_config {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  external_calendar_provider character 
+  cal_client_id character 
+  cal_client_secret character 
+  microsoft_outlook_client_identifier character 
+  microsoft_outlook_client_secret character 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: calendar_provider_config.create_uid > res_users.id
+Ref: calendar_provider_config.write_uid > res_users.id
+
+Table calendar_recurrence {
+  id integer [primary key]
+  base_event_id integer 
+  "interval" integer 
+  count integer 
+  day integer 
+  create_uid integer 
+  write_uid integer 
+  name character 
+  event_tz character 
+  rrule character 
+  rrule_type character 
+  end_type character 
+  month_by character 
+  weekday character 
+  byday character 
+  until date 
+  mon boolean 
+  tue boolean 
+  wed boolean 
+  thu boolean 
+  fri boolean 
+  sat boolean 
+  sun boolean 
+  create_date timestamp  
+  write_date timestamp  
+}
+
+Ref: calendar_recurrence.base_event_id > calendar_event.id
+Ref: calendar_recurrence.create_uid > res_users.id
+Ref: calendar_recurrence.write_uid > res_users.id
+
+
+
+
+
+
+
+
+Table res_users {
+  id integer [primary key]
+}
+
+Table res_partner {
+  id integer [primary key]
+}
+
+Table mail_template {
+  id integer [primary key]
+}
+
+Table sms_template {
+  id integer [primary key]
+}
+
+Table ir_attachment {
+  id integer [primary key]
+}
+
+Table crm_lead {
+  id integer [primary key]
+}
+
+Table ir_model {
+  id integer [primary key]
+}
+
+Table mail_channel {
+  id integer [primary key]
+}

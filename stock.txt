@@ -1,0 +1,1507 @@
+Table stock_assign_serial {
+  id integer [primary key]
+  move_id integer 
+  next_serial_count integer [not null]
+  create_uid integer 
+  write_uid integer 
+  next_serial_number varchar [not null] 
+  create_date timestamp 
+  write_date timestamp 
+  production_id integer 
+  serial_numbers text 
+  multiple_lot_components_names text 
+  expected_qty numeric 
+  produced_qty numeric 
+  show_apply boolean 
+  show_backorders boolean 
+}
+
+Ref: stock_assign_serial.create_uid > res_users.id
+Ref: stock_assign_serial.move_id > stock_move.id
+Ref: stock_assign_serial.production_id > mrp_production.id
+Ref: stock_assign_serial.write_uid > res_users.id
+
+
+
+
+Table stock_backorder_confirmation {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  show_transfers boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_backorder_confirmation.create_uid > res_users.id
+Ref: stock_backorder_confirmation.write_uid > res_users.id
+
+
+
+Table stock_backorder_confirmation_line {
+  id integer [primary key]
+  backorder_confirmation_id integer 
+  picking_id integer 
+  create_uid integer 
+  write_uid integer 
+  to_backorder boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_backorder_confirmation_line.backorder_confirmation_id > stock_backorder_confirmation.id
+Ref: stock_backorder_confirmation_line.create_uid > res_users.id
+Ref: stock_backorder_confirmation_line.picking_id > stock_picking.id
+Ref: stock_backorder_confirmation_line.write_uid > res_users.id
+    
+
+Table stock_change_product_qty {
+  id integer [primary key]
+  product_id integer [not null]
+  product_tmpl_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  new_quantity numeric [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_change_product_qty.create_uid > res_users.id
+Ref: stock_change_product_qty.product_id > product_product.id
+Ref: stock_change_product_qty.product_tmpl_id > product_template.id
+Ref: stock_change_product_qty.write_uid > res_users.id
+
+
+Table stock_conflict_quant_rel {
+  stock_inventory_conflict_id integer [primary key]
+  stock_quant_id integer [primary key]
+}
+
+Ref: stock_conflict_quant_rel.stock_inventory_conflict_id > stock_inventory_conflict.id
+Ref: stock_conflict_quant_rel.stock_quant_id > stock_quant.id
+
+
+Table stock_immediate_transfer {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  show_transfers boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_immediate_transfer.create_uid > res_users.id
+Ref: stock_immediate_transfer.write_uid > res_users.id
+
+
+
+
+Table stock_immediate_transfer_line {
+  id integer [primary key]
+  immediate_transfer_id integer [not null]
+  picking_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  to_immediate boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_immediate_transfer_line.create_uid > res_users.id
+Ref: stock_immediate_transfer_line.immediate_transfer_id > stock_immediate_transfer.id
+Ref: stock_immediate_transfer_line.picking_id > stock_picking.id
+Ref: stock_immediate_transfer_line.write_uid > res_users.id
+
+Table stock_inventory_adjustment_name {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  inventory_adjustment_name varchar 
+  show_info boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_inventory_adjustment_name.create_uid > res_users.id
+Ref: stock_inventory_adjustment_name.write_uid > res_users.id
+
+Table stock_inventory_adjustment_name_stock_quant_rel {
+  stock_inventory_adjustment_name_id integer [primary key]
+  stock_quant_id integer [primary key]
+}
+
+Ref: stock_inventory_adjustment_name_stock_quant_rel.stock_inventory_adjustment_name_id > stock_inventory_adjustment_name.id
+Ref: stock_inventory_adjustment_name_stock_quant_rel.stock_quant_id > stock_quant.id
+
+
+Table stock_inventory_conflict {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_inventory_conflict.create_uid > res_users.id
+Ref: stock_inventory_conflict.write_uid > res_users.id
+
+Table stock_inventory_conflict_stock_quant_rel {
+  stock_inventory_conflict_id integer [primary key]
+  stock_quant_id integer [primary key]
+}
+
+Ref: stock_inventory_conflict_stock_quant_rel.stock_quant_id > stock_quant.id
+Ref: stock_inventory_conflict_stock_quant_rel.stock_inventory_conflict_id > stock_inventory_conflict.id
+
+Table stock_inventory_warning {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_inventory_warning.create_uid > res_users.id
+Ref: stock_inventory_warning.write_uid > res_users.id
+
+Table stock_inventory_warning_stock_quant_rel {
+  stock_inventory_warning_id integer [not null]
+  stock_quant_id integer [not null]
+  
+  primary key(stock_inventory_warning_id, stock_quant_id)
+}
+
+Ref: stock_inventory_warning_stock_quant_rel.stock_inventory_warning_id > stock_inventory_warning.id
+Ref: stock_inventory_warning_stock_quant_rel.stock_quant_id > stock_quant.id
+
+
+Table stock_location {
+  id integer [primary key]
+  location_id integer
+  posx integer
+  posy integer
+  posz integer
+  company_id integer
+  removal_strategy_id integer
+  cyclic_inventory_frequency integer
+  warehouse_id integer
+  storage_category_id integer
+  create_uid integer
+  write_uid integer
+  name character  [not null]
+  complete_name character 
+  usage character  [not null]
+  parent_path character 
+  barcode character 
+  last_inventory_date date
+  next_inventory_date date
+  comment text
+  active boolean
+  scrap_location boolean
+  return_location boolean
+  replenish_location boolean
+  create_date timestamp 
+  write_date timestamp 
+  valuation_in_account_id integer
+  valuation_out_account_id integer
+  
+
+}
+
+Ref: stock_location.company_id > res_company.id
+Ref: stock_location.create_uid > res_users.id
+Ref: stock_location.location_id > stock_location.id
+Ref: stock_location.removal_strategy_id > product_removal.id
+Ref: stock_location.storage_category_id > stock_storage_category.id
+Ref: stock_location.valuation_in_account_id > account_account.id
+Ref: stock_location.valuation_out_account_id > account_account.id
+Ref: stock_location.warehouse_id > stock_warehouse.id
+Ref: stock_location.write_uid > res_users.id
+
+
+Table stock_lot {
+  id integer [primary key ]
+  message_main_attachment_id integer
+  product_id integer [not null]
+  product_uom_id integer
+  company_id integer [not null]
+  create_uid integer
+  write_uid integer
+  name character  
+  ref character 
+  note text 
+  create_date timestamp 
+  write_date timestamp 
+  
+}
+
+Ref: stock_lot.company_id > res_company.id
+Ref: stock_lot.create_uid > res_users.id
+Ref: stock_lot.message_main_attachment_id > ir_attachment.id
+Ref: stock_lot.product_id > product_product.id
+Ref: stock_lot.product_uom_id > uom_uom.id
+Ref: stock_lot.write_uid > res_users.id
+
+
+Table stock_move {
+  id integer 
+  sequence integer
+  company_id integer [not null]
+  product_id integer [not null]
+  product_uom integer [not null]
+  location_id integer [not null]
+  location_dest_id integer [not null]
+  partner_id integer
+  picking_id integer
+  group_id integer
+  rule_id integer
+  picking_type_id integer
+  origin_returned_move_id integer
+  restrict_partner_id integer
+  warehouse_id integer
+  package_level_id integer
+  next_serial_count integer
+  orderpoint_id integer
+  product_packaging_id integer
+  create_uid integer
+  write_uid integer
+  name character   
+  priority character  
+  state character  
+  origin character  
+  procure_method character   
+  reference character  
+  next_serial character  
+  reservation_date date
+  description_picking text 
+  product_qty numeric
+  product_uom_qty numeric [not null]
+  quantity_done numeric
+  scrapped boolean
+  propagate_cancel boolean
+  is_inventory boolean
+  additional boolean
+  date timestamp 
+  date_deadline timestamp 
+  delay_alert_date timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  price_unit double 
+  analytic_account_line_id integer
+  to_refund boolean
+  sale_line_id integer
+  purchase_line_id integer
+  created_purchase_line_id integer
+  is_done boolean
+  unit_factor double 
+  created_production_id integer
+  production_id integer
+  raw_material_production_id integer
+  unbuild_id integer
+  consume_unbuild_id integer
+  operation_id integer
+  workorder_id integer
+  bom_line_id integer
+  byproduct_id integer
+  order_finished_lot_id integer
+  cost_share numeric
+  manual_consumption boolean
+  
+  primary key(id)
+}
+
+Ref: stock_move.analytic_account_line_id > account_analytic_line.id
+Ref: stock_move.bom_line_id > mrp_bom_line.id
+Ref: stock_move.byproduct_id > mrp_bom_byproduct.id
+Ref: stock_move.company_id > res_company.id
+Ref: stock_move.consume_unbuild_id > mrp_unbuild.id
+Ref: stock_move.create_uid > res_users.id
+Ref: stock_move.created_production_id > mrp_production.id
+Ref: stock_move.created_purchase_line_id > purchase_order_line.id
+Ref: stock_move.group_id > procurement_group.id
+Ref: stock_move.location_dest_id > stock_location.id
+Ref: stock_move.location_id > stock_location.id
+Ref: stock_move.operation_id > mrp_routing_workcenter.id
+Ref: stock_move.order_finished_lot_id > stock_lot.id
+Ref: stock_move.orderpoint_id > stock_warehouse_orderpoint.id
+Ref: stock_move.origin_returned_move_id > stock_move.id
+Ref: stock_move.package_level_id > stock_package_level.id
+Ref: stock_move.partner_id > res_partner.id
+Ref: stock_move.picking_id > stock_picking.id
+Ref: stock_move.picking_type_id > stock_picking_type.id
+Ref: stock_move.product_id > product_product.id
+Ref: stock_move.product_packaging_id > product_packaging.id
+Ref: stock_move.product_uom > uom_uom.id
+Ref: stock_move.production_id > mrp_production.id
+Ref: stock_move.purchase_line_id > purchase_order_line.id
+Ref: stock_move.raw_material_production_id > mrp_production.id
+Ref: stock_move.restrict_partner_id > res_partner.id
+Ref: stock_move.rule_id > stock_rule.id
+Ref: stock_move.sale_line_id > sale_order_line.id
+Ref: stock_move.unbuild_id > mrp_unbuild.id
+Ref: stock_move.warehouse_id > stock_warehouse.id
+Ref: stock_move.workorder_id > mrp_workorder.id
+Ref: stock_move.write_uid > res_users.id
+
+
+Table stock_move_line {
+  id integer [primary key]
+  picking_id integer
+  move_id integer
+  company_id integer 
+  product_id integer
+  product_uom_id integer 
+  package_id integer
+  package_level_id integer
+  lot_id integer
+  result_package_id integer
+  owner_id integer
+  location_id integer 
+  location_dest_id integer 
+  create_uid integer
+  write_uid integer
+  product_category_name character  
+  lot_name character  
+  state character  
+  reference character  
+  description_picking text 
+  reserved_qty numeric
+  reserved_uom_qty numeric 
+  qty_done numeric 
+  date timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  workorder_id integer
+  production_id integer
+
+}
+
+Ref: stock_move_line.company_id > res_company.id
+Ref: stock_move_line.create_uid > res_users.id
+Ref: stock_move_line.location_dest_id > stock_location.id
+Ref: stock_move_line.location_id > stock_location.id
+Ref: stock_move_line.lot_id > stock_lot.id
+Ref: stock_move_line.move_id > stock_move.id
+Ref: stock_move_line.owner_id > res_partner.id
+Ref: stock_move_line.package_id > stock_quant_package.id
+Ref: stock_move_line.package_level_id > stock_package_level.id
+Ref: stock_move_line.picking_id > stock_picking.id
+Ref: stock_move_line.product_id > product_product.id
+Ref: stock_move_line.product_uom_id > uom_uom.id
+Ref: stock_move_line.production_id > mrp_production.id
+Ref: stock_move_line.result_package_id > stock_quant_package.id
+Ref: stock_move_line.workorder_id > mrp_workorder.id
+Ref: stock_move_line.write_uid > res_users.id
+
+
+Table stock_move_line_consume_rel {
+  consume_line_id integer [primary key]
+  produce_line_id integer [primary key]
+}
+
+Ref: stock_move_line_consume_rel.consume_line_id > stock_move_line.id
+Ref: stock_move_line_consume_rel.produce_line_id > stock_move_line.id
+
+
+Table stock_move_move_rel {
+  move_orig_id integer [primary key]
+  move_dest_id integer [primary key]
+}
+
+Ref: stock_move_move_rel.move_dest_id > stock_move.id
+Ref: stock_move_move_rel.move_orig_id > stock_move.id
+
+
+Table stock_orderpoint_snooze {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  predefined_date character  
+  snoozed_until date
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_orderpoint_snooze.create_uid > res_users.id
+Ref: stock_orderpoint_snooze.write_uid > res_users.id
+
+
+
+Table stock_orderpoint_snooze_stock_warehouse_orderpoint_rel {
+  stock_orderpoint_snooze_id integer [primary key]
+  stock_warehouse_orderpoint_id integer [primary key]
+}
+
+Ref: stock_orderpoint_snooze_stock_warehouse_orderpoint_rel.stock_warehouse_orderpoint_id > stock_warehouse_orderpoint.id
+Ref: stock_orderpoint_snooze_stock_warehouse_orderpoint_rel.stock_orderpoint_snooze_id > stock_orderpoint_snooze.id
+
+Table stock_package_destination {
+  id integer [primary key]
+  picking_id integer 
+  location_dest_id integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_package_destination.create_uid > res_users.id
+Ref: stock_package_destination.location_dest_id > stock_location.id
+Ref: stock_package_destination.picking_id > stock_picking.id
+Ref: stock_package_destination.write_uid > res_users.id
+
+
+Table stock_package_level {
+  id integer [primary key]
+  package_id integer [primary key]
+  picking_id integer
+  location_dest_id integer
+  company_id integer 
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_package_level.company_id > res_company.id
+Ref: stock_package_level.create_uid > res_users.id
+Ref: stock_package_level.location_dest_id > stock_location.id
+Ref: stock_package_level.package_id > stock_quant_package.id
+Ref: stock_package_level.picking_id > stock_picking.id
+Ref: stock_package_level.write_uid > res_users.id
+
+
+Table stock_package_type {
+  id integer [primary key]
+  sequence integer
+  height integer 
+  width integer 
+  packaging_length integer 
+  company_id integer 
+  create_uid integer
+  write_uid integer
+  name character [not null]
+  barcode character [unique]
+  create_date timestamp 
+  write_date timestamp 
+  base_weight double  
+  max_weight double  
+}
+
+Ref: stock_package_type.company_id > res_company.id
+Ref: stock_package_type.create_uid > res_users.id
+Ref: stock_package_type.write_uid > res_users.id
+
+Table stock_package_type_stock_putaway_rule_rel {
+  stock_putaway_rule_id integer [primary key]
+  stock_package_type_id integer [primary key]
+}
+
+Ref: stock_package_type_stock_putaway_rule_rel.stock_package_type_id > stock_package_type.id
+Ref: stock_package_type_stock_putaway_rule_rel.stock_putaway_rule_id > stock_putaway_rule.id
+
+Table stock_picking {
+  id integer [primary key]
+  message_main_attachment_id integer
+  backorder_id integer
+  group_id integer
+  location_id integer 
+  location_dest_id integer 
+  picking_type_id integer 
+  partner_id integer
+  company_id integer 
+  user_id integer
+  owner_id integer
+  create_uid integer
+  write_uid integer
+  name character  [unique]
+  origin character  
+  move_type character  [not null]
+  state character  
+  priority character  
+  note text 
+  has_deadline_issue boolean 
+  printed boolean 
+  is_locked boolean 
+  immediate_transfer boolean 
+  scheduled_date timestamp 
+  date_deadline timestamp 
+  date timestamp 
+  date_done timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  sale_id integer
+}
+
+Ref: stock_picking.backorder_id > stock_picking.id
+Ref: stock_picking.company_id > res_company.id
+Ref: stock_picking.create_uid > res_users.id
+Ref: stock_picking.group_id > procurement_group.id
+Ref: stock_picking.location_dest_id > stock_location.id
+Ref: stock_picking.location_id > stock_location.id
+Ref: stock_picking.message_main_attachment_id > ir_attachment.id
+Ref: stock_picking.owner_id > res_partner.id
+Ref: stock_picking.partner_id > res_partner.id
+Ref: stock_picking.picking_type_id > stock_picking_type.id
+Ref: stock_picking.sale_id > sale_order.id
+Ref: stock_picking.user_id > res_users.id
+Ref: stock_picking.write_uid > res_users.id
+
+
+Table stock_picking_backorder_rel {
+  stock_backorder_confirmation_id integer [primary key]
+  stock_picking_id integer [primary key]
+}
+
+Ref: stock_picking_backorder_rel.stock_backorder_confirmation_id > stock_backorder_confirmation.id
+Ref: stock_picking_backorder_rel.stock_picking_id > stock_picking.id
+
+
+Table stock_picking_sms_rel {
+  confirm_stock_sms_id integer [primary key]
+  stock_picking_id integer [primary key]
+}
+
+Ref: stock_picking_sms_rel.confirm_stock_sms_id > confirm_stock_sms.id
+Ref: stock_picking_sms_rel.stock_picking_id > stock_picking.id
+
+Table stock_picking_transfer_rel {
+  stock_immediate_transfer_id integer [primary key]
+  stock_picking_id integer [primary key]
+}
+
+Ref: stock_picking_transfer_rel.stock_immediate_transfer_id > stock_immediate_transfer.id
+Ref: stock_picking_transfer_rel.stock_picking_id > stock_picking.id
+
+Table stock_picking_type {
+  id integer [primary key]
+  color integer
+  sequence integer
+  sequence_id integer
+  default_location_src_id integer 
+  default_location_dest_id integer 
+  return_picking_type_id integer 
+  warehouse_id integer 
+  reservation_days_before integer 
+  reservation_days_before_priority integer 
+  company_id integer [not null]
+  create_uid integer 
+  write_uid integer 
+  sequence_code character  [not null]
+  code character  [not null]
+  reservation_method character  [not null]
+  barcode character  
+  create_backorder character  [not null]
+  name jsonb [not null]
+  show_entire_packs boolean 
+  active boolean 
+  use_create_lots boolean 
+  use_existing_lots boolean 
+  print_label boolean 
+  show_operations boolean 
+  show_reserved boolean 
+  auto_show_reception_report boolean 
+  create_date timestamp 
+  write_date timestamp 
+  use_create_components_lots boolean 
+  use_auto_consume_components_lots boolean 
+}
+
+Ref: stock_picking_type.company_id > res_company.id
+Ref: stock_picking_type.create_uid > res_users.id
+Ref: stock_picking_type.default_location_dest_id > stock_location.id
+Ref: stock_picking_type.default_location_src_id > stock_location.id
+Ref: stock_picking_type.return_picking_type_id > stock_picking_type.id
+Ref: stock_picking_type.sequence_id > ir_sequence.id
+Ref: stock_picking_type.warehouse_id > stock_warehouse.id
+Ref: stock_picking_type.write_uid > res_users.id
+
+Table stock_putaway_rule {
+  id integer [primary key]
+  product_id integer 
+  category_id integer 
+  location_in_id integer [not null]
+  location_out_id integer [not null]
+  sequence integer 
+  company_id integer [not null]
+  storage_category_id integer 
+  create_uid integer 
+  write_uid integer 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_putaway_rule.category_id > product_category.id
+Ref: stock_putaway_rule.company_id > res_company.id
+Ref: stock_putaway_rule.create_uid > res_users.id
+Ref: stock_putaway_rule.location_in_id > stock_location.id
+Ref: stock_putaway_rule.location_out_id > stock_location.id
+Ref: stock_putaway_rule.product_id > product_product.id
+Ref: stock_putaway_rule.storage_category_id > stock_storage_category.id
+Ref: stock_putaway_rule.write_uid > res_users.id
+
+
+
+Table stock_quant {
+  id integer [primary key]
+  product_id integer [not null]
+  company_id integer 
+  location_id integer [not null]
+  storage_category_id integer 
+  lot_id integer 
+  package_id integer 
+  owner_id integer 
+  user_id integer 
+  create_uid integer 
+  write_uid integer 
+  inventory_date date 
+  quantity numeric 
+  reserved_quantity numeric [not null]
+  inventory_quantity numeric 
+  inventory_diff_quantity numeric 
+  inventory_quantity_set boolean 
+  in_date timestamp [not null]
+  create_date timestamp 
+  write_date timestamp 
+  accounting_date date 
+}
+
+Ref: stock_quant.company_id > res_company.id
+Ref: stock_quant.create_uid > res_users.id
+Ref: stock_quant.location_id > stock_location.id
+Ref: stock_quant.lot_id > stock_lot.id
+Ref: stock_quant.owner_id > res_partner.id
+Ref: stock_quant.package_id > stock_quant_package.id
+Ref: stock_quant.product_id > product_product.id
+Ref: stock_quant.storage_category_id > stock_storage_category.id
+Ref: stock_quant.user_id > res_users.id
+Ref: stock_quant.write_uid > res_users.id
+
+
+
+Table stock_quant_package {
+  id integer [primary key]
+  package_type_id integer 
+  location_id integer 
+  company_id integer 
+  create_uid integer 
+  write_uid integer 
+  name character  [not null]
+  package_use character  [not null]
+  pack_date date 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_quant_package.company_id > res_company.id
+Ref: stock_quant_package.create_uid > res_users.id
+Ref: stock_quant_package.location_id > stock_location.id
+Ref: stock_quant_package.package_type_id > stock_package_type.id
+Ref: stock_quant_package.write_uid > res_users.id
+
+
+Table stock_quant_stock_request_count_rel {
+  stock_request_count_id integer [not null]
+  stock_quant_id integer [not null]
+  
+  primary key(stock_request_count_id, stock_quant_id)
+}
+
+Ref: stock_quant_stock_request_count_rel.stock_quant_id > stock_quant.id
+Ref: stock_quant_stock_request_count_rel.stock_request_count_id > stock_request_count.id
+
+Table stock_quant_stock_track_confirmation_rel {
+  stock_track_confirmation_id integer [not null]
+  stock_quant_id integer [not null]
+  
+  primary key(stock_track_confirmation_id, stock_quant_id)
+}
+
+Ref: stock_quant_stock_track_confirmation_rel.stock_track_confirmation_id > stock_track_confirmation.id
+Ref: stock_quant_stock_track_confirmation_rel.stock_quant_id > stock_quant.id
+
+
+Table stock_quantity_history {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  inventory_datetime timestamp
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: stock_quantity_history.create_uid > res_users.id
+Ref: stock_quantity_history.write_uid > res_users.id
+
+Table stock_replenishment_info {
+  id integer [primary key]
+  orderpoint_id integer
+  create_uid integer
+  write_uid integer
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: stock_replenishment_info.create_uid > res_users.id
+Ref: stock_replenishment_info.orderpoint_id > stock_warehouse_orderpoint.id
+Ref: stock_replenishment_info.write_uid > res_users.id
+
+Table stock_replenishment_option {
+  id integer [primary key]
+  route_id integer
+  product_id integer
+  replenishment_info_id integer
+  create_uid integer
+  write_uid integer
+  create_date timestamp
+  write_date timestamp
+}
+
+Ref: stock_replenishment_option.create_uid > res_users.id
+Ref: stock_replenishment_option.product_id > product_product.id
+Ref: stock_replenishment_option.replenishment_info_id > stock_replenishment_info.id
+Ref: stock_replenishment_option.route_id > stock_route.id
+Ref: stock_replenishment_option.write_uid > res_users.id
+
+
+Table stock_request_count {
+  id integer [primary key]
+  user_id integer
+  create_uid integer
+  write_uid integer
+  set_count varchar
+  inventory_date date [not null]
+  create_date timestamp
+  write_date timestamp
+  accounting_date date
+
+  
+}
+Ref: stock_request_count.create_uid > res_users.id
+Ref: stock_request_count.user_id > res_users.id
+Ref: stock_request_count.write_uid > res_users.id
+
+
+Table stock_return_picking {
+  id integer [primary key]
+  picking_id integer
+  original_location_id integer
+  parent_location_id integer
+  location_id integer
+  create_uid integer
+  write_uid integer
+  move_dest_exists boolean
+  create_date timestamp
+  write_date timestamp
+
+}
+
+Ref: stock_return_picking.create_uid > res_users.id
+Ref: stock_return_picking.location_id > stock_location.id
+Ref: stock_return_picking.original_location_id > stock_location.id
+Ref: stock_return_picking.parent_location_id > stock_location.id
+Ref: stock_return_picking.picking_id > stock_picking.id
+Ref: stock_return_picking.write_uid > res_users.id
+
+
+
+Table stock_return_picking_line {
+  id integer [primary key]
+  product_id integer [not null]
+  wizard_id integer
+  move_id integer
+  create_uid integer
+  write_uid integer
+  quantity numeric [not null]
+  create_date timestamp
+  write_date timestamp
+  to_refund boolean
+
+}
+Ref: stock_return_picking_line.create_uid > res_users.id
+Ref: stock_return_picking_line.move_id > stock_move.id
+Ref: stock_return_picking_line.product_id > product_product.id
+Ref: stock_return_picking_line.wizard_id > stock_return_picking.id
+Ref: stock_return_picking_line.write_uid > res_users.id
+
+
+Table stock_route {
+  id integer [primary key]
+  sequence integer
+  supplied_wh_id integer
+  supplier_wh_id integer
+  company_id integer
+  create_uid integer
+  write_uid integer
+  name jsonb 
+  active boolean
+  product_selectable boolean
+  product_categ_selectable boolean
+  warehouse_selectable boolean
+  packaging_selectable boolean
+  create_date timestamp 
+  write_date timestamp
+  sale_selectable boolean
+}
+
+Ref: stock_route.company_id > res_company.id
+Ref: stock_route.create_uid > res_users.id
+Ref: stock_route.supplied_wh_id > stock_warehouse.id
+Ref: stock_route.supplier_wh_id > stock_warehouse.id
+Ref: stock_route.write_uid > res_users.id
+
+
+
+
+Table stock_route_categ {
+  route_id integer [primary key]
+  categ_id integer [primary key]
+}
+
+Ref: stock_route_categ.categ_id > product_category.id
+Ref: stock_route_categ.route_id > stock_route.id
+
+
+Table stock_route_move {
+  move_id integer [primary key]
+  route_id integer [primary key]
+}
+
+Ref: stock_route_move.move_id > stock_move.id
+Ref: stock_route_move.route_id > stock_route.id
+
+
+Table stock_route_packaging {
+  route_id integer [primary key]
+  packaging_id integer [primary key]
+}
+
+Ref: stock_route_packaging.packaging_id > product_packaging.id
+Ref: stock_route_packaging.route_id > stock_route.id
+
+Table stock_route_product {
+  route_id integer [primary key]
+  product_id integer [primary key]
+}
+
+Ref: stock_route_product.product_id > product_template.id
+Ref: stock_route_product.route_id > stock_route.id
+
+Table stock_route_stock_rules_report_rel {
+  stock_rules_report_id integer [primary key]
+  stock_route_id integer [primary key]
+}
+
+Ref: stock_route_stock_rules_report_rel.stock_route_id > stock_route.id
+Ref: stock_route_stock_rules_report_rel.stock_rules_report_id > stock_rules_report.id
+
+Table stock_route_warehouse {
+  route_id integer [primary key]
+  warehouse_id integer [primary key]
+}
+
+Ref: stock_route_warehouse.route_id > stock_route.id
+Ref: stock_route_warehouse.warehouse_id > stock_warehouse.id
+
+
+Table stock_rule {
+  id integer [primary key]
+  group_id integer
+  sequence integer
+  company_id integer
+  location_dest_id integer 
+  location_src_id integer
+  route_id integer 
+  route_sequence integer
+  picking_type_id integer 
+  delay integer
+  partner_address_id integer
+  warehouse_id integer 
+  propagate_warehouse_id integer
+  create_uid integer
+  write_uid integer
+  group_propagation_option varchar 
+  action varchar [not null]
+  procure_method varchar [not null]
+  auto varchar [not null]
+  name jsonb [not null]
+  active boolean
+  propagate_cancel boolean
+  propagate_carrier boolean
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: stock_rule.company_id > res_company.id
+Ref: stock_rule.create_uid > res_users.id
+Ref: stock_rule.group_id > procurement_group.id
+Ref: stock_rule.location_dest_id > stock_location.id
+Ref: stock_rule.location_src_id > stock_location.id
+Ref: stock_rule.partner_address_id > res_partner.id
+Ref: stock_rule.picking_type_id > stock_picking_type.id
+Ref: stock_rule.propagate_warehouse_id > stock_warehouse.id
+Ref: stock_rule.route_id > stock_route.id
+Ref: stock_rule.warehouse_id > stock_warehouse.id
+Ref: stock_rule.write_uid > res_users.id
+
+
+
+Table stock_rules_report {
+  id integer [primary key]
+  product_id integer 
+  product_tmpl_id integer 
+  create_uid integer
+  write_uid integer
+  product_has_variants boolean [not null]
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: stock_rules_report.create_uid > res_users.id
+Ref: stock_rules_report.product_id > product_product.id
+Ref: stock_rules_report.product_tmpl_id > product_template.id
+Ref: stock_rules_report.write_uid > res_users.id
+
+Table stock_rules_report_stock_warehouse_rel {
+  stock_rules_report_id integer [primary key]
+  stock_warehouse_id integer [primary key]
+}
+
+Ref: stock_rules_report_stock_warehouse_rel.stock_rules_report_id > stock_rules_report.id
+Ref: stock_rules_report_stock_warehouse_rel.stock_warehouse_id > stock_warehouse.id
+
+Table stock_scheduler_compute {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp
+}
+
+Ref: stock_scheduler_compute.create_uid > res_users.id
+Ref: stock_scheduler_compute.write_uid > res_users.id
+
+
+Table stock_scrap {
+  id integer [primary key]
+  message_main_attachment_id integer
+  company_id integer 
+  product_id integer 
+  product_uom_id integer 
+  lot_id integer
+  package_id integer
+  owner_id integer 
+  move_id integer 
+  picking_id integer 
+  location_id integer 
+  scrap_location_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  origin varchar 
+  state varchar 
+  scrap_qty numeric [not null]
+  date_done timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  production_id integer
+  workorder_id integer
+}
+
+Ref: stock_scrap.company_id > res_company.id
+Ref: stock_scrap.create_uid > res_users.id
+Ref: stock_scrap.location_id > stock_location.id
+Ref: stock_scrap.lot_id > stock_lot.id
+Ref: stock_scrap.message_main_attachment_id > ir_attachment.id
+Ref: stock_scrap.move_id > stock_move.id
+Ref: stock_scrap.owner_id > res_partner.id
+Ref: stock_scrap.package_id > stock_quant_package.id
+Ref: stock_scrap.picking_id > stock_picking.id
+Ref: stock_scrap.product_id > product_product.id
+Ref: stock_scrap.product_uom_id > uom_uom.id
+Ref: stock_scrap.production_id > mrp_production.id
+Ref: stock_scrap.scrap_location_id > stock_location.id
+Ref: stock_scrap.workorder_id > mrp_workorder.id
+Ref: stock_scrap.write_uid > res_users.id
+
+Table stock_storage_category {
+  id integer [primary key]
+  company_id integer 
+  create_uid integer 
+  write_uid integer 
+  name varchar [not null]
+  allow_new_product varchar [not null]
+  max_weight numeric 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_storage_category.company_id > res_company.id
+Ref: stock_storage_category.create_uid > res_users.id
+Ref: stock_storage_category.write_uid > res_users.id
+
+
+Table stock_storage_category_capacity {
+  id integer [primary key]
+  storage_category_id integer [not null]
+  product_id integer 
+  package_type_id integer 
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+  quantity double  
+}
+
+Ref: stock_storage_category_capacity.storage_category_id > stock_storage_category.id
+Ref: stock_storage_category_capacity.product_id > product_product.id
+Ref: stock_storage_category_capacity.package_type_id > stock_package_type.id
+Ref: stock_storage_category_capacity.create_uid > res_users.id
+Ref: stock_storage_category_capacity.write_uid > res_users.id
+
+
+Table stock_traceability_report {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_traceability_report.create_uid > res_users.id
+Ref: stock_traceability_report.write_uid > res_users.id
+
+
+Table stock_track_confirmation {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_track_confirmation.create_uid > res_users.id
+Ref: stock_track_confirmation.write_uid > res_users.id
+
+
+
+Table stock_track_line {
+  id integer [primary key]
+  product_id integer 
+  wizard_id integer 
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_track_line.create_uid > res_users.id
+Ref: stock_track_line.product_id > product_product.id
+Ref: stock_track_line.wizard_id > stock_track_confirmation.id
+Ref: stock_track_line.write_uid > res_users.id
+
+
+
+Table stock_valuation_layer {
+  id integer [primary key]
+  company_id integer [not null]
+  product_id integer [not null]
+  stock_valuation_layer_id integer 
+  stock_move_id integer 
+  account_move_id integer 
+  account_move_line_id integer 
+  create_uid integer 
+  write_uid integer 
+  description varchar 
+  quantity numeric 
+  unit_cost numeric 
+  value numeric 
+  remaining_qty numeric 
+  remaining_value numeric 
+  create_date timestamp 
+  write_date timestamp 
+  price_diff_value double  
+}
+
+Ref: stock_valuation_layer.account_move_id > account_move.id
+Ref: stock_valuation_layer.account_move_line_id > account_move_line.id
+Ref: stock_valuation_layer.company_id > res_company.id
+Ref: stock_valuation_layer.create_uid > res_users.id
+Ref: stock_valuation_layer.product_id > product_product.id
+Ref: stock_valuation_layer.stock_move_id > stock_move.id
+Ref: stock_valuation_layer.stock_valuation_layer_id > stock_valuation_layer.id
+Ref: stock_valuation_layer.write_uid > res_users.id
+
+
+
+Table stock_valuation_layer_revaluation {
+  id integer [primary key]
+  company_id integer [not null]
+  product_id integer [not null]
+  account_journal_id integer 
+  account_id integer 
+  create_uid integer 
+  write_uid integer 
+  reason varchar 
+  date date 
+  added_value numeric [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: stock_valuation_layer_revaluation.account_id > account_account.id
+Ref: stock_valuation_layer_revaluation.account_journal_id > account_journal.id
+Ref: stock_valuation_layer_revaluation.company_id > res_company.id
+Ref: stock_valuation_layer_revaluation.create_uid > res_users.id
+Ref: stock_valuation_layer_revaluation.product_id > product_product.id
+Ref: stock_valuation_layer_revaluation.write_uid > res_users.id
+
+
+
+Table stock_warehouse {
+  id integer [primary key]
+  company_id integer 
+  partner_id integer
+  view_location_id integer 
+  lot_stock_id integer 
+  wh_input_stock_loc_id integer 
+  wh_qc_stock_loc_id integer 
+  wh_output_stock_loc_id integer 
+  wh_pack_stock_loc_id integer 
+  mto_pull_id integer 
+  pick_type_id integer 
+  pack_type_id integer 
+  out_type_id integer 
+  in_type_id integer 
+  int_type_id integer 
+  return_type_id integer 
+  crossdock_route_id integer 
+  reception_route_id integer 
+  delivery_route_id integer 
+  sequence integer 
+  create_uid integer 
+  write_uid integer 
+  name character  
+  code character (5) 
+  reception_steps character  
+  delivery_steps character  
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+  buy_pull_id integer 
+  buy_to_resupply boolean 
+  manufacture_pull_id integer 
+  manufacture_mto_pull_id integer 
+  pbm_mto_pull_id integer 
+  sam_rule_id integer 
+  manu_type_id integer 
+  pbm_type_id integer 
+  sam_type_id integer 
+  pbm_route_id integer 
+  pbm_loc_id integer 
+  sam_loc_id integer 
+  manufacture_steps character  
+  manufacture_to_resupply boolean 
+}
+
+Ref: stock_warehouse.company_id > res_company.id
+Ref: stock_warehouse.partner_id > res_partner.id
+Ref: stock_warehouse.view_location_id > stock_location.id
+Ref: stock_warehouse.lot_stock_id > stock_location.id
+Ref: stock_warehouse.wh_input_stock_loc_id > stock_location.id
+Ref: stock_warehouse.wh_qc_stock_loc_id > stock_location.id
+Ref: stock_warehouse.wh_output_stock_loc_id > stock_location.id
+Ref: stock_warehouse.wh_pack_stock_loc_id > stock_location.id
+Ref: stock_warehouse.pick_type_id > stock_picking_type.id
+Ref: stock_warehouse.pack_type_id > stock_picking_type.id
+Ref: stock_warehouse.out_type_id > stock_picking_type.id
+Ref: stock_warehouse.in_type_id > stock_picking_type.id
+Ref: stock_warehouse.int_type_id > stock_picking_type.id
+Ref: stock_warehouse.return_type_id > stock_picking_type.id
+Ref: stock_warehouse.crossdock_route_id > stock_route.id
+Ref: stock_warehouse.reception_route_id > stock_route.id
+Ref: stock_warehouse.delivery_route_id > stock_route.id
+Ref: stock_warehouse.buy_pull_id > stock_rule.id
+Ref: stock_warehouse.manu_type_id > stock_picking_type.id
+Ref: stock_warehouse.manufacture_mto_pull_id > stock_rule.id
+Ref: stock_warehouse.manufacture_pull_id > stock_rule.id
+Ref: stock_warehouse.mto_pull_id > stock_rule.id
+Ref: stock_warehouse.pbm_loc_id > stock_location.id
+Ref: stock_warehouse.pbm_mto_pull_id > stock_rule.id
+Ref: stock_warehouse.pbm_route_id > stock_route.id
+Ref: stock_warehouse.pbm_type_id > stock_picking_type.id
+Ref: stock_warehouse.sam_loc_id > stock_location.id
+Ref: stock_warehouse.sam_rule_id > stock_rule.id
+Ref: stock_warehouse.sam_type_id > stock_picking_type.id
+Ref: stock_warehouse.write_uid > res_users.id
+
+
+
+Table stock_warehouse_orderpoint {
+  id integer [primary key]
+  warehouse_id integer 
+  location_id integer 
+  product_id integer 
+  product_category_id integer 
+  group_id integer 
+  company_id integer 
+  route_id integer 
+  create_uid integer 
+  write_uid integer 
+  name character  
+  trigger character  
+  snoozed_until date 
+  product_min_qty numeric 
+  product_max_qty numeric 
+  qty_multiple numeric 
+  qty_to_order numeric 
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+  supplier_id integer 
+  vendor_id integer 
+  purchase_visibility_days double  
+  bom_id integer 
+  manufacturing_visibility_days double  
+}
+
+Ref: stock_warehouse_orderpoint.warehouse_id > stock_warehouse.id
+Ref: stock_warehouse_orderpoint.location_id > stock_location.id
+Ref: stock_warehouse_orderpoint.product_id > product_product.id
+Ref: stock_warehouse_orderpoint.product_category_id > product_category.id
+Ref: stock_warehouse_orderpoint.group_id > procurement_group.id
+Ref: stock_warehouse_orderpoint.company_id > res_company.id
+Ref: stock_warehouse_orderpoint.route_id > stock_route.id
+Ref: stock_warehouse_orderpoint.create_uid > res_users.id
+Ref: stock_warehouse_orderpoint.write_uid > res_users.id
+Ref: stock_warehouse_orderpoint.bom_id > mrp_bom.id
+Ref: stock_warehouse_orderpoint.supplier_id > product_supplierinfo.id
+Ref: stock_warehouse_orderpoint.vendor_id > res_partner.id
+
+
+
+Table stock_warn_insufficient_qty_scrap {
+  id integer [primary key]
+  product_id integer 
+  location_id integer 
+  scrap_id integer 
+  create_uid integer 
+  write_uid integer 
+  product_uom_name character  
+  create_date timestamp 
+  write_date timestamp 
+  quantity double  
+}
+
+Ref: stock_warn_insufficient_qty_scrap.create_uid > res_users.id
+Ref: stock_warn_insufficient_qty_scrap.location_id > stock_location.id
+Ref: stock_warn_insufficient_qty_scrap.product_id > product_product.id
+Ref: stock_warn_insufficient_qty_scrap.scrap_id > stock_scrap.id
+Ref: stock_warn_insufficient_qty_scrap.write_uid > res_users.id
+
+
+Table stock_warn_insufficient_qty_unbuild {
+  id integer [primary key]
+  product_id integer 
+  location_id integer 
+  unbuild_id integer 
+  create_uid integer 
+  write_uid integer 
+  product_uom_name character  
+  create_date timestamp 
+  write_date timestamp 
+  quantity double  
+}
+
+Ref: stock_warn_insufficient_qty_unbuild.create_uid > res_users.id
+Ref: stock_warn_insufficient_qty_unbuild.location_id > stock_location.id
+Ref: stock_warn_insufficient_qty_unbuild.product_id > product_product.id
+Ref: stock_warn_insufficient_qty_unbuild.unbuild_id > mrp_unbuild.id
+Ref: stock_warn_insufficient_qty_unbuild.write_uid > res_users.id
+
+
+
+
+Table stock_wh_resupply_table {
+  supplied_wh_id integer [primary key]
+  supplier_wh_id integer [primary key]
+}
+
+Ref: stock_wh_resupply_table.supplied_wh_id > stock_warehouse.id
+Ref: stock_wh_resupply_table.supplier_wh_id > stock_warehouse.id
+
+
+
+
+
+
+Table account_account{
+  id integer
+}
+
+Table account_analytic_line{
+  id integer
+}
+
+Table account_journal{
+  id integer
+}
+
+
+
+Table account_move{
+  id integer
+}
+
+Table account_move_line{
+  id integer
+}
+
+
+Table confirm_stock_sms{
+  id integer
+}
+
+
+Table ir_attachment{
+  id integer
+
+
+}
+
+Table ir_sequence{
+  id integer
+}
+
+Table mrp_bom{
+  id integer
+}
+
+
+Table mrp_bom_byproduct{
+  id integer
+}
+
+Table mrp_bom_line{
+  id integer
+}
+
+
+Table mrp_unbuild{
+  id integer
+}
+
+
+
+
+
+
+
+
+Table mrp_production {
+  id integer
+}
+
+Table mrp_routing_workcenter{
+  id integer
+}
+
+Table mrp_workorder{
+  id integer
+
+}
+
+
+
+
+
+Table procurement_group{
+  id integer
+}
+
+
+Table product_category{
+  id integer
+}
+
+
+
+Table product_removal{
+  id integer
+}
+
+Table product_packaging{
+  id integer
+}
+
+Table product_product {
+  id integer
+}
+
+Table product_supplierinfo{
+  id integer
+}
+
+
+Table product_template{
+  id integer
+}
+
+Table purchase_order_line{
+  id integer
+}
+
+Table res_company{
+  id integer
+}
+
+
+
+Table res_partner{
+  id integer
+}
+
+
+Table res_users {
+  id integer
+}
+
+
+
+
+
+Table sale_order{
+  id integer
+}
+
+
+Table sale_order_line{
+  id integer
+}
+
+
+
+
+
+
+
+
+
+Table uom_uom{
+  id integer
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

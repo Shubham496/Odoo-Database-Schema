@@ -1,0 +1,1189 @@
+Table rel_modules_langexport {
+  wiz_id integer [primary key]
+  module_id integer [primary key]
+}
+
+Ref: rel_modules_langexport.module_id > ir_module_module.id
+Ref: rel_modules_langexport.wiz_id > base_language_export.id
+
+
+
+Table rel_server_actions {
+  server_id integer [primary key]
+  action_id integer [primary key]
+}
+
+Ref: rel_server_actions.action_id > ir_act_server.id
+Ref: rel_server_actions.server_id > ir_act_server.id
+
+
+Table report_layout {
+  id integer [primary key]
+  view_id integer 
+  sequence integer
+  create_uid integer 
+  write_uid integer 
+  image character   
+  pdf character   
+  name character   
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: report_layout.create_uid > res_users.id
+Ref: report_layout.view_id > ir_ui_view.id
+Ref: report_layout.write_uid > res_users.id
+
+
+Table report_paperformat {
+  id integer [primary key]
+  page_height integer
+  page_width integer
+  header_spacing integer
+  dpi integer [not null]
+  create_uid integer 
+  write_uid integer 
+  name character    [not null]
+  format character   
+  orientation character   
+  default boolean 
+  header_line boolean 
+  disable_shrinking boolean 
+  create_date timestamp 
+  write_date timestamp 
+  margin_top double 
+  margin_bottom double 
+  margin_left double 
+  margin_right double 
+}
+
+Ref: report_paperformat.create_uid > res_users.id
+Ref: report_paperformat.write_uid > res_users.id
+
+
+Table res_bank {
+  id integer [primary key]
+  state integer 
+  country integer 
+  create_uid integer 
+  write_uid integer 
+  name character    [not null]
+  street character   
+  street2 character   
+  zip character   
+  city character   
+  email character   
+  phone character   
+  bic character   
+  active boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: res_bank.country > res_country.id
+Ref: res_bank.create_uid > res_users.id
+Ref: res_bank.state > res_country_state.id
+Ref: res_bank.write_uid > res_users.id
+
+Table res_company {
+  id integer [primary key]
+  name character    [not null]
+  partner_id integer [not null]
+  currency_id integer [not null]
+  sequence integer 
+  create_date timestamp 
+  parent_id integer 
+  paperformat_id integer 
+  external_report_layout_id integer 
+  create_uid integer 
+  write_uid integer 
+  email character   
+  phone character   
+  mobile character   
+  base_onboarding_company_state character   
+  font character   
+  primary_color character   
+  secondary_color character   
+  layout_background character    [not null]
+  report_footer jsonb 
+  report_header text  
+  company_details text  
+  active boolean 
+  write_date timestamp 
+  logo_web bytea 
+  nomenclature_id integer 
+  resource_calendar_id integer 
+  partner_gid integer 
+  iap_enrich_auto_done boolean 
+  snailmail_color boolean 
+  snailmail_cover boolean 
+  snailmail_duplex boolean 
+  internal_transit_location_id integer 
+  stock_mail_confirmation_template_id integer 
+  annual_inventory_day integer 
+  annual_inventory_month character   
+  stock_move_email_validation boolean 
+  stock_sms_confirmation_template_id integer 
+  stock_move_sms_validation boolean 
+  has_received_warning_stock_sms boolean 
+  payment_provider_onboarding_state character   
+  payment_onboarding_payment_method character   
+  message_main_attachment_id integer 
+  fiscalyear_last_day integer [not null]
+  transfer_account_id integer 
+  chart_template_id integer 
+  default_cash_difference_income_account_id integer 
+  default_cash_difference_expense_account_id integer 
+  account_journal_suspense_account_id integer 
+  account_journal_payment_debit_account_id integer 
+  account_journal_payment_credit_account_id integer 
+  account_journal_early_pay_discount_gain_account_id integer 
+  account_journal_early_pay_discount_loss_account_id integer 
+  account_sale_tax_id integer 
+  account_purchase_tax_id integer 
+  currency_exchange_journal_id integer 
+  income_currency_exchange_account_id integer 
+  expense_currency_exchange_account_id integer 
+  property_stock_account_input_categ_id integer 
+  property_stock_account_output_categ_id integer 
+  property_stock_valuation_account_id integer 
+  incoterm_id integer 
+  account_opening_move_id integer 
+  account_default_pos_receivable_account_id integer 
+  expense_accrual_account_id integer 
+  revenue_accrual_account_id integer 
+  automatic_entry_default_journal_id integer 
+  account_fiscal_country_id integer 
+  tax_cash_basis_journal_id integer 
+  account_cash_basis_base_account_id integer 
+  fiscalyear_last_month character    [not null]
+  bank_account_code_prefix character   
+  cash_account_code_prefix character   
+  early_pay_discount_computation character   
+  transfer_account_code_prefix character   
+  tax_calculation_rounding_method character   
+  account_setup_bank_data_state character   
+  account_setup_fy_data_state character   
+  account_setup_coa_state character   
+  account_setup_taxes_state character   
+  account_onboarding_invoice_layout_state character   
+  account_onboarding_sale_tax_state character   
+  account_invoice_onboarding_state character   
+  account_dashboard_onboarding_state character   
+  terms_type character   
+  account_setup_bill_state character   
+  quick_edit_mode character   
+  period_lock_date date 
+  fiscalyear_lock_date date 
+  tax_lock_date date 
+  account_opening_date date [not null]
+  invoice_terms jsonb 
+  invoice_terms_html jsonb 
+  expects_chart_of_accounts boolean 
+  anglo_saxon_accounting boolean 
+  qr_code boolean 
+  invoice_is_email boolean 
+  invoice_is_print boolean 
+  account_use_credit_limit boolean 
+  account_onboarding_create_invoice_state_flag boolean 
+  tax_exigibility boolean 
+  account_storno boolean 
+  invoice_is_snailmail boolean 
+  vat_check_vies boolean 
+  quotation_validity_days integer 
+  sale_quotation_onboarding_state character   
+  sale_onboarding_order_confirmation_state character   
+  sale_onboarding_sample_quotation_state character   
+  sale_onboarding_payment_method character   
+  portal_confirmation_sign boolean 
+  portal_confirmation_pay boolean 
+  sale_order_template_id integer 
+  security_lead double  [not null]
+  po_lock character   
+  po_double_validation character   
+  po_double_validation_amount numeric 
+  po_lead double  [not null]
+  days_to_purchase double  
+  manufacturing_lead double  [not null]
+}
+
+Ref: res_company.account_cash_basis_base_account_id > account_account.id
+Ref: res_company.account_default_pos_receivable_account_id > account_account.id
+Ref: res_company.account_fiscal_country_id > res_country.id
+Ref: res_company.account_journal_early_pay_discount_gain_account_id > account_account.id
+Ref: res_company.account_journal_early_pay_discount_loss_account_id > account_account.id
+Ref: res_company.account_journal_payment_credit_account_id > account_account.id
+Ref: res_company.account_journal_payment_debit_account_id > account_account.id
+Ref: res_company.account_journal_suspense_account_id > account_account.id
+Ref: res_company.account_opening_move_id > account_move.id
+Ref: res_company.account_purchase_tax_id > account_tax.id
+Ref: res_company.account_sale_tax_id > account_tax.id
+Ref: res_company.automatic_entry_default_journal_id > account_journal.id
+Ref: res_company.chart_template_id > account_chart_template.id
+Ref: res_company.create_uid > res_users.id
+Ref: res_company.currency_exchange_journal_id > account_journal.id
+Ref: res_company.currency_id > res_currency.id
+Ref: res_company.default_cash_difference_expense_account_id > account_account.id
+Ref: res_company.default_cash_difference_income_account_id > account_account.id
+Ref: res_company.expense_accrual_account_id > account_account.id
+Ref: res_company.expense_currency_exchange_account_id > account_account.id
+Ref: res_company.external_report_layout_id > ir_ui_view.id
+Ref: res_company.income_currency_exchange_account_id > account_account.id
+Ref: res_company.incoterm_id > account_incoterms.id
+Ref: res_company.internal_transit_location_id > stock_location.id
+Ref: res_company.message_main_attachment_id > ir_attachment.id
+Ref: res_company.nomenclature_id > barcode_nomenclature.id
+Ref: res_company.paperformat_id > report_paperformat.id
+Ref: res_company.parent_id > res_company.id
+Ref: res_company.partner_id > res_partner.id
+Ref: res_company.property_stock_account_input_categ_id > account_account.id
+Ref: res_company.property_stock_account_output_categ_id > account_account.id
+Ref: res_company.property_stock_valuation_account_id > account_account.id
+Ref: res_company.resource_calendar_id > resource_calendar.id
+Ref: res_company.revenue_accrual_account_id > account_account.id
+Ref: res_company.sale_order_template_id > sale_order_template.id
+Ref: res_company.stock_mail_confirmation_template_id > mail_template.id
+Ref: res_company.stock_sms_confirmation_template_id > sms_template.id
+Ref: res_company.tax_cash_basis_journal_id > account_journal.id
+Ref: res_company.transfer_account_id > account_account.id
+Ref: res_company.write_uid > res_users.id
+
+Table res_company_users_rel {
+  cid integer [primary key]
+  user_id integer [primary key]
+}
+
+Ref: res_company_users_rel.cid > res_company.id
+Ref: res_company_users_rel.user_id > res_users.id
+
+
+Table res_config {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: res_config.create_uid > res_users.id
+Ref: res_config.write_uid > res_users.id
+
+
+Table res_config_installer {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: res_config_installer.create_uid > res_users.id
+Ref: res_config_installer.write_uid > res_users.id
+
+
+Table res_config_settings {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+  company_id integer [not null]
+  user_default_rights boolean 
+  external_email_server_default boolean 
+  module_base_import boolean 
+  module_google_calendar boolean 
+  module_microsoft_calendar boolean 
+  module_mail_plugin boolean 
+  module_auth_oauth boolean 
+  module_auth_ldap boolean 
+  module_base_gengo boolean 
+  module_account_inter_company_rules boolean 
+  module_voip boolean 
+  module_web_unsplash boolean 
+  module_partner_autocomplete boolean 
+  module_base_geolocalize boolean 
+  module_google_recaptcha boolean 
+  group_multi_currency boolean 
+  show_effect boolean 
+  module_product_images boolean 
+  profiling_enabled_until timestamp 
+  alias_domain character  
+  twilio_account_sid character  
+  twilio_account_token character  
+  module_google_gmail boolean 
+  module_microsoft_outlook boolean 
+  restrict_template_rendering boolean 
+  use_twilio_rtc_servers boolean 
+  auth_signup_template_user_id integer 
+  auth_signup_uninvited character  
+  auth_signup_reset_password boolean 
+  google_gmail_client_identifier character  
+  google_gmail_client_secret character  
+  product_pricelist_setting character  
+  product_weight_in_lbs character  
+  product_volume_volume_in_cubic_feet character  
+  group_discount_per_so_line boolean 
+  group_uom boolean 
+  group_product_variant boolean 
+  module_sale_product_matrix boolean 
+  module_loyalty boolean 
+  group_stock_packaging boolean 
+  group_product_pricelist boolean 
+  group_sale_pricelist boolean 
+  unsplash_access_key character  
+  unsplash_app_id character  
+  digest_id integer 
+  digest_emails boolean 
+  module_product_expiry boolean 
+  group_stock_production_lot boolean 
+  group_stock_lot_print_gs1 boolean 
+  group_lot_on_delivery_slip boolean 
+  group_stock_tracking_lot boolean 
+  group_stock_tracking_owner boolean 
+  group_stock_adv_location boolean 
+  group_warning_stock boolean 
+  group_stock_sign_delivery boolean 
+  module_stock_picking_batch boolean 
+  group_stock_picking_wave boolean 
+  module_stock_barcode boolean 
+  module_stock_sms boolean 
+  module_delivery boolean 
+  module_delivery_dhl boolean 
+  module_delivery_fedex boolean 
+  module_delivery_ups boolean 
+  module_delivery_usps boolean 
+  module_delivery_bpost boolean 
+  module_delivery_easypost boolean 
+  module_delivery_sendcloud boolean 
+  module_quality_control boolean 
+  module_quality_control_worksheet boolean 
+  group_stock_multi_locations boolean 
+  group_stock_storage_categories boolean 
+  group_stock_reception_report boolean 
+  group_analytic_accounting boolean 
+  chart_template_id integer 
+  show_line_subtotals_tax_selection character  [not null]
+  module_account_accountant boolean 
+  group_warning_account boolean 
+  group_cash_rounding boolean 
+  group_show_line_subtotals_tax_excluded boolean 
+  group_show_line_subtotals_tax_included boolean 
+  group_show_sale_receipts boolean 
+  group_show_purchase_receipts boolean 
+  module_account_budget boolean 
+  module_account_payment boolean 
+  module_account_reports boolean 
+  module_account_check_printing boolean 
+  module_account_batch_payment boolean 
+  module_account_sepa boolean 
+  module_account_sepa_direct_debit boolean 
+  module_account_bank_statement_import_qif boolean 
+  module_account_bank_statement_import_ofx boolean 
+  module_account_bank_statement_import_csv boolean 
+  module_account_bank_statement_import_camt boolean 
+  module_currency_rate_live boolean 
+  module_account_intrastat boolean 
+  module_product_margin boolean 
+  module_l10n_eu_oss boolean 
+  module_account_taxcloud boolean 
+  module_account_invoice_extract boolean 
+  module_snailmail_account boolean 
+  use_invoice_terms boolean 
+  group_sale_delivery_address boolean 
+  module_stock_landed_costs boolean 
+  group_lot_on_invoice boolean 
+  pay_invoices_online boolean 
+  crm_auto_assignment_interval_number integer 
+  crm_auto_assignment_action character  
+  crm_auto_assignment_interval_type character  
+  lead_enrich_auto character  
+  predictive_lead_scoring_start_date_str character  
+  predictive_lead_scoring_fields_str character  
+  group_use_lead boolean 
+  group_use_recurring_revenues boolean 
+  is_membership_multi boolean 
+  crm_use_auto_assignment boolean 
+  module_crm_iap_mine boolean 
+  module_crm_iap_enrich boolean 
+  module_website_crm_iap_reveal boolean 
+  lead_mining_in_pipeline boolean 
+  crm_auto_assignment_run_datetime timestamp 
+  deposit_default_product_id integer 
+  invoice_mail_template_id integer 
+  default_invoice_policy character  [not null]
+  group_auto_done_setting boolean 
+  group_proforma_sales boolean 
+  group_warning_sale boolean 
+  automatic_invoice boolean 
+  use_quotation_validity_days boolean 
+  module_product_email_template boolean 
+  module_sale_amazon boolean 
+  module_sale_loyalty boolean 
+  module_sale_margin boolean 
+  group_sale_order_template boolean 
+  module_sale_quotation_builder boolean 
+  default_picking_policy character  [not null]
+  group_display_incoterm boolean 
+  use_security_lead boolean 
+  default_purchase_method character  
+  lock_confirmed_po boolean 
+  po_order_approval boolean 
+  group_warning_purchase boolean 
+  module_account_3way_match boolean 
+  module_purchase_requisition boolean 
+  module_purchase_product_matrix boolean 
+  use_po_lead boolean 
+  group_send_reminder boolean 
+  module_stock_dropshipping boolean 
+  is_installed_sale boolean 
+  use_manufacturing_lead boolean 
+  group_mrp_byproducts boolean 
+  module_mrp_mps boolean 
+  module_mrp_plm boolean 
+  module_mrp_workorder boolean 
+  module_mrp_subcontracting boolean 
+  group_mrp_routings boolean 
+  group_unlocked_by_default boolean 
+  group_mrp_reception_report boolean 
+  group_mrp_workorder_dependencies boolean 
+}
+
+Ref: res_config_settings.auth_signup_template_user_id > res_users.id
+Ref: res_config_settings.chart_template_id > account_chart_template.id
+Ref: res_config_settings.company_id > res_company.id
+Ref: res_config_settings.deposit_default_product_id > product_product.id
+Ref: res_config_settings.digest_id > digest_digest.id
+Ref: res_config_settings.invoice_mail_template_id > mail_template.id
+Ref: res_config_settings.write_uid > res_users.id
+
+
+Table res_country {
+  id integer [primary key]
+  address_view_id integer 
+  currency_id integer 
+  phone_code integer 
+  create_uid integer 
+  write_uid integer 
+  code character (2) [unique, not null] 
+  name_position character  
+  name jsonb [not null] 
+  vat_label jsonb 
+  address_format text 
+  state_required boolean 
+  zip_required boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: res_country.address_view_id > ir_ui_view.id
+Ref: res_country.currency_id > res_currency.id
+Ref: res_country.create_uid > res_users.id
+Ref: res_country.write_uid > res_users.id
+
+
+
+Table res_country_group {
+  id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  name jsonb [not null] 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: res_country_group.create_uid > res_users.id
+Ref: res_country_group.write_uid > res_users.id
+
+
+Table res_country_group_pricelist_rel {
+  pricelist_id integer [primary key, not null]
+  res_country_group_id integer [primary key, not null]
+}
+
+Ref: res_country_group_pricelist_rel.pricelist_id > product_pricelist.id
+Ref: res_country_group_pricelist_rel.res_country_group_id > res_country_group.id
+
+
+Table res_country_res_country_group_rel {
+  res_country_id integer [primary key, not null]
+  res_country_group_id integer [primary key, not null]
+}
+
+Ref: res_country_res_country_group_rel.res_country_group_id > res_country_group.id
+Ref: res_country_res_country_group_rel.res_country_id > res_country.id
+
+
+Table res_country_state {
+  id integer [primary key, not null]
+  country_id integer [not null]
+  create_uid integer
+  write_uid integer
+  name character  
+  code character  
+  create_date timestamp 
+  write_date timestamp 
+}
+
+
+Ref: res_country_state.country_id > res_country.id
+Ref: res_country_state.create_uid > res_users.id
+Ref: res_country_state.write_uid > res_users.id
+
+Table res_currency {
+  id integer [primary key, not null]
+  name character  
+  symbol character  
+  decimal_places integer
+  create_uid integer
+  write_uid integer
+  full_name character  
+  position character  
+  currency_unit_label character  
+  currency_subunit_label character  
+  rounding numeric
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: res_currency.create_uid > res_users.id
+Ref: res_currency.write_uid > res_users.id
+
+
+
+Table res_currency_rate {
+  id integer [primary key, not null]
+  currency_id integer [not null]
+  company_id integer
+  create_uid integer
+  write_uid integer
+  name date [not null]
+  rate numeric
+  create_date timestamp 
+  write_date timestamp 
+}
+
+
+Ref: res_currency_rate.company_id > res_company.id
+Ref: res_currency_rate.create_uid > res_users.id
+Ref: res_currency_rate.currency_id > res_currency.id
+Ref: res_currency_rate.write_uid > res_users.id
+
+
+
+Table res_groups {
+  id integer [primary key, not null]
+  name jsonb [not null]
+  category_id integer
+  color integer
+  create_uid integer
+  write_uid integer
+  comment jsonb
+  share boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+
+Ref: res_groups.category_id > ir_module_category.id
+Ref: res_groups.create_uid > res_users.id
+Ref: res_groups.write_uid > res_users.id
+
+
+
+
+Table res_groups_implied_rel {
+  gid integer [not null]
+  hid integer [not null]
+  
+  Primary Key (gid, hid)
+}
+
+Ref: res_groups_implied_rel.gid > res_groups.id
+Ref: res_groups_implied_rel.hid > res_groups.id
+
+
+Table res_groups_report_rel {
+  uid integer [not null]
+  gid integer [not null]
+  
+  Primary Key (uid, gid)
+}
+
+Ref: res_groups_report_rel.gid > res_groups.id
+Ref: res_groups_report_rel.uid > ir_act_report_xml.id
+
+
+Table res_groups_spreadsheet_dashboard_rel {
+  spreadsheet_dashboard_id integer [not null]
+  res_groups_id integer [not null]
+  
+  Primary Key (spreadsheet_dashboard_id, res_groups_id)
+}
+
+Ref: res_groups_spreadsheet_dashboard_rel.spreadsheet_dashboard_id > spreadsheet_dashboard.id
+Ref: res_groups_spreadsheet_dashboard_rel.res_groups_id > res_groups.id
+
+
+
+
+Table res_groups_users_rel {
+  gid integer [not null]
+  uid integer [not null]
+  
+  Primary Key (gid, uid)
+}
+
+Ref: res_groups_users_rel.gid > res_groups.id
+Ref: res_groups_users_rel.uid > res_users.id
+
+
+Table res_lang {
+  id integer [not null]
+  create_uid integer
+  write_uid integer
+  name character  [not null]  
+  code character  [not null]  
+  iso_code character   
+  url_code character  [not null]  
+  direction character  [not null]  
+  date_format character  [not null]  
+  time_format character  [not null]  
+  week_start character  [not null]  
+  grouping character  [not null]  
+  decimal_point character  [not null]  
+  thousands_sep character   
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+  
+  Primary Key (id)
+}
+
+Ref: res_lang.create_uid > res_users.id
+Ref: res_lang.write_uid > res_users.id
+
+
+Table res_lang_install_rel {
+  language_wizard_id integer [not null]
+  lang_id integer [not null]
+  
+  Primary Key (language_wizard_id, lang_id)
+}
+
+Ref: res_lang_install_rel.lang_id > res_lang.id
+Ref: res_lang_install_rel.language_wizard_id > base_language_install.id
+
+
+Table res_partner {
+  id integer [not null]
+  company_id integer
+  create_date timestamp 
+  name character  
+  title integer
+  parent_id integer
+  user_id integer
+  state_id integer
+  country_id integer
+  industry_id integer
+  color integer
+  commercial_partner_id integer
+  create_uid integer
+  write_uid integer
+  display_name character  
+  ref character  
+  lang character  
+  tz character  
+  vat character  
+  company_registry character  
+  website character  
+  function character  
+  type character  
+  street character  
+  street2 character  
+  zip character  
+  city character  
+  email character  
+  phone character  
+  mobile character  
+  commercial_company_name character  
+  company_name character  
+  date date
+  comment text 
+  partner_latitude numeric
+  partner_longitude numeric
+  active boolean
+  employee boolean
+  is_company boolean
+  partner_share boolean
+  write_date timestamp 
+  message_main_attachment_id integer
+  message_bounce integer
+  email_normalized character  
+  signup_token character  
+  signup_type character  
+  signup_expiration timestamp 
+  partner_gid integer
+  additional_info character  
+  phone_sanitized character  
+  picking_warn character  
+  picking_warn_msg text 
+  supplier_rank integer
+  customer_rank integer
+  invoice_warn character  
+  invoice_warn_msg text 
+  debit_limit numeric
+  last_time_entries_checked timestamp 
+  l10n_no_bronnoysund_number character (9) 
+  calendar_last_notif_ack timestamp 
+  team_id integer
+  sale_warn character  
+  sale_warn_msg text 
+  purchase_warn character  
+  purchase_warn_msg text 
+
+  Primary Key (id)
+}
+
+Ref: res_partner.commercial_partner_id > res_partner.id
+Ref: res_partner.company_id > res_company.id
+Ref: res_partner.country_id > res_country.id
+Ref: res_partner.industry_id > res_partner_industry.id
+Ref: res_partner.message_main_attachment_id > ir_attachment.id
+Ref: res_partner.parent_id > res_partner.id
+Ref: res_partner.state_id > res_country_state.id
+Ref: res_partner.team_id > crm_team.id
+Ref: res_partner.title > res_partner_title.id
+Ref: res_partner.user_id > res_users.id
+Ref: res_partner.write_uid > res_users.id
+
+
+
+Table res_partner_autocomplete_sync {
+  id integer [not null]
+  partner_id integer
+  create_uid integer
+  write_uid integer
+  synched boolean
+  create_date timestamp 
+  write_date timestamp 
+
+  Primary Key (id)
+}
+
+Ref: res_partner_autocomplete_sync.create_uid > res_users.id
+Ref: res_partner_autocomplete_sync.partner_id > res_partner.id
+Ref: res_partner_autocomplete_sync.write_uid > res_users.id
+
+
+
+Table res_partner_bank {
+  id integer [not null]
+  partner_id integer [not null]
+  bank_id integer
+  sequence integer
+  currency_id integer
+  company_id integer
+  create_uid integer
+  write_uid integer
+  acc_number character  [not null] 
+  sanitized_acc_number character  
+  acc_holder_name character  
+  active boolean
+  allow_out_payment boolean
+  create_date timestamp 
+  write_date timestamp 
+  message_main_attachment_id integer
+
+  Primary Key (id)
+  
+}
+
+Ref: res_partner_bank.bank_id > res_bank.id
+Ref: res_partner_bank.company_id > res_company.id
+Ref: res_partner_bank.create_uid > res_users.id
+Ref: res_partner_bank.currency_id > res_currency.id
+Ref: res_partner_bank.message_main_attachment_id > ir_attachment.id
+Ref: res_partner_bank.partner_id > res_partner.id
+Ref: res_partner_bank.write_uid > res_users.id
+
+
+
+Table res_partner_category {
+  id integer [not null  ]
+  color integer
+  parent_id integer
+  create_uid integer
+  write_uid integer
+  parent_path character  
+  name jsonb [not null]
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+
+  Primary Key (id)
+}
+
+Ref: res_partner_category.create_uid > res_users.id
+Ref: res_partner_category.parent_id > res_partner_category.id
+Ref: res_partner_category.write_uid > res_users.id
+
+
+
+
+
+Table res_partner_industry {
+  id integer [not null]
+  create_uid integer
+  write_uid integer
+  name jsonb
+  full_name jsonb
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+
+  Primary Key (id)
+}
+
+Ref: res_partner_industry.create_uid > res_users.id
+Ref: res_partner_industry.write_uid > res_users.id
+
+
+Table res_partner_res_partner_category_rel {
+category_id integer 
+  partner_id integer 
+    
+}
+
+Ref: res_partner_res_partner_category_rel.category_id > res_partner_category.id
+Ref: res_partner_res_partner_category_rel.partner_id > res_partner.id
+
+
+Table res_partner_title {
+id integer [primary key]
+  create_uid integer
+  write_uid integer
+  name jsonb 
+  shortcut jsonb 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: res_partner_title.create_uid > res_users.id
+Ref: res_partner_title.write_uid > res_users.id
+
+
+Table res_users {
+id integer [primary key]
+  company_id integer 
+  partner_id integer 
+  active boolean 
+  create_date timestamp 
+  login character  [unique] 
+  password character  
+  action_id integer 
+  create_uid integer 
+  write_uid integer 
+  signature text 
+  share boolean 
+  write_date timestamp 
+  totp_secret character  
+  notification_type character  [not null]
+  odoobot_state character  
+  odoobot_failed boolean 
+  sale_team_id integer 
+  target_sales_won integer 
+  target_sales_done integer 
+  target_sales_invoiced integer 
+    
+}
+
+Ref: res_users.company_id > res_company.id
+Ref: res_users.create_uid > res_users.id
+Ref: res_users.partner_id > res_partner.id
+Ref: res_users.sale_team_id > crm_team.id
+Ref: res_users.write_uid > res_users.id
+
+Table res_users_apikeys {
+id integer [primary key]
+  name character  [not null] 
+  user_id integer 
+  scope character  
+  index character (8)
+  key character  
+  create_date timestamp 
+    
+}
+
+Ref: res_users_apikeys.user_id > res_users.id
+
+
+Table res_users_apikeys_description {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  name character  [not null] 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: res_users_apikeys_description.create_uid > res_users.id
+Ref: res_users_apikeys_description.write_uid > res_users.id
+
+
+
+Table res_users_deletion {
+id integer [primary key]
+  user_id integer 
+  user_id_int integer 
+  create_uid integer 
+  write_uid integer 
+  state character  [not null] 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: res_users_deletion.create_uid > res_users.id
+Ref: res_users_deletion.user_id > res_users.id
+Ref: res_users_deletion.write_uid > res_users.id
+
+
+
+Table res_users_identitycheck {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  request character  
+  password character  
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: res_users_identitycheck.create_uid > res_users.id
+Ref: res_users_identitycheck.write_uid > res_users.id
+
+
+Table res_users_log {
+id integer [primary key]
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: res_users_log.create_uid > res_users.id
+Ref: res_users_log.write_uid > res_users.id
+
+
+Table res_users_settings {
+id integer [primary key]
+  user_id integer [unique] 
+  voice_active_duration integer 
+  create_uid integer 
+  write_uid integer 
+  push_to_talk_key character  
+  is_discuss_sidebar_category_channel_open boolean 
+  is_discuss_sidebar_category_chat_open boolean 
+  use_push_to_talk boolean 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: res_users_settings.create_uid > res_users.id
+Ref: res_users_settings.user_id > res_users.id
+Ref: res_users_settings.write_uid > res_users.id
+
+
+Table res_users_settings_volumes {
+id integer [primary key]
+  user_setting_id integer 
+  partner_id integer 
+  guest_id integer 
+  create_uid integer 
+  write_uid integer 
+  create_date timestamp 
+  write_date timestamp 
+  volume double  
+    
+}
+
+Ref: res_users_settings_volumes.create_uid > res_users.id
+Ref: res_users_settings_volumes.guest_id > res_partner.id
+Ref: res_users_settings_volumes.partner_id > res_partner.id
+Ref: res_users_settings_volumes.user_setting_id > res_users_settings.id
+Ref: res_users_settings_volumes.write_uid > res_users.id
+
+
+Table reset_view_arch_wizard {
+id integer [primary key]
+  view_id integer 
+  compare_view_id integer 
+  create_uid integer 
+  write_uid integer 
+  reset_mode character  [not null] 
+  create_date timestamp 
+  write_date timestamp 
+    
+}
+
+Ref: reset_view_arch_wizard.compare_view_id > ir_ui_view.id
+Ref: reset_view_arch_wizard.create_uid > res_users.id
+Ref: reset_view_arch_wizard.view_id > ir_ui_view.id
+Ref: reset_view_arch_wizard.write_uid > res_users.id
+
+
+
+
+
+
+
+
+
+Table account_account {
+  id integer
+}
+
+
+Table account_chart_template {
+  id integer
+}
+
+
+Table account_incoterms
+{
+  id integer
+}
+
+
+
+
+
+Table account_journal{
+  id integer
+}
+
+
+
+Table account_move{
+  id integer
+}
+
+
+
+
+Table account_tax {
+  id integer
+}
+
+Table barcode_nomenclature {
+  id integer
+}
+
+Table base_language_export {
+  id integer
+}
+
+Table base_language_install {
+  id integer
+}
+
+
+
+Table crm_team{
+  id integer
+}
+
+
+Table digest_digest {
+  id integer
+}
+
+
+Table ir_act_report_xml{
+  id integer
+}
+
+Table ir_act_server {
+  id integer
+}
+
+
+Table ir_attachment{
+  id integer
+}
+
+
+
+Table ir_module_category {
+  id integer
+}
+
+Table ir_module_module {
+  id integer
+}
+
+
+Table ir_ui_view {
+  id integer
+}
+
+
+
+Table mail_template{
+  id integer
+}
+
+
+Table product_pricelist {
+  id integer
+}
+
+
+Table product_product{
+  id integer
+}
+
+
+
+
+
+Table resource_calendar{
+  id integer
+}
+
+
+Table stock_location{
+  id integer
+}
+
+
+
+
+
+
+
+
+
+
+Table sale_order_template {
+  id integer
+}
+
+Table sms_template {
+  id integer
+}
+
+
+
+
+Table spreadsheet_dashboard {
+  id integer
+}
+
+

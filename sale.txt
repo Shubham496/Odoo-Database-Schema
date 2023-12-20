@@ -1,0 +1,439 @@
+Table sale_advance_payment_inv {
+id integer [primary key]
+  product_id integer 
+  currency_id integer 
+  company_id integer 
+  deposit_account_id integer 
+  create_uid integer
+  write_uid integer
+  advance_payment_method character  
+  fixed_amount numeric 
+  deduct_down_payments boolean 
+  create_date timestamp 
+  write_date timestamp 
+  amount double  
+}
+
+Ref: sale_advance_payment_inv.company_id > res_company.id
+Ref: sale_advance_payment_inv.create_uid > res_users.id
+Ref: sale_advance_payment_inv.currency_id > res_currency.id
+Ref: sale_advance_payment_inv.deposit_account_id > account_account.id
+Ref: sale_advance_payment_inv.product_id > product_product.id
+Ref: sale_advance_payment_inv.write_uid > res_users.id
+
+
+Table sale_advance_payment_inv_sale_order_rel {
+sale_advance_payment_inv_id integer [primary key]
+  sale_order_id integer [primary key]
+}
+
+Ref: sale_advance_payment_inv_sale_order_rel.sale_advance_payment_inv_id > sale_advance_payment_inv.id
+Ref: sale_advance_payment_inv_sale_order_rel.sale_order_id > sale_order.id
+
+
+Table sale_order {
+id integer [primary key]
+  campaign_id integer 
+  source_id integer 
+  medium_id integer 
+  message_main_attachment_id integer 
+  company_id integer 
+  partner_id integer 
+  partner_invoice_id integer 
+  partner_shipping_id integer 
+  fiscal_position_id integer 
+  payment_term_id integer 
+  pricelist_id integer 
+  currency_id integer 
+  user_id integer 
+  team_id integer 
+  analytic_account_id integer 
+  create_uid integer 
+  write_uid integer 
+  access_token character  
+  name character  
+  state character  
+  client_order_ref character  
+  origin character  
+  reference character  
+  signed_by character  
+  invoice_status character  
+  validity_date date 
+  note text 
+  currency_rate numeric 
+  amount_untaxed numeric 
+  amount_tax numeric 
+  amount_total numeric 
+  require_signature boolean 
+  require_payment boolean 
+  create_date timestamp 
+  commitment_date timestamp 
+  date_order timestamp 
+  signed_on timestamp 
+  write_date timestamp 
+  opportunity_id integer 
+  sale_order_template_id integer 
+  incoterm integer 
+  warehouse_id integer 
+  procurement_group_id integer 
+  incoterm_location character  
+  picking_policy character  
+  delivery_status character  
+  effective_date timestamp 
+}
+
+Ref: sale_order.analytic_account_id > account_analytic_account.id
+Ref: sale_order.campaign_id > utm_campaign.id
+Ref: sale_order.company_id > res_company.id
+Ref: sale_order.create_uid > res_users.id
+Ref: sale_order.currency_id > res_currency.id
+Ref: sale_order.fiscal_position_id > account_fiscal_position.id
+Ref: sale_order.incoterm > account_incoterms.id
+Ref: sale_order.medium_id > utm_medium.id
+Ref: sale_order.message_main_attachment_id > ir_attachment.id
+Ref: sale_order.opportunity_id > crm_lead.id
+Ref: sale_order.partner_id > res_partner.id
+Ref: sale_order.partner_invoice_id > res_partner.id
+Ref: sale_order.partner_shipping_id > res_partner.id
+Ref: sale_order.payment_term_id > account_payment_term.id
+Ref: sale_order.pricelist_id > product_pricelist.id
+Ref: sale_order.procurement_group_id > procurement_group.id
+Ref: sale_order.sale_order_template_id > sale_order_template.id
+Ref: sale_order.source_id > utm_source.id
+Ref: sale_order.team_id > crm_team.id
+Ref: sale_order.user_id > res_users.id
+Ref: sale_order.warehouse_id > stock_warehouse.id
+Ref: sale_order.write_uid > res_users.id
+
+Table sale_order_line {
+  id integer [primary key]
+  order_id integer 
+  sequence integer
+  company_id integer
+  currency_id integer
+  order_partner_id integer
+  salesman_id integer
+  product_id integer
+  product_uom integer
+  product_packaging_id integer
+  create_uid integer
+  write_uid integer
+  state character 
+  display_type character 
+  qty_delivered_method character 
+  invoice_status character 
+  analytic_distribution jsonb
+  name text 
+  product_uom_qty numeric 
+  price_unit numeric 
+  discount numeric
+  price_reduce numeric
+  price_subtotal numeric
+  price_total numeric
+  price_reduce_taxexcl numeric
+  price_reduce_taxinc numeric
+  qty_delivered numeric
+  qty_invoiced numeric
+  qty_to_invoice numeric
+  untaxed_amount_invoiced numeric
+  untaxed_amount_to_invoice numeric
+  is_downpayment boolean
+  is_expense boolean
+  create_date timestamp
+  write_date timestamp
+  price_tax double 
+  product_packaging_qty double 
+  customer_lead double  
+  route_id integer
+}
+
+Ref: sale_order_line.company_id > res_company.id
+Ref: sale_order_line.create_uid > res_users.id
+Ref: sale_order_line.currency_id > res_currency.id
+Ref: sale_order_line.order_id > sale_order.id
+Ref: sale_order_line.order_partner_id > res_partner.id
+Ref: sale_order_line.product_id > product_product.id
+Ref: sale_order_line.product_packaging_id > product_packaging.id
+Ref: sale_order_line.product_uom > uom_uom.id
+Ref: sale_order_line.route_id > stock_route.id
+Ref: sale_order_line.salesman_id > res_users.id
+Ref: sale_order_line.write_uid > res_users.id
+
+Table sale_order_line_invoice_rel {
+  invoice_line_id integer 
+  order_line_id integer 
+  
+  primary key (invoice_line_id, order_line_id)
+}
+
+Ref: sale_order_line_invoice_rel.invoice_line_id > account_move_line.id
+Ref: sale_order_line_invoice_rel.order_line_id > sale_order_line.id
+
+
+Table sale_order_option {
+  id integer 
+  order_id integer
+  product_id integer 
+  line_id integer
+  sequence integer
+  uom_id integer 
+  create_uid integer
+  write_uid integer
+  name text 
+  quantity numeric 
+  price_unit numeric 
+  discount numeric
+  create_date timestamp 
+  write_date timestamp 
+  
+  primary key (id)
+}
+
+Ref: sale_order_option.create_uid > res_users.id
+Ref: sale_order_option.line_id > sale_order_line.id
+Ref: sale_order_option.order_id > sale_order.id
+Ref: sale_order_option.product_id > product_product.id
+Ref: sale_order_option.uom_id > uom_uom.id
+Ref: sale_order_option.write_uid > res_users.id
+
+
+
+Table sale_order_tag_rel {
+  order_id integer 
+  tag_id integer 
+  
+  primary key (order_id, tag_id)
+}
+
+Ref: sale_order_tag_rel.order_id > sale_order.id
+Ref: sale_order_tag_rel.tag_id > crm_tag.id
+
+
+Table sale_order_template {
+  id integer 
+  company_id integer
+  mail_template_id integer
+  number_of_days integer
+  create_uid integer
+  write_uid integer
+  name character 
+  note jsonb
+  active boolean
+  require_signature boolean
+  require_payment boolean
+  create_date timestamp 
+  write_date timestamp 
+  
+  primary key (id)
+}
+
+Ref: sale_order_template.company_id > res_company.id
+Ref: sale_order_template.create_uid > res_users.id
+Ref: sale_order_template.mail_template_id > mail_template.id
+Ref: sale_order_template.write_uid > res_users.id
+
+
+
+Table sale_order_template_line {
+  id integer 
+  sale_order_template_id integer 
+  sequence integer
+  company_id integer
+  product_id integer
+  product_uom_id integer
+  create_uid integer
+  write_uid integer
+  display_type character
+  name jsonb 
+  product_uom_qty numeric 
+  create_date timestamp 
+  write_date timestamp 
+  
+  primary key (id)
+}
+
+Ref: sale_order_template_line.company_id > res_company.id
+Ref: sale_order_template_line.create_uid > res_users.id
+Ref: sale_order_template_line.product_id > product_product.id
+Ref: sale_order_template_line.product_uom_id > uom_uom.id
+Ref: sale_order_template_line.sale_order_template_id > sale_order_template.id
+Ref: sale_order_template_line.write_uid > res_users.id
+
+
+Table sale_order_template_option {
+  id integer 
+  sale_order_template_id integer 
+  company_id integer
+  product_id integer 
+  uom_id integer 
+  create_uid integer
+  write_uid integer
+  name jsonb 
+  quantity numeric 
+  create_date timestamp 
+  write_date timestamp 
+  
+  primary key (id)
+}
+
+Ref: sale_order_template_option.company_id > res_company.id
+Ref: sale_order_template_option.create_uid > res_users.id
+Ref: sale_order_template_option.product_id > product_product.id
+Ref: sale_order_template_option.sale_order_template_id > sale_order_template.id
+Ref: sale_order_template_option.uom_id > uom_uom.id
+Ref: sale_order_template_option.write_uid > res_users.id
+
+
+Table sale_order_transaction_rel {
+  transaction_id integer 
+  sale_order_id integer 
+  
+  primary key (transaction_id, sale_order_id)
+}
+
+Ref: sale_order_transaction_rel.sale_order_id > sale_order.id
+Ref: sale_order_transaction_rel.transaction_id > payment_transaction.id
+
+Table sale_payment_provider_onboarding_wizard {
+  id integer 
+  create_uid integer
+  write_uid integer
+  payment_method varchar 
+  paypal_user_type varchar 
+  paypal_email_account varchar 
+  paypal_seller_account varchar 
+  paypal_pdt_token varchar 
+  manual_name varchar 
+  journal_name varchar 
+  acc_number varchar 
+  manual_post_msg text 
+  create_date timestamp 
+  write_date timestamp 
+  
+  primary key (id)
+}
+
+Ref: sale_payment_provider_onboarding_wizard.create_uid > res_users.id
+Ref: sale_payment_provider_onboarding_wizard.write_uid > res_users.id
+
+
+
+
+
+
+Table res_users {
+  id integer
+}
+
+Table res_company{
+  id integer
+}
+
+Table res_currency{
+  id integer
+}
+
+Table res_partner
+{
+  id integer
+}
+
+Table product_product
+{
+  id integer
+}
+
+Table uom_uom
+{
+  id integer
+}
+
+Table account_account {
+  id integer
+}
+
+Table account_analytic_account{
+  id integer
+}
+
+
+Table account_fiscal_position{
+  id integer
+}
+
+Table account_incoterms
+{
+  id integer
+}
+
+Table account_payment_term
+{
+  id integer
+}
+
+Table mail_template{
+  id integer
+}
+
+Table crm_lead{
+  id integer
+}
+
+Table crm_tag{
+  id integer
+}
+
+Table crm_team{
+  id integer
+}
+
+Table utm_campaign{
+  id integer
+}
+
+Table utm_medium{
+  id integer
+}
+
+Table utm_source{
+  id integer
+}
+
+
+
+Table stock_warehouse {
+  id integer
+}
+
+Table stock_route{
+  id integer
+}
+
+Table ir_attachment{
+  id integer
+}
+
+Table account_move_line{
+  id integer
+}
+
+
+Table payment_transaction{
+  id integer
+}
+
+
+Table product_pricelist {
+  id integer
+}
+
+
+Table procurement_group {
+  id integer
+}
+
+
+
+Table product_packaging {
+  id integer
+}

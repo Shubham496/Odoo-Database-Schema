@@ -1,0 +1,553 @@
+Table product_attr_exclusion_value_ids_rel {
+  product_template_attribute_exclusion_id integer [primary key, not null]
+  product_template_attribute_value_id integer [primary key, not null]
+}
+
+Ref: product_attr_exclusion_value_ids_rel.product_template_attribute_exclusion_id > product_template_attribute_exclusion.id
+Ref: product_attr_exclusion_value_ids_rel.product_template_attribute_value_id > product_template_attribute_value.id
+
+Table product_attribute {
+  id integer [primary key]
+  sequence integer
+  create_uid integer
+  write_uid integer
+  create_variant varchar [not null]
+  display_type varchar [not null]
+  name jsonb [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_attribute.create_uid > res_users.id
+Ref: product_attribute.write_uid > res_users.id
+
+Table product_attribute_custom_value {
+  id integer [primary key]
+  custom_product_template_attribute_value_id integer [not null]
+  create_uid integer
+  write_uid integer
+  custom_value varchar 
+  create_date timestamp 
+  write_date timestamp 
+  sale_order_line_id integer [not null]
+}
+
+Ref: product_attribute_custom_value.custom_product_template_attribute_value_id > product_template_attribute_value.id
+Ref: product_attribute_custom_value.create_uid > res_users.id
+Ref: product_attribute_custom_value.write_uid > res_users.id
+Ref: product_attribute_custom_value.sale_order_line_id > sale_order_line.id
+
+Table product_attribute_product_template_rel {
+  product_attribute_id integer [primary key, not null]
+  product_template_id integer [primary key, not null]
+}
+
+Ref: product_attribute_product_template_rel.product_attribute_id > product_attribute.id
+Ref: product_attribute_product_template_rel.product_template_id > product_template.id
+
+Table product_attribute_value {
+  id integer [primary key]
+  sequence integer
+  attribute_id integer [not null]
+  color integer
+  create_uid integer
+  write_uid integer
+  html_color varchar
+  name jsonb [not null]
+  is_custom boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_attribute_value.attribute_id > product_attribute.id
+Ref: product_attribute_value.create_uid > res_users.id
+Ref: product_attribute_value.write_uid > res_users.id
+
+Table product_attribute_value_product_template_attribute_line_rel {
+  product_attribute_value_id integer [primary key, not null]
+  product_template_attribute_line_id integer [primary key, not null]
+}
+
+Ref: product_attribute_value_product_template_attribute_line_rel.product_attribute_value_id > product_attribute_value.id
+Ref: product_attribute_value_product_template_attribute_line_rel.product_template_attribute_line_id > product_template_attribute_line.id
+
+Table product_category {
+  id integer [primary key]
+  parent_id integer
+  create_uid integer
+  write_uid integer
+  name varchar [not null]
+  complete_name varchar
+  parent_path varchar
+  create_date timestamp 
+  write_date timestamp 
+  removal_strategy_id integer
+  packaging_reserve_method varchar
+}
+
+Ref: product_category.create_uid > res_users.id
+Ref: product_category.parent_id > product_category.id
+Ref: product_category.removal_strategy_id > product_removal.id
+Ref: product_category.write_uid > res_users.id
+
+Table product_label_layout {
+  id integer [primary key]
+  custom_quantity integer [not null]
+  create_uid integer
+  write_uid integer
+  print_format varchar [not null]
+  extra_html text
+  create_date timestamp 
+  write_date timestamp 
+  picking_quantity varchar [not null]
+}
+
+Ref: product_label_layout.create_uid > res_users.id
+Ref: product_label_layout.write_uid > res_users.id
+
+Table product_label_layout_product_product_rel {
+  product_label_layout_id integer [primary key, not null]
+  product_product_id integer [primary key, not null]
+}
+
+Ref: product_label_layout_product_product_rel.product_label_layout_id > product_label_layout.id
+Ref: product_label_layout_product_product_rel.product_product_id > product_product.id
+
+Table product_label_layout_product_template_rel {
+  product_label_layout_id integer [primary key, not null]
+  product_template_id integer [primary key, not null]
+}
+
+Ref: product_label_layout_product_template_rel.product_label_layout_id > product_label_layout.id
+Ref: product_label_layout_product_template_rel.product_template_id > product_template.id
+
+Table product_optional_rel {
+  src_id integer [primary key, not null]
+  dest_id integer [primary key, not null]
+}
+
+Ref: product_optional_rel.dest_id > product_template.id
+Ref: product_optional_rel.src_id > product_template.id
+
+Table product_packaging {
+  id integer [primary key]
+  sequence integer
+  product_id integer
+  company_id integer
+  create_uid integer
+  write_uid integer
+  name varchar [not null]
+  barcode varchar [unique]
+  qty numeric
+  create_date timestamp 
+  write_date timestamp 
+  package_type_id integer
+  sales boolean 
+  purchase boolean 
+}
+
+Ref: product_packaging.company_id > res_company.id
+Ref: product_packaging.create_uid > res_users.id
+Ref: product_packaging.package_type_id > stock_package_type.id
+Ref: product_packaging.product_id > product_product.id
+Ref: product_packaging.write_uid > res_users.id
+
+Table product_pricelist {
+  id integer [primary key]
+  sequence integer
+  currency_id integer [not null]
+  company_id integer
+  create_uid integer
+  write_uid integer
+  discount_policy varchar [not null]
+  name jsonb [not null]
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_pricelist.currency_id > res_currency.id
+Ref: product_pricelist.company_id > res_company.id
+Ref: product_pricelist.create_uid > res_users.id
+Ref: product_pricelist.write_uid > res_users.id
+
+Table product_pricelist_item {
+  id integer [primary key]
+  pricelist_id integer [not null]
+  company_id integer
+  currency_id integer
+  categ_id integer
+  product_tmpl_id integer
+  product_id integer
+  base_pricelist_id integer
+  create_uid integer
+  write_uid integer
+  applied_on varchar [not null]
+  base varchar [not null]
+  compute_price varchar [not null]
+  min_quantity numeric
+  fixed_price numeric
+  price_discount numeric
+  price_round numeric
+  price_surcharge numeric
+  price_min_margin numeric
+  price_max_margin numeric
+  active boolean
+  date_start timestamp 
+  date_end timestamp 
+  create_date timestamp 
+  write_date timestamp 
+  percent_price double 
+}
+
+Ref: product_pricelist_item.pricelist_id > product_pricelist.id
+Ref: product_pricelist_item.company_id > res_company.id
+Ref: product_pricelist_item.currency_id > res_currency.id
+Ref: product_pricelist_item.categ_id > product_category.id
+Ref: product_pricelist_item.product_tmpl_id > product_template.id
+Ref: product_pricelist_item.product_id > product_product.id
+Ref: product_pricelist_item.base_pricelist_id > product_pricelist.id
+Ref: product_pricelist_item.create_uid > res_users.id
+Ref: product_pricelist_item.write_uid > res_users.id
+
+Table product_product {
+  id integer [primary key]
+  message_main_attachment_id integer
+  product_tmpl_id integer [not null]
+  create_uid integer
+  write_uid integer
+  default_code varchar 
+  barcode varchar 
+  combination_indices varchar 
+  volume numeric 
+  weight numeric 
+  active boolean 
+  can_image_variant_1024_be_zoomed boolean 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_product.create_uid > res_users.id
+Ref: product_product.message_main_attachment_id > ir_attachment.id
+Ref: product_product.product_tmpl_id > product_template.id
+Ref: product_product.write_uid > res_users.id
+
+Table product_product_stock_track_confirmation_rel {
+  stock_track_confirmation_id integer [primary key]
+  product_product_id integer [primary key]
+}
+
+Ref: product_product_stock_track_confirmation_rel.stock_track_confirmation_id > stock_track_confirmation.id
+Ref: product_product_stock_track_confirmation_rel.product_product_id > product_product.id
+
+Table product_removal {
+  id integer [primary key]
+  create_uid integer
+  write_uid integer
+  name varchar [not null]
+  method varchar [not null]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_removal.create_uid > res_users.id
+Ref: product_removal.write_uid > res_users.id
+
+Table product_replenish {
+  id integer [primary key]
+  product_id integer [not null]
+  product_tmpl_id integer [not null]
+  product_uom_id integer [not null]
+  warehouse_id integer [not null]
+  company_id integer
+  create_uid integer
+  write_uid integer
+  product_has_variants boolean [not null]
+  date_planned timestamp [not null]
+  create_date timestamp 
+  write_date timestamp 
+  quantity double [not null]
+}
+
+Ref: product_replenish.company_id > res_company.id
+Ref: product_replenish.create_uid > res_users.id
+Ref: product_replenish.product_id > product_product.id
+Ref: product_replenish.product_tmpl_id > product_template.id
+Ref: product_replenish.product_uom_id > uom_uom.id
+Ref: product_replenish.warehouse_id > stock_warehouse.id
+Ref: product_replenish.write_uid > res_users.id
+
+Table product_replenish_stock_route_rel {
+  product_replenish_id integer [primary key]
+  stock_route_id integer [primary key]
+}
+
+Ref: product_replenish_stock_route_rel.product_replenish_id > product_replenish.id
+Ref: product_replenish_stock_route_rel.stock_route_id > stock_route.id
+
+Table product_supplier_taxes_rel {
+  prod_id integer [primary key]
+  tax_id integer [primary key]
+}
+
+Ref: product_supplier_taxes_rel.prod_id > product_template.id
+Ref: product_supplier_taxes_rel.tax_id > account_tax.id
+
+Table product_supplierinfo {
+  id integer [primary key]
+  partner_id integer 
+  sequence integer 
+  company_id integer 
+  currency_id integer 
+  product_id integer 
+  product_tmpl_id integer 
+  delay integer 
+  create_uid integer 
+  write_uid integer 
+  product_name varchar 
+  product_code varchar 
+  date_start date 
+  date_end date 
+  min_qty numeric 
+  price numeric 
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_supplierinfo.partner_id > res_partner.id
+Ref: product_supplierinfo.company_id > res_company.id
+Ref: product_supplierinfo.currency_id > res_currency.id
+Ref: product_supplierinfo.product_id > product_product.id
+Ref: product_supplierinfo.product_tmpl_id > product_template.id
+Ref: product_supplierinfo.create_uid > res_users.id
+Ref: product_supplierinfo.write_uid > res_users.id
+
+Table product_supplierinfo_stock_replenishment_info_rel {
+  stock_replenishment_info_id integer [primary key]
+  product_supplierinfo_id integer [primary key]
+}
+
+Ref: product_supplierinfo_stock_replenishment_info_rel.stock_replenishment_info_id > stock_replenishment_info.id
+Ref: product_supplierinfo_stock_replenishment_info_rel.product_supplierinfo_id > product_supplierinfo.id
+
+Table product_tag {
+  id integer [primary key]
+  color integer
+  create_uid integer
+  write_uid integer
+  name jsonb [not null, Unique]
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_tag.create_uid > res_users.id
+Ref: product_tag.write_uid > res_users.id
+
+Table product_tag_product_product_rel {
+  product_product_id integer [primary key]
+  product_tag_id integer [primary key]
+}
+
+Ref: product_tag_product_product_rel.product_product_id > product_product.id
+Ref: product_tag_product_product_rel.product_tag_id > product_tag.id
+
+Table product_tag_product_template_rel {
+  product_template_id integer [primary key]
+  product_tag_id integer [primary key]
+}
+
+Ref: product_tag_product_template_rel.product_tag_id > product_tag.id
+Ref: product_tag_product_template_rel.product_template_id > product_template.id
+
+Table product_taxes_rel {
+  prod_id integer [primary key]
+  tax_id integer [primary key]
+}
+
+Ref: product_taxes_rel.prod_id > product_template.id
+Ref: product_taxes_rel.tax_id > account_tax.id
+
+Table product_template {
+  id integer [primary key]
+  message_main_attachment_id integer
+  sequence integer
+  categ_id integer [not null]
+  uom_id integer [not null]
+  uom_po_id integer [not null]
+  company_id integer
+  color integer
+  create_uid integer
+  write_uid integer
+  detailed_type varchar [not null]
+  type varchar
+  default_code varchar
+  priority varchar
+  name jsonb [not null]
+  description jsonb
+  description_purchase jsonb
+  description_sale jsonb
+  list_price numeric
+  volume numeric
+  weight numeric
+  sale_ok boolean
+  purchase_ok boolean
+  active boolean
+  can_image_1024_be_zoomed boolean
+  has_configurable_attributes boolean
+  create_date timestamp
+  write_date timestamp
+  tracking varchar [not null]
+  description_picking jsonb
+  description_pickingout jsonb
+  description_pickingin jsonb
+  sale_delay double 
+  service_type varchar
+  sale_line_warn varchar [not null]
+  expense_policy varchar
+  invoice_policy varchar
+  sale_line_warn_msg text
+  purchase_method varchar
+  purchase_line_warn varchar [not null]
+  purchase_line_warn_msg text
+  produce_delay double 
+  days_to_prepare_mo double 
+}
+
+Ref: product_template.categ_id > product_category.id
+Ref: product_template.uom_id > uom_uom.id
+Ref: product_template.uom_po_id > uom_uom.id
+Ref: product_template.company_id > res_company.id
+Ref: product_template.create_uid > res_users.id
+Ref: product_template.write_uid > res_users.id
+Ref: product_template.message_main_attachment_id > ir_attachment.id
+
+Table product_template_attribute_exclusion {
+  id integer [primary key]
+  product_template_attribute_value_id integer
+  product_tmpl_id integer [not null]
+  create_uid integer
+  write_uid integer
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_template_attribute_exclusion.product_template_attribute_value_id > product_template_attribute_value.id
+Ref: product_template_attribute_exclusion.product_tmpl_id > product_template.id
+Ref: product_template_attribute_exclusion.create_uid > res_users.id
+Ref: product_template_attribute_exclusion.write_uid > res_users.id
+
+Table product_template_attribute_line {
+  id integer [primary key]
+  product_tmpl_id integer [not null]
+  attribute_id integer [not null]
+  value_count integer
+  create_uid integer
+  write_uid integer
+  active boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_template_attribute_line.attribute_id > product_attribute.id
+Ref: product_template_attribute_line.product_tmpl_id > product_template.id
+Ref: product_template_attribute_line.create_uid > res_users.id
+Ref: product_template_attribute_line.write_uid > res_users.id
+
+Table product_template_attribute_value {
+  id integer [primary key]
+  product_attribute_value_id integer [not null]
+  attribute_line_id integer [not null]
+  product_tmpl_id integer
+  attribute_id integer
+  color integer
+  create_uid integer
+  write_uid integer
+  price_extra numeric
+  ptav_active boolean
+  create_date timestamp 
+  write_date timestamp 
+}
+
+Ref: product_template_attribute_value.attribute_line_id > product_template_attribute_line.id
+Ref: product_template_attribute_value.product_attribute_value_id > product_attribute_value.id
+Ref: product_template_attribute_value.attribute_id > product_attribute.id
+Ref: product_template_attribute_value.product_tmpl_id > product_template.id
+Ref: product_template_attribute_value.create_uid > res_users.id
+Ref: product_template_attribute_value.write_uid > res_users.id
+
+Table product_template_attribute_value_sale_order_line_rel {
+  sale_order_line_id integer [primary key]
+  product_template_attribute_value_id integer [primary key]
+}
+
+Ref: product_template_attribute_value_sale_order_line_rel.sale_order_line_id > sale_order_line.id
+Ref: product_template_attribute_value_sale_order_line_rel.product_template_attribute_value_id > product_template_attribute_value.id
+
+Table product_variant_combination {
+  product_product_id integer [primary key]
+  product_template_attribute_value_id integer [primary key]
+}
+
+Ref: product_variant_combination.product_product_id > product_product.id
+Ref: product_variant_combination.product_template_attribute_value_id > product_template_attribute_value.id
+
+
+
+
+
+
+
+
+
+
+Table res_users {
+  id integer [primary key]
+}
+
+Table res_company {
+  id integer [primary key]
+}
+
+Table res_partner {
+  id integer [primary key]
+}
+
+Table res_currency {
+  id integer [primary key]
+}
+
+Table ir_attachment {
+  id integer [primary key]
+}
+
+Table sale_order_line {
+  id integer [primary key]
+}
+
+Table stock_package_type {
+  id integer [primary key]
+}
+
+Table stock_track_confirmation {
+  id integer [primary key]
+}
+
+Table stock_warehouse {
+  id integer [primary key]
+}
+
+Table stock_route {
+  id integer [primary key]
+}
+
+Table stock_replenishment_info {
+  id integer [primary key]
+}
+
+Table account_tax {
+  id integer [primary key]
+}
+
+Table uom_uom {
+  id integer [primary key]
+}
